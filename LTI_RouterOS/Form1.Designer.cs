@@ -89,7 +89,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(795, 425);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.Text = "tabPage34";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -124,7 +124,7 @@
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(243, 45);
+            this.connectButton.Location = new System.Drawing.Point(234, 45);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(75, 23);
             this.connectButton.TabIndex = 0;
