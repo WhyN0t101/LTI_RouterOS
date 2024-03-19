@@ -41,8 +41,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.bridgeText = new System.Windows.Forms.TextBox();
+            this.getAllBridge = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.InterfacesBox = new System.Windows.Forms.TextBox();
             this.getAllInt = new System.Windows.Forms.Button();
@@ -134,8 +134,8 @@
             // Interfaces
             // 
             this.Interfaces.Controls.Add(this.groupBox1);
-            this.Interfaces.Controls.Add(this.textBox2);
-            this.Interfaces.Controls.Add(this.button3);
+            this.Interfaces.Controls.Add(this.bridgeText);
+            this.Interfaces.Controls.Add(this.getAllBridge);
             this.Interfaces.Controls.Add(this.button2);
             this.Interfaces.Controls.Add(this.InterfacesBox);
             this.Interfaces.Controls.Add(this.getAllInt);
@@ -234,24 +234,25 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Interface Bridge";
             // 
-            // textBox2
+            // bridgeText
             // 
-            this.textBox2.Location = new System.Drawing.Point(453, 31);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(404, 79);
-            this.textBox2.TabIndex = 4;
+            this.bridgeText.Location = new System.Drawing.Point(453, 31);
+            this.bridgeText.Margin = new System.Windows.Forms.Padding(4);
+            this.bridgeText.Multiline = true;
+            this.bridgeText.Name = "bridgeText";
+            this.bridgeText.Size = new System.Drawing.Size(404, 79);
+            this.bridgeText.TabIndex = 4;
             // 
-            // button3
+            // getAllBridge
             // 
-            this.button3.Location = new System.Drawing.Point(453, 118);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(179, 28);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Listar Interfaces Bridge";
-            this.button3.UseVisualStyleBackColor = true;
+            this.getAllBridge.Location = new System.Drawing.Point(453, 118);
+            this.getAllBridge.Margin = new System.Windows.Forms.Padding(4);
+            this.getAllBridge.Name = "getAllBridge";
+            this.getAllBridge.Size = new System.Drawing.Size(179, 28);
+            this.getAllBridge.TabIndex = 3;
+            this.getAllBridge.Text = "Listar Interfaces Bridge";
+            this.getAllBridge.UseVisualStyleBackColor = true;
+            this.getAllBridge.Click += new System.EventHandler(this.getAllBridge_Click);
             // 
             // button2
             // 
@@ -648,8 +649,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox bridgeText;
+        private System.Windows.Forms.Button getAllBridge;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
