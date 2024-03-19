@@ -16,5 +16,10 @@ namespace LTI_RouterOS
         {
             InitializeComponent();
         }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
