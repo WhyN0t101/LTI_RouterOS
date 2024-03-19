@@ -1,9 +1,11 @@
 ﻿using LTI_RouterOS.Controller;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace LTI_RouterOS
 {
@@ -20,18 +22,16 @@ namespace LTI_RouterOS
             httpClient = new HttpClient();
             getController = new GET(); // Initialization of getData variable
         }
-
-        private void Connect(string ipAddress)
-        {
-            baseUrl =  ipAddress;
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:")));
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-
-        private void connectButton_Click(object sender, EventArgs e)
+        private void Connect(string ipAddress)
+        {
+            baseUrl =  "http://" + ipAddress;
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:")));
+        }
+        private void connectButton_Click_1(object sender, EventArgs e)
         {
             string ipAddress = textBox1.Text.Trim();
             if (!string.IsNullOrEmpty(ipAddress))
@@ -42,31 +42,44 @@ namespace LTI_RouterOS
             else
             {
                 MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
+            }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void getAllInt_Click(object sender, EventArgs e)
         {
             try
             {
-                string responseBody = getController.RetrieveData(baseUrl, "/rest/ip/address");
+                string response = getController.Retrieve(baseUrl, "/rest/interface");
+                List<string> defaultNames = ParseDefaultNames(response);
 
-                MessageBox.Show("Response: " + responseBody, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (defaultNames.Count > 0)
+                {
+                    InterfacesBox.Text = string.Join(Environment.NewLine, defaultNames);
+                }
+                else
+                {
+                    InterfacesBox.Text = "No default names found.";
+                }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
                 // Handle request errors
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void tabPage4_Click(object sender, EventArgs e)
+        private List<string> ParseDefaultNames(string response)
         {
+            List<string> defaultNames = new List<string>();
 
+            dynamic jsonData = JsonConvert.DeserializeObject(response);
+            foreach (var item in jsonData)
+            {
+                string defaultName = item["default-name"];
+                defaultNames.Add(defaultName);
+            }
+
+            return defaultNames;
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }
