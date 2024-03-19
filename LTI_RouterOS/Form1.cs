@@ -33,19 +33,7 @@ namespace LTI_RouterOS
             baseUrl = "http://" + ipAddress;
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:")));
         }
-        private void connectButton_Click_1(object sender, EventArgs e)
-        {
-            string ipAddress = textBox1.Text.Trim();
-            if (!string.IsNullOrEmpty(ipAddress))
-            {
-                Connect(ipAddress);
-                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+   
 
 
         private List<string> ParseNamesFromJsonArray(string json, string propertyName)
@@ -61,7 +49,21 @@ namespace LTI_RouterOS
         }
 
 
-        private void getAllInt_Click(object sender, EventArgs e)
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+            string ipAddress = textBox1.Text.Trim();
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                Connect(ipAddress);
+                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -84,20 +86,20 @@ namespace LTI_RouterOS
             }
         }
 
-        private void getAllBridge_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
             try
             {
-                string response = getController.Retrieve(baseUrl,"/rest/interface/bridge");
+                string response = getController.Retrieve(baseUrl, "/rest/interface/bridge");
                 List<string> bridgeNames = ParseNamesFromJsonArray(response, "name");
 
                 if (bridgeNames.Count > 0)
                 {
-                    bridgeText.Text = string.Join(Environment.NewLine, bridgeNames);
+                    textBox2.Text = string.Join(Environment.NewLine, bridgeNames);
                 }
                 else
                 {
-                    bridgeText.Text = "No bridge names found.";
+                    textBox2.Text = "No bridge names found.";
                 }
             }
             catch (HttpRequestException ex)
@@ -106,7 +108,5 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
     }
 }
