@@ -15,7 +15,7 @@ namespace LTI_RouterOS.Controller
             credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:"));
         }
 
-        public string RetrieveData(string baseUrl, string endpoint)
+        public string Retrieve(string baseUrl, string endpoint)
         {
             try
             {
