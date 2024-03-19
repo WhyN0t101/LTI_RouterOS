@@ -61,7 +61,6 @@ namespace LTI_RouterOS
         }
 
 
-
         private void getAllInt_Click(object sender, EventArgs e)
         {
             try
