@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LTI_RouterOS.Controller;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -10,28 +11,30 @@ namespace LTI_RouterOS
     {
         private readonly HttpClient httpClient;
         private string baseUrl;
+        private readonly GET getController; // Declaration of getData variable
 
         public Form1()
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
             InitializeComponent();
             httpClient = new HttpClient();
+            getController = new GET(); // Initialization of getData variable
+        }
+
+        private void Connect(string ipAddress)
+        {
+            baseUrl =  ipAddress;
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:")));
         }
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-        private void Connect(string ipAddress)
-        {
-            baseUrl = "http://" + ipAddress;
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes("admin:")));
-        }
 
-        private void buttonConnect_Click(object sender, EventArgs e)
+        private void connectButton_Click(object sender, EventArgs e)
         {
-           //Text Box to Connect
-           //string ipAddress = textBoxIPAddress.Text.Trim();
-           /* if (!string.IsNullOrEmpty(ipAddress))
+            string ipAddress = textBox1.Text.Trim();
+            if (!string.IsNullOrEmpty(ipAddress))
             {
                 Connect(ipAddress);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -41,15 +44,12 @@ namespace LTI_RouterOS
                 MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }*/
         }
-
-        private void buttonSendRequest_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-                HttpResponseMessage response = httpClient.GetAsync(baseUrl).Result;
-                response.EnsureSuccessStatusCode(); // Ensure success status code
-                string responseBody = response.Content.ReadAsStringAsync().Result;
-                // Handle the response data as needed
+                string responseBody = getController.RetrieveData(baseUrl, "/rest/ip/address");
+
                 MessageBox.Show("Response: " + responseBody, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (HttpRequestException ex)
