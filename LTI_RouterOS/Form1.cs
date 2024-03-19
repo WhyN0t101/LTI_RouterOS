@@ -31,7 +31,7 @@ namespace LTI_RouterOS
         {
            //Text Box to Connect
            //string ipAddress = textBoxIPAddress.Text.Trim();
-            if (!string.IsNullOrEmpty(ipAddress))
+           /* if (!string.IsNullOrEmpty(ipAddress))
             {
                 Connect(ipAddress);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -39,7 +39,7 @@ namespace LTI_RouterOS
             else
             {
                 MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
 
         private void buttonSendRequest_Click(object sender, EventArgs e)
