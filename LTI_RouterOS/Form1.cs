@@ -42,7 +42,7 @@ namespace LTI_RouterOS
             else
             {
                 MessageBox.Show("Please enter an IP address.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            }*/
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -57,6 +57,16 @@ namespace LTI_RouterOS
                 // Handle request errors
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
