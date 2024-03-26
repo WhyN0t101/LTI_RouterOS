@@ -1433,7 +1433,7 @@
             this.checkedListBox2.Items.AddRange(new object[] {
             "aes ccm",
             "tkip"});
-            this.checkedListBox2.Location = new System.Drawing.Point(267, 135);
+            this.checkedListBox2.Location = new System.Drawing.Point(273, 127);
             this.checkedListBox2.Margin = new System.Windows.Forms.Padding(5);
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(159, 38);
