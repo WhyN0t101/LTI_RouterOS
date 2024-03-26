@@ -815,6 +815,10 @@
             // comboBox4
             // 
             this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "disabled",
+            "allowed",
+            "required"});
             this.comboBox4.Location = new System.Drawing.Point(40, 409);
             this.comboBox4.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox4.Name = "comboBox4";
@@ -998,10 +1002,16 @@
             this.button8.TabIndex = 10;
             this.button8.Text = "Criar";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "dynamic keys",
+            "none",
+            "static keys optional",
+            "static keys required"});
             this.comboBox3.Location = new System.Drawing.Point(267, 65);
             this.comboBox3.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox3.Name = "comboBox3";

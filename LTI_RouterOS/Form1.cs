@@ -1,4 +1,5 @@
 ﻿using LTI_RouterOS.Controller;
+using LTI_RouterOS.Model;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,15 @@ namespace LTI_RouterOS
         private string baseUrl;
         private GET getController; // Declaration of getData variable
         private bool isConnected = false;
+        private WifiSecurityProfile wifiProfile;
+
         public Form1()
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
             InitializeComponent();
-            httpClient = new HttpClient();            
+            httpClient = new HttpClient();
+            wifiProfile = new WifiSecurityProfile();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -117,6 +122,99 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        
+        private void UpdateWifiProfileFromForm()
+        {
+            // Update wifiProfile object with values from the form controls
+            wifiProfile.Name = textBox3.Text;
+            wifiProfile.Mode = comboBox3.SelectedItem.ToString();
+
+            if (checkedListBox1.SelectedItem != null)
+            {
+                wifiProfile.AuthenticationType = checkedListBox1.SelectedItem.ToString();
+            }
+            else
+            {
+              wifiProfile.AuthenticationType = string.Empty; 
+            }
+            wifiProfile.UnicastCiphers = checkedListBox2.Text;
+            wifiProfile.GroupCiphers = checkedListBox3.Text;
+            wifiProfile.WpaPresharedKey = textBox4.Text;
+            wifiProfile.Wpa2PresharedKey = textBox5.Text;
+            wifiProfile.SupplicantIdentity = textBox6.Text;
+            wifiProfile.GroupKeyUpdate = textBox7.Text;
+            if (comboBox4.SelectedItem != null)
+            {
+                wifiProfile.AuthenticationType = comboBox4.SelectedItem.ToString();
+            }
+            else
+            {
+                wifiProfile.AuthenticationType = string.Empty;
+            }
+            wifiProfile.ManagementProtectionKey = textBox7.Text;
+        }
+        private async Task CreateWifiSecurityProfile(WifiSecurityProfile profile)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+                JObject payload = new JObject();
+                payload["name"] = profile.Name;
+                payload["mode"] = profile.Mode;
+                payload["authentication-type"] = profile.AuthenticationType;
+                payload["unicast-ciphers"] = profile.UnicastCiphers;
+                payload["group-ciphers"] = profile.GroupCiphers;
+                payload["wpa-pre-shared-key"] = profile.WpaPresharedKey;
+                payload["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey;
+                payload["supplicant-identity"] = profile.SupplicantIdentity;
+                payload["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower();
+
+                // Check if ManagementProtection is not null before adding it to the payload
+                if (profile.ManagementProtection != null)
+                {
+                    payload["management-protection"] = profile.ManagementProtection.ToString().ToLower();
+                }
+                else
+                {
+                    // Handle the case where ManagementProtection is null
+                    // For example, set a default value or log a warning
+                    payload["management-protection"] = "default_value";
+                }
+
+                payload["management-protection-key"] = profile.ManagementProtectionKey;
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Define the API endpoint URL for creating security profiles
+                string apiUrl = baseUrl + "/api/security-profiles";
+
+                // Send a POST request to create the new security profile
+                HttpResponseMessage response = await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            // Update wifiProfile object with values from the form before creating the security profile
+            UpdateWifiProfileFromForm();
+
+            // Create the security profile
+            await CreateWifiSecurityProfile(wifiProfile);
         }
 
     }
