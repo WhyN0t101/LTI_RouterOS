@@ -139,6 +139,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1071, 555);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged_1);
             // 
             // tabPage1
             // 
@@ -306,6 +307,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(195, 24);
             this.comboBox1.TabIndex = 5;
+            this.comboBox1.Enter += new System.EventHandler(this.comboBox1_Enter);
             // 
             // button4
             // 
