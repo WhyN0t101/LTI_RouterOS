@@ -53,8 +53,6 @@
             this.label67 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -231,6 +229,26 @@
             this.textBoxServers = new System.Windows.Forms.TextBox();
             this.buttonDNSAtivar = new System.Windows.Forms.Button();
             this.buttonDNSDesativar = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBoxFastLeave = new System.Windows.Forms.CheckBox();
+            this.checkBoxHardwareOffload = new System.Windows.Forms.CheckBox();
+            this.label72 = new System.Windows.Forms.Label();
+            this.label75 = new System.Windows.Forms.Label();
+            this.label76 = new System.Windows.Forms.Label();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.comboBoxBridgeInterfaces = new System.Windows.Forms.ComboBox();
+            this.label77 = new System.Windows.Forms.Label();
+            this.comboBoxInterfaces = new System.Windows.Forms.ComboBox();
+            this.button22 = new System.Windows.Forms.Button();
+            this.label78 = new System.Windows.Forms.Label();
+            this.numericUpDownHorizon = new System.Windows.Forms.NumericUpDown();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.checkBoxUnicastFlood = new System.Windows.Forms.CheckBox();
+            this.checkBoxMulticast = new System.Windows.Forms.CheckBox();
+            this.checkBoxBroadcast = new System.Windows.Forms.CheckBox();
+            this.checkBoxTrusted = new System.Windows.Forms.CheckBox();
+            this.comboBox17 = new System.Windows.Forms.ComboBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -251,6 +269,8 @@
             this.groupBox10.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizon)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -291,8 +311,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(33, 145);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Location = new System.Drawing.Point(22, 113);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(19, 16);
             this.label16.TabIndex = 6;
@@ -321,32 +340,32 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(171, 111);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(5);
+            this.textBox10.Location = new System.Drawing.Point(93, 76);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(132, 22);
             this.textBox10.TabIndex = 3;
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(171, 46);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(5);
+            this.textBox9.Location = new System.Drawing.Point(93, 30);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(132, 22);
             this.textBox9.TabIndex = 2;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(39, 208);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.textBox1.Location = new System.Drawing.Point(93, 106);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(231, 22);
             this.textBox1.TabIndex = 1;
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(400, 208);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(5);
+            this.connectButton.Location = new System.Drawing.Point(25, 154);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(4);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(100, 28);
             this.connectButton.TabIndex = 0;
@@ -356,6 +375,7 @@
             // 
             // Interfaces
             // 
+            this.Interfaces.Controls.Add(this.groupBox11);
             this.Interfaces.Controls.Add(this.groupBox1);
             this.Interfaces.Controls.Add(this.textBox2);
             this.Interfaces.Controls.Add(this.button3);
@@ -388,16 +408,14 @@
             this.groupBox1.Controls.Add(this.label67);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.comboBox2);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(412, 139);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.groupBox1.Location = new System.Drawing.Point(9, 113);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox1.Size = new System.Drawing.Size(637, 389);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(361, 308);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Gerenciar Bridges";
@@ -526,8 +544,8 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(423, 346);
-            this.button6.Margin = new System.Windows.Forms.Padding(5);
+            this.button6.Location = new System.Drawing.Point(219, 281);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(115, 28);
             this.button6.TabIndex = 11;
@@ -545,25 +563,6 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(259, 48);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(5);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(195, 24);
-            this.comboBox2.TabIndex = 8;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(255, 27);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 16);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Portas";
-            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
@@ -572,12 +571,13 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(195, 24);
             this.comboBox1.TabIndex = 5;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.Enter += new System.EventHandler(this.comboBox1_Enter);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(236, 346);
-            this.button4.Margin = new System.Windows.Forms.Padding(5);
+            this.button4.Location = new System.Drawing.Point(125, 281);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(115, 28);
             this.button4.TabIndex = 7;
@@ -596,17 +596,17 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(443, 10);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(5);
+            this.textBox2.Location = new System.Drawing.Point(420, 8);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(404, 79);
+            this.textBox2.Size = new System.Drawing.Size(292, 65);
             this.textBox2.TabIndex = 4;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(443, 100);
-            this.button3.Margin = new System.Windows.Forms.Padding(5);
+            this.button3.Location = new System.Drawing.Point(420, 82);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(179, 28);
             this.button3.TabIndex = 3;
@@ -616,13 +616,14 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(212, 462);
-            this.button2.Margin = new System.Windows.Forms.Padding(5);
+            this.button2.Location = new System.Drawing.Point(159, 81);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(189, 28);
             this.button2.TabIndex = 2;
             this.button2.Text = "Listar Interfaces Wireless";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // InterfacesBox
             // 
@@ -630,13 +631,13 @@
             this.InterfacesBox.Margin = new System.Windows.Forms.Padding(5);
             this.InterfacesBox.Multiline = true;
             this.InterfacesBox.Name = "InterfacesBox";
-            this.InterfacesBox.Size = new System.Drawing.Size(385, 429);
+            this.InterfacesBox.Size = new System.Drawing.Size(290, 65);
             this.InterfacesBox.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 462);
-            this.button1.Margin = new System.Windows.Forms.Padding(5);
+            this.button1.Location = new System.Drawing.Point(9, 81);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(189, 28);
             this.button1.TabIndex = 0;
@@ -2433,12 +2434,237 @@
             this.buttonDNSDesativar.Text = "Desativar";
             this.buttonDNSDesativar.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown1
+            // groupBox11
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(259, 117);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDown1.TabIndex = 84;
+            this.groupBox11.Controls.Add(this.comboBox17);
+            this.groupBox11.Controls.Add(this.checkBoxTrusted);
+            this.groupBox11.Controls.Add(this.checkBoxBroadcast);
+            this.groupBox11.Controls.Add(this.checkBoxMulticast);
+            this.groupBox11.Controls.Add(this.checkBoxUnicastFlood);
+            this.groupBox11.Controls.Add(this.comboBox2);
+            this.groupBox11.Controls.Add(this.numericUpDownHorizon);
+            this.groupBox11.Controls.Add(this.checkBoxFastLeave);
+            this.groupBox11.Controls.Add(this.checkBoxHardwareOffload);
+            this.groupBox11.Controls.Add(this.label72);
+            this.groupBox11.Controls.Add(this.label75);
+            this.groupBox11.Controls.Add(this.label76);
+            this.groupBox11.Controls.Add(this.button17);
+            this.groupBox11.Controls.Add(this.button20);
+            this.groupBox11.Controls.Add(this.comboBoxBridgeInterfaces);
+            this.groupBox11.Controls.Add(this.label77);
+            this.groupBox11.Controls.Add(this.comboBoxInterfaces);
+            this.groupBox11.Controls.Add(this.button22);
+            this.groupBox11.Controls.Add(this.label78);
+            this.groupBox11.Location = new System.Drawing.Point(379, 117);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox11.Size = new System.Drawing.Size(420, 308);
+            this.groupBox11.TabIndex = 84;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Gerenciar Ports";
+            // 
+            // checkBoxFastLeave
+            // 
+            this.checkBoxFastLeave.AutoSize = true;
+            this.checkBoxFastLeave.Location = new System.Drawing.Point(13, 256);
+            this.checkBoxFastLeave.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxFastLeave.Name = "checkBoxFastLeave";
+            this.checkBoxFastLeave.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxFastLeave.TabIndex = 82;
+            this.checkBoxFastLeave.Text = "Fast Leave";
+            this.checkBoxFastLeave.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxHardwareOffload
+            // 
+            this.checkBoxHardwareOffload.AutoSize = true;
+            this.checkBoxHardwareOffload.Checked = true;
+            this.checkBoxHardwareOffload.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxHardwareOffload.Location = new System.Drawing.Point(13, 174);
+            this.checkBoxHardwareOffload.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxHardwareOffload.Name = "checkBoxHardwareOffload";
+            this.checkBoxHardwareOffload.Size = new System.Drawing.Size(109, 17);
+            this.checkBoxHardwareOffload.TabIndex = 81;
+            this.checkBoxHardwareOffload.Text = "Hardware Offload";
+            this.checkBoxHardwareOffload.UseVisualStyleBackColor = true;
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Location = new System.Drawing.Point(10, 204);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(84, 13);
+            this.label72.TabIndex = 61;
+            this.label72.Text = "Multicast Router";
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Location = new System.Drawing.Point(191, 73);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(34, 13);
+            this.label75.TabIndex = 15;
+            this.label75.Text = "Learn";
+            // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Location = new System.Drawing.Point(10, 73);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(43, 13);
+            this.label76.TabIndex = 13;
+            this.label76.Text = "Horizon";
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(201, 281);
+            this.button17.Margin = new System.Windows.Forms.Padding(4);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(86, 23);
+            this.button17.TabIndex = 11;
+            this.button17.Text = "Editar";
+            this.button17.UseVisualStyleBackColor = true;
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(13, 281);
+            this.button20.Margin = new System.Windows.Forms.Padding(4);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(86, 23);
+            this.button20.TabIndex = 10;
+            this.button20.Text = "Criar";
+            this.button20.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBridgeInterfaces
+            // 
+            this.comboBoxBridgeInterfaces.FormattingEnabled = true;
+            this.comboBoxBridgeInterfaces.Location = new System.Drawing.Point(194, 39);
+            this.comboBoxBridgeInterfaces.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxBridgeInterfaces.Name = "comboBoxBridgeInterfaces";
+            this.comboBoxBridgeInterfaces.Size = new System.Drawing.Size(147, 21);
+            this.comboBoxBridgeInterfaces.TabIndex = 8;
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Location = new System.Drawing.Point(191, 22);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(82, 13);
+            this.label77.TabIndex = 9;
+            this.label77.Text = "Interface Bridge";
+            // 
+            // comboBoxInterfaces
+            // 
+            this.comboBoxInterfaces.FormattingEnabled = true;
+            this.comboBoxInterfaces.Location = new System.Drawing.Point(13, 39);
+            this.comboBoxInterfaces.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxInterfaces.Name = "comboBoxInterfaces";
+            this.comboBoxInterfaces.Size = new System.Drawing.Size(147, 21);
+            this.comboBoxInterfaces.TabIndex = 5;
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(107, 281);
+            this.button22.Margin = new System.Windows.Forms.Padding(4);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(86, 23);
+            this.button22.TabIndex = 7;
+            this.button22.Text = "Apagar";
+            this.button22.UseVisualStyleBackColor = true;
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Location = new System.Drawing.Point(10, 22);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(49, 13);
+            this.label78.TabIndex = 6;
+            this.label78.Text = "Interface";
+            // 
+            // numericUpDownHorizon
+            // 
+            this.numericUpDownHorizon.Location = new System.Drawing.Point(13, 94);
+            this.numericUpDownHorizon.Name = "numericUpDownHorizon";
+            this.numericUpDownHorizon.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownHorizon.TabIndex = 84;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "auto",
+            "no",
+            "yes"});
+            this.comboBox2.Location = new System.Drawing.Point(194, 93);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(147, 21);
+            this.comboBox2.TabIndex = 85;
+            // 
+            // checkBoxUnicastFlood
+            // 
+            this.checkBoxUnicastFlood.AutoSize = true;
+            this.checkBoxUnicastFlood.Checked = true;
+            this.checkBoxUnicastFlood.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxUnicastFlood.Location = new System.Drawing.Point(13, 124);
+            this.checkBoxUnicastFlood.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxUnicastFlood.Name = "checkBoxUnicastFlood";
+            this.checkBoxUnicastFlood.Size = new System.Drawing.Size(140, 17);
+            this.checkBoxUnicastFlood.TabIndex = 86;
+            this.checkBoxUnicastFlood.Text = "Unknown Unicast Flood";
+            this.checkBoxUnicastFlood.UseVisualStyleBackColor = true;
+            this.checkBoxUnicastFlood.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+            // 
+            // checkBoxMulticast
+            // 
+            this.checkBoxMulticast.AutoSize = true;
+            this.checkBoxMulticast.Checked = true;
+            this.checkBoxMulticast.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxMulticast.Location = new System.Drawing.Point(194, 124);
+            this.checkBoxMulticast.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxMulticast.Name = "checkBoxMulticast";
+            this.checkBoxMulticast.Size = new System.Drawing.Size(146, 17);
+            this.checkBoxMulticast.TabIndex = 87;
+            this.checkBoxMulticast.Text = "Unknown Multicast Flood";
+            this.checkBoxMulticast.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxBroadcast
+            // 
+            this.checkBoxBroadcast.AutoSize = true;
+            this.checkBoxBroadcast.Checked = true;
+            this.checkBoxBroadcast.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxBroadcast.Location = new System.Drawing.Point(13, 149);
+            this.checkBoxBroadcast.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxBroadcast.Name = "checkBoxBroadcast";
+            this.checkBoxBroadcast.Size = new System.Drawing.Size(103, 17);
+            this.checkBoxBroadcast.TabIndex = 88;
+            this.checkBoxBroadcast.Text = "Broadcast Flood";
+            this.checkBoxBroadcast.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxTrusted
+            // 
+            this.checkBoxTrusted.AutoSize = true;
+            this.checkBoxTrusted.Cursor = System.Windows.Forms.Cursors.Default;
+            this.checkBoxTrusted.Location = new System.Drawing.Point(194, 149);
+            this.checkBoxTrusted.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTrusted.Name = "checkBoxTrusted";
+            this.checkBoxTrusted.Size = new System.Drawing.Size(62, 17);
+            this.checkBoxTrusted.TabIndex = 89;
+            this.checkBoxTrusted.Text = "Trusted";
+            this.checkBoxTrusted.UseVisualStyleBackColor = true;
+            // 
+            // comboBox17
+            // 
+            this.comboBox17.FormattingEnabled = true;
+            this.comboBox17.Items.AddRange(new object[] {
+            "Disabled",
+            "Permanent",
+            "Temporary Query"});
+            this.comboBox17.Location = new System.Drawing.Point(13, 222);
+            this.comboBox17.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox17.Name = "comboBox17";
+            this.comboBox17.Size = new System.Drawing.Size(147, 21);
+            this.comboBox17.TabIndex = 90;
             // 
             // Form1
             // 
@@ -2483,7 +2709,9 @@
             this.groupBox10.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2508,8 +2736,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox3;
@@ -2692,6 +2918,25 @@
         private System.Windows.Forms.Label label70;
         private System.Windows.Forms.ComboBox comboBoxARP;
         private System.Windows.Forms.Label label69;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.NumericUpDown numericUpDownHorizon;
+        private System.Windows.Forms.CheckBox checkBoxFastLeave;
+        private System.Windows.Forms.CheckBox checkBoxHardwareOffload;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.ComboBox comboBoxBridgeInterfaces;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.ComboBox comboBoxInterfaces;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.CheckBox checkBoxUnicastFlood;
+        private System.Windows.Forms.CheckBox checkBoxMulticast;
+        private System.Windows.Forms.CheckBox checkBoxTrusted;
+        private System.Windows.Forms.CheckBox checkBoxBroadcast;
+        private System.Windows.Forms.ComboBox comboBox17;
     }
 }
