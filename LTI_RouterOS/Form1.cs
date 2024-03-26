@@ -16,7 +16,7 @@ namespace LTI_RouterOS
     {
         private readonly HttpClient httpClient;
         private string baseUrl;
-        private GET getController; // Declaration of getData variable
+        private MethodsController getController; // Declaration of getData variable
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
 
@@ -43,7 +43,7 @@ namespace LTI_RouterOS
             try
             {
                 baseUrl = "https://" + ipAddress;
-                getController = new GET(username, password); // Instantiate GET class after user provides credentials
+                getController = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
                 await Connect(ipAddress, username, password);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -67,7 +67,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                string response = await getController.Retrieve(baseUrl, "/rest/interface");
+                string response = await getController.Retrieve("/rest/interface");
                 List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
@@ -82,7 +82,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                textBox2.Text = await getController.GetBridges(baseUrl, "/rest/interface/bridge");
+                textBox2.Text = await getController.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await getController.GetBridges(baseUrl, "/rest/interface/bridge");
+                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -217,5 +217,24 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void comboBox2_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                string response = await getController.Retrieve("/rest/interface");
+                List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
+
+                comboBox2.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
