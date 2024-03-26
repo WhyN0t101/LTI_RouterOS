@@ -67,22 +67,44 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task CreateBridge(string bridgeName)
+        public async Task CreateBridge(string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
                 string apiUrl = baseUrl + "/api/bridge/add";
-                var payload = new JObject { ["name"] = bridgeName };
-                var jsonPayload = payload.ToString();
+
+                // Construct the JSON payload for creating the bridge
+                JObject payload = new JObject
+                {
+                    ["name"] = bridgeName,
+                    ["mtu"] = mtu,
+                    ["arp"] = arpEnabled,
+                    ["arp-timeout"] = arpTimeout,
+                    ["ageing-time"] = ageingTime,
+                    ["igmp-snooping"] = igmpSnooping,
+                    ["dhcp-snooping"] = dhcpSnooping,
+                    ["fastforward"] = fastForward
+                };
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Send a POST request to create the bridge
                 HttpResponseMessage response = await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+
+                // Check if the request was successful
                 response.EnsureSuccessStatusCode();
+
+                // Display success message
                 MessageBox.Show("Bridge created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (HttpRequestException ex)
             {
+                // Handle exceptions
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private List<string> ParseNamesFromJsonArray(string json, string propertyName)
         {
