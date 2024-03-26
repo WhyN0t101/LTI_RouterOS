@@ -217,5 +217,9 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
