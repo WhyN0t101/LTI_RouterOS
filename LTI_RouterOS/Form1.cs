@@ -29,6 +29,8 @@ namespace LTI_RouterOS
             textBox4.Enabled = false;
             textBox5.Enabled = false;
             textBox6.Enabled = false;
+            textBox7.Enabled = false;
+
             checkedListBox3.Enabled = false;
             checkedListBox1.Enabled = false;
             checkedListBox2.Enabled = false;
