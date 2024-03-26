@@ -16,7 +16,7 @@ namespace LTI_RouterOS
     {
         private readonly HttpClient httpClient;
         private string baseUrl;
-        private MethodsController getController; // Declaration of getData variable
+        private MethodsController Controller; // Declaration of getData variable
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
 
@@ -43,7 +43,7 @@ namespace LTI_RouterOS
             try
             {
                 baseUrl = "https://" + ipAddress;
-                getController = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
+                Controller = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
                 await Connect(ipAddress, username, password);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -57,7 +57,7 @@ namespace LTI_RouterOS
             baseUrl = "https://" + ipAddress;
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-            await getController.TestConnection(); // Test connection asynchronously
+            await Controller.TestConnection(); // Test connection asynchronously
             isConnected = true;
             MessageBox.Show("Connected to router successfully!");
         }
@@ -67,7 +67,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                string response = await getController.Retrieve("/rest/interface");
+                string response = await Controller.Retrieve("/rest/interface");
                 List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
@@ -82,7 +82,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                textBox2.Text = await getController.GetBridges("/rest/interface/bridge");
+                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -116,14 +116,25 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface/bridge");
+                List<string> bridgeList = ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBox1.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string bridgeName in bridgeList)
+                {
+                    comboBox1.Items.Add(bridgeName);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
+
         private void UpdateWifiProfileFromForm()
         {
             // Update wifiProfile object with values from the form controls
@@ -215,6 +226,27 @@ namespace LTI_RouterOS
 
             // Create the security profile
             await CreateWifiSecurityProfile(wifiProfile);
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            string bridgeName = textBoxBridgeName.Text;
+            int mtu = (int)numericUpDown1.Value;
+            string arp = comboBoxARP.SelectedItem.ToString();
+            string arpTimeout = textBoxArpTimeoutBridge.Text;
+            string ageingTime = textBoxAgeingTime.Text;
+            bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
+            bool igmpSnooping = checkBoxIGMP.Checked;
+            bool fastForward = checkBoxFF.Checked;
+
+            try
+            {
+                await Controller.CreateBridge(bridgeName, mtu, arp, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
     }
