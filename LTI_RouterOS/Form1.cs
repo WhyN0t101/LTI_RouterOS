@@ -78,8 +78,19 @@ namespace LTI_RouterOS
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string response = await getController.Retrieve("/rest/interface/wireless");
+                List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
+
+                InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No Wireless interface names found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
@@ -128,7 +139,19 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
+        private async void comboBox2_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void UpdateWifiProfileFromForm()
         {
             // Update wifiProfile object with values from the form controls
@@ -222,6 +245,14 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
-        
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
