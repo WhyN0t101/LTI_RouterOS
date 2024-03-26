@@ -108,5 +108,20 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
