@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace LTI_RouterOS
@@ -38,8 +39,9 @@ namespace LTI_RouterOS
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load_1(object sender, EventArgs e)
         {
+            PopulateCountryNamesComboBox();
 
         }
 
@@ -92,9 +94,9 @@ namespace LTI_RouterOS
             try
             {
                 string response = await Controller.Retrieve("/rest/interface/wireless");
-                List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
+                List<string> wirelessNames = ParseNamesFromJsonArray(response, "default-name");
 
-                InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No Wireless interface names found.";
+                InterfacesBox.Text = wirelessNames.Count > 0 ? string.Join(Environment.NewLine, wirelessNames) : "No Wireless interface names found.";
             }
             catch (Exception ex)
             {
@@ -346,6 +348,119 @@ namespace LTI_RouterOS
         {
             string selectedItem = comboBox4.SelectedItem.ToString();
 
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            string bridgeName = textBoxBridgeName.Text;
+            int mtu = (int)numericUpDown1.Value;
+            string arp = comboBoxARP.SelectedItem.ToString();
+            string arpTimeout = textBoxArpTimeoutBridge.Text;
+            string ageingTime = textBoxAgeingTime.Text;
+            bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
+            bool igmpSnooping = checkBoxIGMP.Checked;
+            bool fastForward = checkBoxFF.Checked;
+
+            try
+            {
+                await Controller.CreateBridge(bridgeName, mtu, arp, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Check the selected item in the combo box
+            string selectedItem = comboBox3.SelectedItem.ToString();
+
+            // Enable/disable text boxes or checkboxes based on the selected item
+            if (selectedItem == "none")
+            {
+                // Disable certain text boxes or checkboxes
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+
+            }
+            else if (selectedItem == "dynamic keys")
+            {
+                checkedListBox1.Enabled = true;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox3.SetItemChecked(0, true);
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+
+            }
+            else if (selectedItem == "static keys optional")
+            {
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+            }
+            else if (selectedItem == "static keys required")
+            {
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+            }
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedItem = comboBox4.SelectedItem.ToString();
+
+        }
+        private void PopulateCountryNamesComboBox()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxCountryCodes.Items.Clear();
+
+            // Get all countries
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.Name);
+                // Check if the country name is not already in the ComboBox
+                if (!comboBoxCountryCodes.Items.Contains(region.DisplayName))
+                {
+                    // Add the country name to the ComboBox
+                    comboBoxCountryCodes.Items.Add(region.DisplayName);
+                }
+            }
+
+            // Optionally, sort the items in the ComboBox
+            comboBoxCountryCodes.Sorted = true;
+        }
+
+        private void comboBoxCountryCodes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedCountryName = comboBoxCountryCodes.SelectedItem.ToString();
+            // Do something with the selected country name
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
             // Enable/disable text boxes or checkboxes based on the selected item
             if (selectedItem == "disabled")
             {
@@ -387,6 +502,31 @@ namespace LTI_RouterOS
             }
         }
 
-     
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            // Get the index of the checked item
+            int index = e.Index;
+
+            // Determine which item is being checked
+            switch (index)
+            {
+                case 0: // First item checked
+                    textBox4.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 1: // Second item checked
+                    textBox5.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 2: // Third item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 3: // Fourth item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        
     }
 }
