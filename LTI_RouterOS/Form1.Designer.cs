@@ -262,7 +262,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(803, 451);
@@ -318,7 +318,7 @@
             // textBox10
             // 
             this.textBox10.Location = new System.Drawing.Point(128, 90);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 20);
             this.textBox10.TabIndex = 3;
@@ -326,7 +326,7 @@
             // textBox9
             // 
             this.textBox9.Location = new System.Drawing.Point(128, 37);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 2;
@@ -334,7 +334,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(29, 169);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(174, 20);
             this.textBox1.TabIndex = 1;
@@ -342,7 +342,7 @@
             // connectButton
             // 
             this.connectButton.Location = new System.Drawing.Point(300, 169);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(4);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(75, 23);
             this.connectButton.TabIndex = 0;
@@ -520,7 +520,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(317, 281);
-            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(86, 23);
             this.button6.TabIndex = 11;
@@ -530,13 +530,12 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(31, 281);
-            this.button5.Margin = new System.Windows.Forms.Padding(4);
+            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(86, 23);
             this.button5.TabIndex = 10;
             this.button5.Text = "Criar";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // comboBox2
             // 
@@ -546,7 +545,6 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(147, 21);
             this.comboBox2.TabIndex = 8;
-            this.comboBox2.Enter += new System.EventHandler(this.comboBox2_Enter);
             // 
             // label2
             // 
@@ -570,7 +568,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(177, 281);
-            this.button4.Margin = new System.Windows.Forms.Padding(4);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(86, 23);
             this.button4.TabIndex = 7;
@@ -1028,7 +1026,7 @@
             this.groupBox2.Controls.Add(this.button9);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(11, 7);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(422, 410);
@@ -1313,7 +1311,7 @@
             // button13
             // 
             this.button13.Location = new System.Drawing.Point(379, 50);
-            this.button13.Margin = new System.Windows.Forms.Padding(4);
+            this.button13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(86, 23);
             this.button13.TabIndex = 11;
@@ -1333,7 +1331,7 @@
             // 
             this.comboBox19.FormattingEnabled = true;
             this.comboBox19.Location = new System.Drawing.Point(15, 53);
-            this.comboBox19.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox19.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox19.Name = "comboBox19";
             this.comboBox19.Size = new System.Drawing.Size(147, 21);
             this.comboBox19.TabIndex = 12;
@@ -1341,7 +1339,7 @@
             // button15
             // 
             this.button15.Location = new System.Drawing.Point(232, 50);
-            this.button15.Margin = new System.Windows.Forms.Padding(4);
+            this.button15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(86, 23);
             this.button15.TabIndex = 7;
@@ -1570,7 +1568,7 @@
             // textBox15
             // 
             this.textBox15.Location = new System.Drawing.Point(11, 7);
-            this.textBox15.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(254, 349);
@@ -1623,7 +1621,7 @@
             // 
             this.comboBoxInterface.FormattingEnabled = true;
             this.comboBoxInterface.Location = new System.Drawing.Point(40, 127);
-            this.comboBoxInterface.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxInterface.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxInterface.Name = "comboBoxInterface";
             this.comboBoxInterface.Size = new System.Drawing.Size(147, 21);
             this.comboBoxInterface.TabIndex = 12;
@@ -1640,7 +1638,7 @@
             // textBoxNetwork
             // 
             this.textBoxNetwork.Location = new System.Drawing.Point(267, 66);
-            this.textBoxNetwork.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxNetwork.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxNetwork.Name = "textBoxNetwork";
             this.textBoxNetwork.Size = new System.Drawing.Size(142, 20);
             this.textBoxNetwork.TabIndex = 17;
@@ -1657,7 +1655,7 @@
             // textBoxEnderecoIP
             // 
             this.textBoxEnderecoIP.Location = new System.Drawing.Point(40, 66);
-            this.textBoxEnderecoIP.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxEnderecoIP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxEnderecoIP.Name = "textBoxEnderecoIP";
             this.textBoxEnderecoIP.Size = new System.Drawing.Size(142, 20);
             this.textBoxEnderecoIP.TabIndex = 15;
@@ -1665,7 +1663,7 @@
             // button19
             // 
             this.button19.Location = new System.Drawing.Point(40, 238);
-            this.button19.Margin = new System.Windows.Forms.Padding(4);
+            this.button19.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(86, 23);
             this.button19.TabIndex = 7;
@@ -1699,7 +1697,7 @@
             // button16
             // 
             this.button16.Location = new System.Drawing.Point(389, 63);
-            this.button16.Margin = new System.Windows.Forms.Padding(4);
+            this.button16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(86, 23);
             this.button16.TabIndex = 11;
@@ -1710,7 +1708,7 @@
             // 
             this.comboBoxEndIP.FormattingEnabled = true;
             this.comboBoxEndIP.Location = new System.Drawing.Point(40, 65);
-            this.comboBoxEndIP.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxEndIP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxEndIP.Name = "comboBoxEndIP";
             this.comboBoxEndIP.Size = new System.Drawing.Size(147, 21);
             this.comboBoxEndIP.TabIndex = 5;
@@ -1718,7 +1716,7 @@
             // button18
             // 
             this.button18.Location = new System.Drawing.Point(267, 63);
-            this.button18.Margin = new System.Windows.Forms.Padding(4);
+            this.button18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(86, 23);
             this.button18.TabIndex = 7;
@@ -1737,7 +1735,7 @@
             // textBoxListarEndIp
             // 
             this.textBoxListarEndIp.Location = new System.Drawing.Point(11, 7);
-            this.textBoxListarEndIp.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxListarEndIp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxListarEndIp.Multiline = true;
             this.textBoxListarEndIp.Name = "textBoxListarEndIp";
             this.textBoxListarEndIp.Size = new System.Drawing.Size(254, 349);
@@ -1863,7 +1861,7 @@
             // 
             this.checkBoxConflitDetetion.AutoSize = true;
             this.checkBoxConflitDetetion.Location = new System.Drawing.Point(184, 293);
-            this.checkBoxConflitDetetion.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxConflitDetetion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxConflitDetetion.Name = "checkBoxConflitDetetion";
             this.checkBoxConflitDetetion.Size = new System.Drawing.Size(104, 17);
             this.checkBoxConflitDetetion.TabIndex = 80;
@@ -1874,7 +1872,7 @@
             // 
             this.checkBoxClassless.AutoSize = true;
             this.checkBoxClassless.Location = new System.Drawing.Point(184, 265);
-            this.checkBoxClassless.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxClassless.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxClassless.Name = "checkBoxClassless";
             this.checkBoxClassless.Size = new System.Drawing.Size(144, 17);
             this.checkBoxClassless.TabIndex = 79;
@@ -1885,7 +1883,7 @@
             // 
             this.checkBoxARPForLeases.AutoSize = true;
             this.checkBoxARPForLeases.Location = new System.Drawing.Point(8, 293);
-            this.checkBoxARPForLeases.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxARPForLeases.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxARPForLeases.Name = "checkBoxARPForLeases";
             this.checkBoxARPForLeases.Size = new System.Drawing.Size(122, 17);
             this.checkBoxARPForLeases.TabIndex = 78;
@@ -1896,7 +1894,7 @@
             // 
             this.checkBoxAlwaysBroadcast.AutoSize = true;
             this.checkBoxAlwaysBroadcast.Location = new System.Drawing.Point(8, 265);
-            this.checkBoxAlwaysBroadcast.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxAlwaysBroadcast.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxAlwaysBroadcast.Name = "checkBoxAlwaysBroadcast";
             this.checkBoxAlwaysBroadcast.Size = new System.Drawing.Size(110, 17);
             this.checkBoxAlwaysBroadcast.TabIndex = 77;
@@ -2109,7 +2107,7 @@
             // textBoxServidoresDhcp
             // 
             this.textBoxServidoresDhcp.Location = new System.Drawing.Point(11, 7);
-            this.textBoxServidoresDhcp.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxServidoresDhcp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxServidoresDhcp.Multiline = true;
             this.textBoxServidoresDhcp.Name = "textBoxServidoresDhcp";
             this.textBoxServidoresDhcp.Size = new System.Drawing.Size(254, 349);
@@ -2369,7 +2367,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);

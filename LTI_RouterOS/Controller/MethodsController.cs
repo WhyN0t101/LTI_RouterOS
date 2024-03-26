@@ -14,7 +14,7 @@ namespace LTI_RouterOS.Controller
         private readonly string credentials;
         private readonly string baseUrl;
 
-        public MethodsController(string username, string password,string baseUrl)
+        public MethodsController(string username, string password, string baseUrl)
         {
             httpClient = new HttpClient();
             // Check if baseUrl is provided and not empty
