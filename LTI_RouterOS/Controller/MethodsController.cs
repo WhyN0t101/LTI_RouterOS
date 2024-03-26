@@ -71,7 +71,7 @@ namespace LTI_RouterOS.Controller
         {
             try
             {
-                string apiUrl = baseUrl + "/api/bridge/add";
+                string apiUrl = baseUrl + "/rest/interface/bridge/add";
 
                 // Construct the JSON payload for creating the bridge
                 JObject payload = new JObject
@@ -83,7 +83,7 @@ namespace LTI_RouterOS.Controller
                     ["ageing-time"] = ageingTime,
                     ["igmp-snooping"] = igmpSnooping,
                     ["dhcp-snooping"] = dhcpSnooping,
-                    ["fastforward"] = fastForward
+                    ["fast-forward"] = fastForward
                 };
 
                 // Serialize the JSON payload
@@ -104,6 +104,65 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public async Task UpdateBridge(string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeName}";
+
+                // Construct the JSON payload for updating the bridge
+                JObject payload = new JObject
+                {
+                    ["mtu"] = mtu,
+                    ["arp"] = arpEnabled,
+                    ["arp-timeout"] = arpTimeout,
+                    ["ageing-time"] = ageingTime,
+                    ["igmp-snooping"] = igmpSnooping,
+                    ["dhcp-snooping"] = dhcpSnooping,
+                    ["fast-forward"] = fastForward
+                };
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Send a PUT request to update the bridge
+                HttpResponseMessage response = await httpClient.PutAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Bridge updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DeleteBridge(string bridgeName)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeName}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Bridge deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
 
         private List<string> ParseNamesFromJsonArray(string json, string propertyName)
