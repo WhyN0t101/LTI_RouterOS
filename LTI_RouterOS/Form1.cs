@@ -82,7 +82,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                string response = await getController.Retrieve("/rest/interface/wireless");
+                string response = await Controller.Retrieve("/rest/interface/wireless");
                 List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No Wireless interface names found.";
@@ -154,7 +154,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
+                comboBox1.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -276,5 +276,6 @@ namespace LTI_RouterOS
             }
         }
 
+      
     }
 }
