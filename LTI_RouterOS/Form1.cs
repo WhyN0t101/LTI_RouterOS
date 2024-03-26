@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace LTI_RouterOS
@@ -16,7 +17,7 @@ namespace LTI_RouterOS
     {
         private readonly HttpClient httpClient;
         private string baseUrl;
-        private MethodsController getController; // Declaration of getData variable
+        private MethodsController Controller; // Declaration of getData variable
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
 
@@ -29,8 +30,9 @@ namespace LTI_RouterOS
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load_1(object sender, EventArgs e)
         {
+            PopulateCountryNamesComboBox();
 
         }
 
@@ -43,7 +45,7 @@ namespace LTI_RouterOS
             try
             {
                 baseUrl = "https://" + ipAddress;
-                getController = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
+                Controller = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
                 await Connect(ipAddress, username, password);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -57,7 +59,7 @@ namespace LTI_RouterOS
             baseUrl = "https://" + ipAddress;
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-            await getController.TestConnection(); // Test connection asynchronously
+            await Controller.TestConnection(); // Test connection asynchronously
             isConnected = true;
             MessageBox.Show("Connected to router successfully!");
         }
@@ -67,7 +69,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                string response = await getController.Retrieve("/rest/interface");
+                string response = await Controller.Retrieve("/rest/interface");
                 List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
@@ -82,10 +84,10 @@ namespace LTI_RouterOS
         {
             try
             {
-                string response = await getController.Retrieve("/rest/interface/wireless");
-                List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
+                string response = await Controller.Retrieve("/rest/interface/wireless");
+                List<string> wirelessNames = ParseNamesFromJsonArray(response, "default-name");
 
-                InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No Wireless interface names found.";
+                InterfacesBox.Text = wirelessNames.Count > 0 ? string.Join(Environment.NewLine, wirelessNames) : "No Wireless interface names found.";
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                textBox2.Text = await getController.GetBridges("/rest/interface/bridge");
+                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -132,7 +134,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
+                comboBox1.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -144,7 +146,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await getController.GetBridges("/rest/interface/bridge");
+                comboBox1.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
             catch (Exception ex)
             {
@@ -245,6 +247,34 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
+        private void PopulateCountryNamesComboBox()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxCountryCodes.Items.Clear();
+
+            // Get all countries
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.Name);
+                // Check if the country name is not already in the ComboBox
+                if (!comboBoxCountryCodes.Items.Contains(region.DisplayName))
+                {
+                    // Add the country name to the ComboBox
+                    comboBoxCountryCodes.Items.Add(region.DisplayName);
+                }
+            }
+
+            // Optionally, sort the items in the ComboBox
+            comboBoxCountryCodes.Sorted = true;
+        }
+
+        private void comboBoxCountryCodes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedCountryName = comboBoxCountryCodes.SelectedItem.ToString();
+            // Do something with the selected country name
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -254,5 +284,12 @@ namespace LTI_RouterOS
         {
 
         }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

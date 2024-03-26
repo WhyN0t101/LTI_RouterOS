@@ -66,35 +66,34 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.comboBoxWirelessARP = new System.Windows.Forms.ComboBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBoxMACAddr = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBoxL2MTU = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBoxWirelessMTU = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.comboBox14 = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.comboBox13 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCountryCodes = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.comboBox12 = new System.Windows.Forms.ComboBox();
+            this.comboBoxFreqMode = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.comboBox11 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSecProfile = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.comboBox10 = new System.Windows.Forms.ComboBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.comboBoxFrequency = new System.Windows.Forms.ComboBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.comboBoxChannelWidth = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.comboBoxWirelessBand = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.textBoxWirelessName = new System.Windows.Forms.TextBox();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.comboBoxWirelessMode = new System.Windows.Forms.ComboBox();
             this.label26 = new System.Windows.Forms.Label();
             this.button12 = new System.Windows.Forms.Button();
             this.label27 = new System.Windows.Forms.Label();
@@ -250,6 +249,8 @@
             this.checkBoxBroadcast = new System.Windows.Forms.CheckBox();
             this.checkBoxTrusted = new System.Windows.Forms.CheckBox();
             this.comboBox17 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxSSID = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -420,6 +421,8 @@
             // checkBoxFF
             // 
             this.checkBoxFF.AutoSize = true;
+            this.checkBoxFF.Checked = true;
+            this.checkBoxFF.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxFF.Location = new System.Drawing.Point(189, 228);
             this.checkBoxFF.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxFF.Name = "checkBoxFF";
@@ -457,6 +460,7 @@
             this.textBoxAgeingTime.Name = "textBoxAgeingTime";
             this.textBoxAgeingTime.Size = new System.Drawing.Size(142, 20);
             this.textBoxAgeingTime.TabIndex = 62;
+            this.textBoxAgeingTime.Text = "00:05:00";
             // 
             // label71
             // 
@@ -487,6 +491,12 @@
             // comboBoxARP
             // 
             this.comboBoxARP.FormattingEnabled = true;
+            this.comboBoxARP.Items.AddRange(new object[] {
+            "disabled",
+            "enabled",
+            "local-proxy-arp",
+            "proxy-arp",
+            "reply-only"});
             this.comboBoxARP.Location = new System.Drawing.Point(13, 144);
             this.comboBoxARP.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxARP.Name = "comboBoxARP";
@@ -623,6 +633,7 @@
             this.InterfacesBox.Margin = new System.Windows.Forms.Padding(4);
             this.InterfacesBox.Multiline = true;
             this.InterfacesBox.Name = "InterfacesBox";
+            this.InterfacesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.InterfacesBox.Size = new System.Drawing.Size(290, 65);
             this.InterfacesBox.TabIndex = 1;
             // 
@@ -652,37 +663,38 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textBoxSSID);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.textBox14);
             this.groupBox3.Controls.Add(this.label31);
-            this.groupBox3.Controls.Add(this.comboBox5);
+            this.groupBox3.Controls.Add(this.comboBoxWirelessARP);
             this.groupBox3.Controls.Add(this.label30);
-            this.groupBox3.Controls.Add(this.textBox13);
+            this.groupBox3.Controls.Add(this.textBoxMACAddr);
             this.groupBox3.Controls.Add(this.label20);
-            this.groupBox3.Controls.Add(this.textBox12);
+            this.groupBox3.Controls.Add(this.textBoxL2MTU);
             this.groupBox3.Controls.Add(this.label18);
-            this.groupBox3.Controls.Add(this.textBox11);
+            this.groupBox3.Controls.Add(this.textBoxWirelessMTU);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.checkBox1);
             this.groupBox3.Controls.Add(this.comboBox14);
             this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Controls.Add(this.comboBox13);
+            this.groupBox3.Controls.Add(this.comboBoxCountryCodes);
             this.groupBox3.Controls.Add(this.label29);
-            this.groupBox3.Controls.Add(this.comboBox12);
+            this.groupBox3.Controls.Add(this.comboBoxFreqMode);
             this.groupBox3.Controls.Add(this.label22);
-            this.groupBox3.Controls.Add(this.comboBox11);
+            this.groupBox3.Controls.Add(this.comboBoxSecProfile);
             this.groupBox3.Controls.Add(this.label21);
-            this.groupBox3.Controls.Add(this.comboBox10);
             this.groupBox3.Controls.Add(this.label28);
-            this.groupBox3.Controls.Add(this.comboBox9);
+            this.groupBox3.Controls.Add(this.comboBoxFrequency);
             this.groupBox3.Controls.Add(this.label25);
-            this.groupBox3.Controls.Add(this.comboBox8);
+            this.groupBox3.Controls.Add(this.comboBoxChannelWidth);
             this.groupBox3.Controls.Add(this.label24);
-            this.groupBox3.Controls.Add(this.comboBox7);
+            this.groupBox3.Controls.Add(this.comboBoxWirelessBand);
             this.groupBox3.Controls.Add(this.label23);
-            this.groupBox3.Controls.Add(this.textBox16);
+            this.groupBox3.Controls.Add(this.textBoxWirelessName);
             this.groupBox3.Controls.Add(this.button10);
             this.groupBox3.Controls.Add(this.button11);
-            this.groupBox3.Controls.Add(this.comboBox6);
+            this.groupBox3.Controls.Add(this.comboBoxWirelessMode);
             this.groupBox3.Controls.Add(this.label26);
             this.groupBox3.Controls.Add(this.button12);
             this.groupBox3.Controls.Add(this.label27);
@@ -712,14 +724,20 @@
             this.label31.TabIndex = 57;
             this.label31.Text = "ARP timeout";
             // 
-            // comboBox5
+            // comboBoxWirelessARP
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(10, 130);
-            this.comboBox5.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(142, 21);
-            this.comboBox5.TabIndex = 56;
+            this.comboBoxWirelessARP.FormattingEnabled = true;
+            this.comboBoxWirelessARP.Items.AddRange(new object[] {
+            "disabled",
+            "enabled",
+            "local-proxy-arp",
+            "proxy-arp",
+            "reply-only"});
+            this.comboBoxWirelessARP.Location = new System.Drawing.Point(10, 130);
+            this.comboBoxWirelessARP.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxWirelessARP.Name = "comboBoxWirelessARP";
+            this.comboBoxWirelessARP.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxWirelessARP.TabIndex = 56;
             // 
             // label30
             // 
@@ -730,13 +748,14 @@
             this.label30.TabIndex = 55;
             this.label30.Text = "ARP";
             // 
-            // textBox13
+            // textBoxMACAddr
             // 
-            this.textBox13.Location = new System.Drawing.Point(195, 81);
-            this.textBox13.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(142, 20);
-            this.textBox13.TabIndex = 54;
+            this.textBoxMACAddr.Location = new System.Drawing.Point(195, 81);
+            this.textBoxMACAddr.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxMACAddr.Name = "textBoxMACAddr";
+            this.textBoxMACAddr.Size = new System.Drawing.Size(142, 20);
+            this.textBoxMACAddr.TabIndex = 54;
+            this.textBoxMACAddr.Text = "00:00:00:00:00:00";
             // 
             // label20
             // 
@@ -747,13 +766,14 @@
             this.label20.TabIndex = 53;
             this.label20.Text = "Mac Address";
             // 
-            // textBox12
+            // textBoxL2MTU
             // 
-            this.textBox12.Location = new System.Drawing.Point(10, 83);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(142, 20);
-            this.textBox12.TabIndex = 52;
+            this.textBoxL2MTU.Location = new System.Drawing.Point(10, 83);
+            this.textBoxL2MTU.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxL2MTU.Name = "textBoxL2MTU";
+            this.textBoxL2MTU.Size = new System.Drawing.Size(142, 20);
+            this.textBoxL2MTU.TabIndex = 52;
+            this.textBoxL2MTU.Text = "1600";
             // 
             // label18
             // 
@@ -764,13 +784,14 @@
             this.label18.TabIndex = 51;
             this.label18.Text = "L2 MTU";
             // 
-            // textBox11
+            // textBoxWirelessMTU
             // 
-            this.textBox11.Location = new System.Drawing.Point(195, 32);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(142, 20);
-            this.textBox11.TabIndex = 50;
+            this.textBoxWirelessMTU.Location = new System.Drawing.Point(195, 32);
+            this.textBoxWirelessMTU.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxWirelessMTU.Name = "textBoxWirelessMTU";
+            this.textBoxWirelessMTU.Size = new System.Drawing.Size(142, 20);
+            this.textBoxWirelessMTU.TabIndex = 50;
+            this.textBoxWirelessMTU.Text = "1500";
             // 
             // label17
             // 
@@ -810,14 +831,14 @@
             this.label19.TabIndex = 47;
             this.label19.Text = "Installation";
             // 
-            // comboBox13
+            // comboBoxCountryCodes
             // 
-            this.comboBox13.FormattingEnabled = true;
-            this.comboBox13.Location = new System.Drawing.Point(8, 316);
-            this.comboBox13.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox13.Name = "comboBox13";
-            this.comboBox13.Size = new System.Drawing.Size(142, 21);
-            this.comboBox13.TabIndex = 44;
+            this.comboBoxCountryCodes.FormattingEnabled = true;
+            this.comboBoxCountryCodes.Location = new System.Drawing.Point(8, 316);
+            this.comboBoxCountryCodes.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxCountryCodes.Name = "comboBoxCountryCodes";
+            this.comboBoxCountryCodes.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxCountryCodes.TabIndex = 44;
             // 
             // label29
             // 
@@ -828,14 +849,18 @@
             this.label29.TabIndex = 45;
             this.label29.Text = "Country";
             // 
-            // comboBox12
+            // comboBoxFreqMode
             // 
-            this.comboBox12.FormattingEnabled = true;
-            this.comboBox12.Location = new System.Drawing.Point(195, 274);
-            this.comboBox12.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox12.Name = "comboBox12";
-            this.comboBox12.Size = new System.Drawing.Size(142, 21);
-            this.comboBox12.TabIndex = 42;
+            this.comboBoxFreqMode.FormattingEnabled = true;
+            this.comboBoxFreqMode.Items.AddRange(new object[] {
+            "manual-txpower",
+            "regulatory-domain",
+            "superchannel"});
+            this.comboBoxFreqMode.Location = new System.Drawing.Point(195, 274);
+            this.comboBoxFreqMode.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxFreqMode.Name = "comboBoxFreqMode";
+            this.comboBoxFreqMode.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxFreqMode.TabIndex = 42;
             // 
             // label22
             // 
@@ -846,14 +871,14 @@
             this.label22.TabIndex = 43;
             this.label22.Text = "Frequency Mode";
             // 
-            // comboBox11
+            // comboBoxSecProfile
             // 
-            this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Location = new System.Drawing.Point(8, 274);
-            this.comboBox11.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(142, 21);
-            this.comboBox11.TabIndex = 40;
+            this.comboBoxSecProfile.FormattingEnabled = true;
+            this.comboBoxSecProfile.Location = new System.Drawing.Point(10, 275);
+            this.comboBoxSecProfile.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxSecProfile.Name = "comboBoxSecProfile";
+            this.comboBoxSecProfile.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxSecProfile.TabIndex = 40;
             // 
             // label21
             // 
@@ -864,15 +889,6 @@
             this.label21.TabIndex = 41;
             this.label21.Text = "Security Profile";
             // 
-            // comboBox10
-            // 
-            this.comboBox10.FormattingEnabled = true;
-            this.comboBox10.Location = new System.Drawing.Point(195, 231);
-            this.comboBox10.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox10.Name = "comboBox10";
-            this.comboBox10.Size = new System.Drawing.Size(142, 21);
-            this.comboBox10.TabIndex = 38;
-            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -882,14 +898,29 @@
             this.label28.TabIndex = 39;
             this.label28.Text = "SSID";
             // 
-            // comboBox9
+            // comboBoxFrequency
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(8, 230);
-            this.comboBox9.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(142, 21);
-            this.comboBox9.TabIndex = 36;
+            this.comboBoxFrequency.FormattingEnabled = true;
+            this.comboBoxFrequency.Items.AddRange(new object[] {
+            "2412",
+            "2417",
+            "2422",
+            "2427",
+            "2432",
+            "2437",
+            "2442",
+            "2447",
+            "2452",
+            "2457",
+            "2462",
+            "2467",
+            "2472",
+            "auto"});
+            this.comboBoxFrequency.Location = new System.Drawing.Point(10, 231);
+            this.comboBoxFrequency.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxFrequency.Name = "comboBoxFrequency";
+            this.comboBoxFrequency.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxFrequency.TabIndex = 36;
             // 
             // label25
             // 
@@ -900,14 +931,21 @@
             this.label25.TabIndex = 37;
             this.label25.Text = "Frequency";
             // 
-            // comboBox8
+            // comboBoxChannelWidth
             // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(195, 184);
-            this.comboBox8.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(142, 21);
-            this.comboBox8.TabIndex = 34;
+            this.comboBoxChannelWidth.FormattingEnabled = true;
+            this.comboBoxChannelWidth.Items.AddRange(new object[] {
+            "20MHz",
+            "10MHz",
+            "5MHz",
+            "20/40MHz eC",
+            "20/40MHz Ce",
+            "20/40MHz XX"});
+            this.comboBoxChannelWidth.Location = new System.Drawing.Point(195, 184);
+            this.comboBoxChannelWidth.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxChannelWidth.Name = "comboBoxChannelWidth";
+            this.comboBoxChannelWidth.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxChannelWidth.TabIndex = 34;
             // 
             // label24
             // 
@@ -918,14 +956,22 @@
             this.label24.TabIndex = 35;
             this.label24.Text = "Channel Width";
             // 
-            // comboBox7
+            // comboBoxWirelessBand
             // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(10, 184);
-            this.comboBox7.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(142, 21);
-            this.comboBox7.TabIndex = 32;
+            this.comboBoxWirelessBand.FormattingEnabled = true;
+            this.comboBoxWirelessBand.Items.AddRange(new object[] {
+            "2GHz-B",
+            "2GHz-B-only-G",
+            "2GHz-B/G",
+            "2GHz-B/G/N",
+            "2GHz-G/N",
+            "2GHz-only-N",
+            ""});
+            this.comboBoxWirelessBand.Location = new System.Drawing.Point(10, 184);
+            this.comboBoxWirelessBand.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxWirelessBand.Name = "comboBoxWirelessBand";
+            this.comboBoxWirelessBand.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxWirelessBand.TabIndex = 32;
             // 
             // label23
             // 
@@ -936,13 +982,13 @@
             this.label23.TabIndex = 33;
             this.label23.Text = "Band";
             // 
-            // textBox16
+            // textBoxWirelessName
             // 
-            this.textBox16.Location = new System.Drawing.Point(10, 32);
-            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(142, 20);
-            this.textBox16.TabIndex = 12;
+            this.textBoxWirelessName.Location = new System.Drawing.Point(10, 32);
+            this.textBoxWirelessName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxWirelessName.Name = "textBoxWirelessName";
+            this.textBoxWirelessName.Size = new System.Drawing.Size(142, 20);
+            this.textBoxWirelessName.TabIndex = 12;
             // 
             // button10
             // 
@@ -964,14 +1010,25 @@
             this.button11.Text = "Ativar";
             this.button11.UseVisualStyleBackColor = true;
             // 
-            // comboBox6
+            // comboBoxWirelessMode
             // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(195, 130);
-            this.comboBox6.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(142, 21);
-            this.comboBox6.TabIndex = 8;
+            this.comboBoxWirelessMode.FormattingEnabled = true;
+            this.comboBoxWirelessMode.Items.AddRange(new object[] {
+            "ap bridge",
+            "alignment only",
+            "bridge",
+            "nstreme dual slave",
+            "station",
+            "station bridge",
+            "station pseudobridge",
+            "station pseudobridge clone",
+            "station wds",
+            "wds slave"});
+            this.comboBoxWirelessMode.Location = new System.Drawing.Point(195, 130);
+            this.comboBoxWirelessMode.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxWirelessMode.Name = "comboBoxWirelessMode";
+            this.comboBoxWirelessMode.Size = new System.Drawing.Size(142, 21);
+            this.comboBoxWirelessMode.TabIndex = 8;
             // 
             // label26
             // 
@@ -1078,11 +1135,13 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(183, 294);
+            this.textBox7.Location = new System.Drawing.Point(183, 285);
             this.textBox7.Margin = new System.Windows.Forms.Padding(4);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(142, 20);
             this.textBox7.TabIndex = 27;
+            this.textBox7.Text = "00:05:00";
+            this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // label11
             // 
@@ -2596,6 +2655,24 @@
             this.comboBox17.Size = new System.Drawing.Size(147, 21);
             this.comboBox17.TabIndex = 90;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(156, 234);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "MHz";
+            // 
+            // textBoxSSID
+            // 
+            this.textBoxSSID.Location = new System.Drawing.Point(192, 231);
+            this.textBoxSSID.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxSSID.Name = "textBoxSSID";
+            this.textBoxSSID.Size = new System.Drawing.Size(142, 20);
+            this.textBoxSSID.TabIndex = 60;
+            this.textBoxSSID.Text = "MikroTik";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2605,6 +2682,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -2698,39 +2776,38 @@
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox comboBox10;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.ComboBox comboBoxFrequency;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.ComboBox comboBoxChannelWidth;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.ComboBox comboBoxWirelessBand;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.TextBox textBoxWirelessName;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox comboBoxWirelessMode;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox textBoxMACAddr;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBoxL2MTU;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBoxWirelessMTU;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox comboBox14;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.ComboBox comboBox13;
+        private System.Windows.Forms.ComboBox comboBoxCountryCodes;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.ComboBox comboBox12;
+        private System.Windows.Forms.ComboBox comboBoxFreqMode;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ComboBox comboBox11;
+        private System.Windows.Forms.ComboBox comboBoxSecProfile;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox textBox14;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox comboBoxWirelessARP;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TextBox textBox15;
@@ -2869,5 +2946,7 @@
         private System.Windows.Forms.CheckBox checkBoxTrusted;
         private System.Windows.Forms.CheckBox checkBoxBroadcast;
         private System.Windows.Forms.ComboBox comboBox17;
+        private System.Windows.Forms.TextBox textBoxSSID;
+        private System.Windows.Forms.Label label2;
     }
 }
