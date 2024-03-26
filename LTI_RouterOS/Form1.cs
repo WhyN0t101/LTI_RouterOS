@@ -27,6 +27,15 @@ namespace LTI_RouterOS
             InitializeComponent();
             httpClient = new HttpClient();
             wifiProfile = new WifiSecurityProfile();
+            textBox4.Enabled = false;
+            textBox5.Enabled = false;
+            textBox6.Enabled = false;
+            textBox7.Enabled = false;
+
+            checkedListBox3.Enabled = false;
+            checkedListBox1.Enabled = false;
+            checkedListBox2.Enabled = false;
+
 
         }
 
@@ -45,7 +54,7 @@ namespace LTI_RouterOS
             try
             {
                 baseUrl = "https://" + ipAddress;
-                Controller = new MethodsController(username, password,ipAddress); // Instantiate GET class after user provides credentials
+                Controller = new MethodsController(username, password, ipAddress); // Instantiate GET class after user provides credentials
                 await Connect(ipAddress, username, password);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -134,7 +143,17 @@ namespace LTI_RouterOS
         {
             try
             {
-                comboBox1.Text = await Controller.GetBridges("/rest/interface/bridge");
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface/bridge");
+                List<string> bridgeList = ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBox1.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string bridgeName in bridgeList)
+                {
+                    comboBox1.Items.Add(bridgeName);
+                }
             }
             catch (Exception ex)
             {
@@ -166,7 +185,7 @@ namespace LTI_RouterOS
             }
             else
             {
-              wifiProfile.AuthenticationType = string.Empty; 
+                wifiProfile.AuthenticationType = string.Empty;
             }
             wifiProfile.UnicastCiphers = checkedListBox2.Text;
             wifiProfile.GroupCiphers = checkedListBox3.Text;
@@ -247,6 +266,89 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            string bridgeName = textBoxBridgeName.Text;
+            int mtu = (int)numericUpDown1.Value;
+            string arp = comboBoxARP.SelectedItem.ToString();
+            string arpTimeout = textBoxArpTimeoutBridge.Text;
+            string ageingTime = textBoxAgeingTime.Text;
+            bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
+            bool igmpSnooping = checkBoxIGMP.Checked;
+            bool fastForward = checkBoxFF.Checked;
+
+            try
+            {
+                await Controller.CreateBridge(bridgeName, mtu, arp, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Check the selected item in the combo box
+            string selectedItem = comboBox3.SelectedItem.ToString();
+
+            // Enable/disable text boxes or checkboxes based on the selected item
+            if (selectedItem == "none")
+            {
+                // Disable certain text boxes or checkboxes
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+
+            }
+            else if (selectedItem == "dynamic keys")
+            {
+                checkedListBox1.Enabled = true;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox3.SetItemChecked(0, true);
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+
+            }
+            else if (selectedItem == "static keys optional")
+            {
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+            }
+            else if (selectedItem == "static keys required")
+            {
+                checkedListBox1.Enabled = false;
+                checkedListBox2.SetItemChecked(0, true);
+                checkedListBox2.Enabled = false;
+                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+            }
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedItem = comboBox4.SelectedItem.ToString();
+
+        }
         private void PopulateCountryNamesComboBox()
         {
             // Clear any existing items in the ComboBox
@@ -277,12 +379,45 @@ namespace LTI_RouterOS
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Enable/disable text boxes or checkboxes based on the selected item
+            if (selectedItem == "disabled")
+            {
+                textBox8.Enabled = false;
+            }
+            else if (selectedItem == "allowed")
+            {
 
+                textBox8.Enabled = true;
+            }
+            else if (selectedItem == "required")
+            {
+                textBox8.Enabled = true;
+            }
         }
 
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            // Get the index of the checked item
+            int index = e.Index;
 
+            // Determine which item is being checked
+            switch (index)
+            {
+                case 0: // First item checked
+                    textBox4.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 1: // Second item checked
+                    textBox5.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 2: // Third item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 3: // Fourth item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
