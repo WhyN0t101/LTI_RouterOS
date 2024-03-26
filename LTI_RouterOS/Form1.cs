@@ -78,6 +78,11 @@ namespace LTI_RouterOS
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private async void button3_Click_1(object sender, EventArgs e)
         {
             try
@@ -217,5 +222,6 @@ namespace LTI_RouterOS
             await CreateWifiSecurityProfile(wifiProfile);
         }
 
+        
     }
 }
