@@ -1279,7 +1279,7 @@
             "dynamic keys",
             "static keys optional",
             "static keys required"});
-            this.comboBox3.Location = new System.Drawing.Point(267, 65);
+            this.comboBox3.Location = new System.Drawing.Point(260, 63);
             this.comboBox3.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(195, 24);
