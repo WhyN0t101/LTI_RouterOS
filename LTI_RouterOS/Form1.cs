@@ -368,113 +368,15 @@ namespace LTI_RouterOS
                 textBox5.Enabled = false;
                 textBox6.Enabled = false;
                 textBox7.Enabled = false;
-
-            finally
-            {
-                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
         }
+    
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItem = comboBox4.SelectedItem.ToString();
         }
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Check the selected item in the combo box
-            string selectedItem = comboBox3.SelectedItem.ToString();
 
-            // Enable/disable text boxes or checkboxes based on the selected item
-            if (selectedItem == "none")
-            {
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-
-            }
-            else if (selectedItem == "dynamic keys")
-            {
-                checkedListBox1.Enabled = true;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox3.SetItemChecked(0, true);
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-
-            }
-            else if (selectedItem == "static keys optional")
-            {
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-
-            }
-            else if (selectedItem == "static keys required")
-            {
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedItem = comboBox4.SelectedItem.ToString();
-
-        }
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-
-
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedItem = comboBox4.SelectedItem.ToString();
-
-        }
         private void PopulateCountryNamesComboBox()
         {
             // Clear any existing items in the ComboBox
@@ -655,6 +557,36 @@ namespace LTI_RouterOS
             {
                 // Get selected interface from ComboBox
                 string selectedInterface = comboBoxInterfaces.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(selectedInterface))
+                {
+                    MessageBox.Show("Please select an interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface=" + selectedInterface + "");
+                List<string> list = ParseNamesFromJsonArray(response, ".id");
+                string id = list[0].ToString();
+
+                // Get selected bridge from ComboBox
+                string selectedBridge = comboBoxBridgeInterfaces.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(selectedBridge))
+                {
+                    MessageBox.Show("Please select a bridge.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                string multicastRouter = comboBox17.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(multicastRouter))
+                {
+                    MessageBox.Show("Please select an option.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                // Get horizon value
+                int horizonValue;
+                if (!int.TryParse(numericUpDownHorizon.Text, out horizonValue))
+                {
+                    MessageBox.Show("Invalid horizon value. Please enter a valid integer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Get learn option
                 string learnOption = comboBox2.SelectedItem?.ToString();
                 if (string.IsNullOrEmpty(learnOption))
@@ -667,7 +599,10 @@ namespace LTI_RouterOS
 
             }
             catch (Exception ex)
-        
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
@@ -716,15 +651,11 @@ namespace LTI_RouterOS
                     WirelessInterfaceCombobox.Items.Add(wirelessName);
                 }
             }
-            catch (Exception ex)
-                string id = list[0].ToString();
+            catch (Exception ex) { 
                 MessageBox.Show("Error retrieving Wireless Interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
-        }
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private string ParseTimeFormat(string time)
         {
             // Assuming time is in the format HH:MM:SS
@@ -733,6 +664,15 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Time format hh:mm:ss");
             }
+
+            // Convert each part to an integer
+            int hours = int.Parse(parts[0]);
+            int minutes = int.Parse(parts[1]);
+            int seconds = int.Parse(parts[2]);
+
+            // Return the formatted time string
+            return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
+        }
 
 
         private async void WirelessInterfaceCombobox_IndexChanged(object sender, EventArgs e)
@@ -762,49 +702,7 @@ namespace LTI_RouterOS
             }
 
         }
-    }
-}
-            // Convert each part to an integer
-            int hours = int.Parse(parts[0]);
-            int minutes = int.Parse(parts[1]);
-            int seconds = int.Parse(parts[2]);
 
-            // Return the formatted time string
-            return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
-        }
 
-    }
-}                    textBox4.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 1: // Second item checked
-                    textBox5.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 2: // Third item checked
-                    textBox6.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 3: // Fourth item checked
-                    textBox6.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                default:
-                    break;
-            }
-        }
-                // Clear existing items in the ComboBox
-        
-    }
-}
-                comboBoxWirelessBand.SelectedItem = settings.Band;
-                comboBoxChannelWidth.SelectedItem = settings.ChannelWidth;
-                comboBoxFrequency.SelectedItem = settings.Frequency.ToString();
-                textBoxSSID.Text = settings.Ssid;
-                comboBoxSecProfile.SelectedItem = settings.SecurityProfile;
-                comboBoxCountryCodes.SelectedItem = settings.Country;
-                comboBoxFreqMode.SelectedItem = settings.FrequencyMode;
-                comboBox14.SelectedItem = settings.Installation;
-                checkBox1.Checked = settings.DefaultAuthentication;
-                textBox14.Text = settings.ArpTimeout;
-            }
-
-        }
     }
 }
