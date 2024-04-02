@@ -84,6 +84,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.WirelessInterfaceCombobox = new System.Windows.Forms.ComboBox();
+            this.label73 = new System.Windows.Forms.Label();
             this.textBoxSSID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox14 = new System.Windows.Forms.TextBox();
@@ -893,6 +895,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.WirelessInterfaceCombobox);
+            this.groupBox3.Controls.Add(this.label73);
             this.groupBox3.Controls.Add(this.textBoxSSID);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.textBox14);
@@ -935,7 +939,26 @@
             this.groupBox3.Size = new System.Drawing.Size(358, 418);
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Redes Wireless";
+            this.groupBox3.Text = "Interfaces Wireless";
+            // 
+            // WirelessInterfaceCombobox
+            // 
+            this.WirelessInterfaceCombobox.FormattingEnabled = true;
+            this.WirelessInterfaceCombobox.Location = new System.Drawing.Point(162, 20);
+            this.WirelessInterfaceCombobox.Name = "WirelessInterfaceCombobox";
+            this.WirelessInterfaceCombobox.Size = new System.Drawing.Size(121, 21);
+            this.WirelessInterfaceCombobox.TabIndex = 62;
+            this.WirelessInterfaceCombobox.SelectedIndexChanged += new System.EventHandler(this.WirelessInterfaceCombobox_IndexChanged);
+            this.WirelessInterfaceCombobox.Enter += new System.EventHandler(this.WirelessInterfaceCombobox_Enter);
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Location = new System.Drawing.Point(160, 4);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(49, 13);
+            this.label73.TabIndex = 61;
+            this.label73.Text = "Interface";
             // 
             // textBoxSSID
             // 
@@ -981,7 +1004,7 @@
             "local-proxy-arp",
             "proxy-arp",
             "reply-only"});
-            this.comboBoxWirelessARP.Location = new System.Drawing.Point(10, 123);
+            this.comboBoxWirelessARP.Location = new System.Drawing.Point(10, 150);
             this.comboBoxWirelessARP.Name = "comboBoxWirelessARP";
             this.comboBoxWirelessARP.Size = new System.Drawing.Size(108, 21);
             this.comboBoxWirelessARP.TabIndex = 56;
@@ -989,7 +1012,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(7, 107);
+            this.label30.Location = new System.Drawing.Point(7, 134);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(29, 13);
             this.label30.TabIndex = 55;
@@ -997,7 +1020,7 @@
             // 
             // textBoxMACAddr
             // 
-            this.textBoxMACAddr.Location = new System.Drawing.Point(162, 79);
+            this.textBoxMACAddr.Location = new System.Drawing.Point(162, 106);
             this.textBoxMACAddr.Name = "textBoxMACAddr";
             this.textBoxMACAddr.Size = new System.Drawing.Size(108, 20);
             this.textBoxMACAddr.TabIndex = 54;
@@ -1006,7 +1029,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(162, 63);
+            this.label20.Location = new System.Drawing.Point(162, 90);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(69, 13);
             this.label20.TabIndex = 53;
@@ -1014,7 +1037,7 @@
             // 
             // textBoxL2MTU
             // 
-            this.textBoxL2MTU.Location = new System.Drawing.Point(8, 78);
+            this.textBoxL2MTU.Location = new System.Drawing.Point(8, 105);
             this.textBoxL2MTU.Name = "textBoxL2MTU";
             this.textBoxL2MTU.Size = new System.Drawing.Size(108, 20);
             this.textBoxL2MTU.TabIndex = 52;
@@ -1023,7 +1046,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(7, 63);
+            this.label18.Location = new System.Drawing.Point(7, 90);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 13);
             this.label18.TabIndex = 51;
@@ -1031,7 +1054,7 @@
             // 
             // textBoxWirelessMTU
             // 
-            this.textBoxWirelessMTU.Location = new System.Drawing.Point(162, 32);
+            this.textBoxWirelessMTU.Location = new System.Drawing.Point(162, 59);
             this.textBoxWirelessMTU.Name = "textBoxWirelessMTU";
             this.textBoxWirelessMTU.Size = new System.Drawing.Size(108, 20);
             this.textBoxWirelessMTU.TabIndex = 50;
@@ -1040,7 +1063,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(164, 17);
+            this.label17.Location = new System.Drawing.Point(164, 44);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(31, 13);
             this.label17.TabIndex = 49;
@@ -1078,7 +1101,7 @@
             // comboBoxCountryCodes
             // 
             this.comboBoxCountryCodes.FormattingEnabled = true;
-            this.comboBoxCountryCodes.Location = new System.Drawing.Point(7, 331);
+            this.comboBoxCountryCodes.Location = new System.Drawing.Point(10, 331);
             this.comboBoxCountryCodes.Name = "comboBoxCountryCodes";
             this.comboBoxCountryCodes.Size = new System.Drawing.Size(108, 21);
             this.comboBoxCountryCodes.TabIndex = 44;
@@ -1086,7 +1109,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(5, 315);
+            this.label29.Location = new System.Drawing.Point(8, 315);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(43, 13);
             this.label29.TabIndex = 45;
@@ -1099,7 +1122,7 @@
             "manual-txpower",
             "regulatory-domain",
             "superchannel"});
-            this.comboBoxFreqMode.Location = new System.Drawing.Point(163, 272);
+            this.comboBoxFreqMode.Location = new System.Drawing.Point(162, 272);
             this.comboBoxFreqMode.Name = "comboBoxFreqMode";
             this.comboBoxFreqMode.Size = new System.Drawing.Size(108, 21);
             this.comboBoxFreqMode.TabIndex = 42;
@@ -1175,13 +1198,13 @@
             // 
             this.comboBoxChannelWidth.FormattingEnabled = true;
             this.comboBoxChannelWidth.Items.AddRange(new object[] {
-            "20MHz",
-            "10MHz",
-            "5MHz",
-            "20/40MHz eC",
-            "20/40MHz Ce",
-            "20/40MHz XX"});
-            this.comboBoxChannelWidth.Location = new System.Drawing.Point(162, 182);
+            "20mhz",
+            "10mhz",
+            "5mhz",
+            "20/40mhz ec",
+            "20/40mhz ce",
+            "20/40mhz xx"});
+            this.comboBoxChannelWidth.Location = new System.Drawing.Point(162, 193);
             this.comboBoxChannelWidth.Name = "comboBoxChannelWidth";
             this.comboBoxChannelWidth.Size = new System.Drawing.Size(108, 21);
             this.comboBoxChannelWidth.TabIndex = 34;
@@ -1189,7 +1212,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(159, 164);
+            this.label24.Location = new System.Drawing.Point(159, 175);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(77, 13);
             this.label24.TabIndex = 35;
@@ -1199,14 +1222,13 @@
             // 
             this.comboBoxWirelessBand.FormattingEnabled = true;
             this.comboBoxWirelessBand.Items.AddRange(new object[] {
-            "2GHz-B",
-            "2GHz-B-only-G",
-            "2GHz-B/G",
-            "2GHz-B/G/N",
-            "2GHz-G/N",
-            "2GHz-only-N",
-            ""});
-            this.comboBoxWirelessBand.Location = new System.Drawing.Point(7, 182);
+            "2ghz-b",
+            "2ghz-b-only-g",
+            "2ghz-b/g",
+            "2ghz-b/g/n",
+            "2ghz-g/n",
+            "2ghz-only-n"});
+            this.comboBoxWirelessBand.Location = new System.Drawing.Point(10, 193);
             this.comboBoxWirelessBand.Name = "comboBoxWirelessBand";
             this.comboBoxWirelessBand.Size = new System.Drawing.Size(108, 21);
             this.comboBoxWirelessBand.TabIndex = 32;
@@ -1214,7 +1236,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(7, 164);
+            this.label23.Location = new System.Drawing.Point(10, 175);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(32, 13);
             this.label23.TabIndex = 33;
@@ -1222,7 +1244,7 @@
             // 
             // textBoxWirelessName
             // 
-            this.textBoxWirelessName.Location = new System.Drawing.Point(8, 32);
+            this.textBoxWirelessName.Location = new System.Drawing.Point(8, 59);
             this.textBoxWirelessName.Name = "textBoxWirelessName";
             this.textBoxWirelessName.Size = new System.Drawing.Size(108, 20);
             this.textBoxWirelessName.TabIndex = 12;
@@ -1261,7 +1283,7 @@
             "station pseudobridge clone",
             "station wds",
             "wds slave"});
-            this.comboBoxWirelessMode.Location = new System.Drawing.Point(162, 123);
+            this.comboBoxWirelessMode.Location = new System.Drawing.Point(162, 150);
             this.comboBoxWirelessMode.Name = "comboBoxWirelessMode";
             this.comboBoxWirelessMode.Size = new System.Drawing.Size(108, 21);
             this.comboBoxWirelessMode.TabIndex = 8;
@@ -1269,7 +1291,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(164, 107);
+            this.label26.Location = new System.Drawing.Point(164, 134);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(34, 13);
             this.label26.TabIndex = 9;
@@ -1288,7 +1310,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(7, 17);
+            this.label27.Location = new System.Drawing.Point(7, 44);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(35, 13);
             this.label27.TabIndex = 6;
@@ -1329,6 +1351,7 @@
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Perfis de Segurança";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // textBox8
             // 
@@ -2935,5 +2958,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxArpTimeoutBridge;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.ComboBox WirelessInterfaceCombobox;
+        private System.Windows.Forms.Label label73;
     }
 }
