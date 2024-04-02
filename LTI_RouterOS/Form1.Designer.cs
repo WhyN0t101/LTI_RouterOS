@@ -52,11 +52,9 @@
             this.label75 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.button17 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
             this.comboBoxBridgeInterfaces = new System.Windows.Forms.ComboBox();
             this.label77 = new System.Windows.Forms.Label();
             this.comboBoxInterfaces = new System.Windows.Forms.ComboBox();
-            this.button22 = new System.Windows.Forms.Button();
             this.label78 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -408,11 +406,9 @@
             this.groupBox11.Controls.Add(this.label75);
             this.groupBox11.Controls.Add(this.label76);
             this.groupBox11.Controls.Add(this.button17);
-            this.groupBox11.Controls.Add(this.button20);
             this.groupBox11.Controls.Add(this.comboBoxBridgeInterfaces);
             this.groupBox11.Controls.Add(this.label77);
             this.groupBox11.Controls.Add(this.comboBoxInterfaces);
-            this.groupBox11.Controls.Add(this.button22);
             this.groupBox11.Controls.Add(this.label78);
             this.groupBox11.Location = new System.Drawing.Point(505, 144);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(5);
@@ -564,23 +560,14 @@
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(268, 346);
+            this.button17.Location = new System.Drawing.Point(16, 341);
             this.button17.Margin = new System.Windows.Forms.Padding(5);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(115, 28);
             this.button17.TabIndex = 11;
             this.button17.Text = "Editar";
             this.button17.UseVisualStyleBackColor = true;
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(17, 346);
-            this.button20.Margin = new System.Windows.Forms.Padding(5);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(115, 28);
-            this.button20.TabIndex = 10;
-            this.button20.Text = "Criar";
-            this.button20.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
             // comboBoxBridgeInterfaces
             // 
@@ -590,6 +577,7 @@
             this.comboBoxBridgeInterfaces.Name = "comboBoxBridgeInterfaces";
             this.comboBoxBridgeInterfaces.Size = new System.Drawing.Size(195, 24);
             this.comboBoxBridgeInterfaces.TabIndex = 8;
+            this.comboBoxBridgeInterfaces.Enter += new System.EventHandler(this.comboBoxBridgeInterfaces_Enter);
             // 
             // label77
             // 
@@ -609,16 +597,7 @@
             this.comboBoxInterfaces.Name = "comboBoxInterfaces";
             this.comboBoxInterfaces.Size = new System.Drawing.Size(195, 24);
             this.comboBoxInterfaces.TabIndex = 5;
-            // 
-            // button22
-            // 
-            this.button22.Location = new System.Drawing.Point(143, 346);
-            this.button22.Margin = new System.Windows.Forms.Padding(5);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(115, 28);
-            this.button22.TabIndex = 7;
-            this.button22.Text = "Apagar";
-            this.button22.UseVisualStyleBackColor = true;
+            this.comboBoxInterfaces.Enter += new System.EventHandler(this.comboBoxInterfaces_Enter);
             // 
             // label78
             // 
@@ -3016,11 +2995,9 @@
         private System.Windows.Forms.Label label75;
         private System.Windows.Forms.Label label76;
         private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button20;
         private System.Windows.Forms.ComboBox comboBoxBridgeInterfaces;
         private System.Windows.Forms.Label label77;
         private System.Windows.Forms.ComboBox comboBoxInterfaces;
-        private System.Windows.Forms.Button button22;
         private System.Windows.Forms.Label label78;
         private System.Windows.Forms.CheckBox checkBoxUnicastFlood;
         private System.Windows.Forms.CheckBox checkBoxMulticast;

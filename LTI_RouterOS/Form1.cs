@@ -35,8 +35,12 @@ namespace LTI_RouterOS
             checkedListBox3.Enabled = false;
             checkedListBox1.Enabled = false;
             checkedListBox2.Enabled = false;
-
-
+            comboBoxInterfaces.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxBridgeInterfaces.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.DropDownStyle= ComboBoxStyle.DropDownList;
+            comboBoxARP.DropDownStyle= ComboBoxStyle.DropDownList;
+            comboBox17.DropDownStyle= ComboBoxStyle.DropDownList;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -126,18 +130,22 @@ namespace LTI_RouterOS
                 tabControl1.SelectedIndex = 0; // Switch back to the connection tab
             }
         }
-
         private List<string> ParseNamesFromJsonArray(string json, string propertyName)
         {
             List<string> names = new List<string>();
             JArray jsonArray = JArray.Parse(json);
             foreach (JObject jsonObject in jsonArray)
             {
-                string name = (string)jsonObject[propertyName];
-                names.Add(name);
+                // Check if the JSON object contains the specified property
+                if (jsonObject.ContainsKey(propertyName))
+                {
+                    string name = (string)jsonObject[propertyName];
+                    names.Add(name);
+                }
             }
             return names;
         }
+
 
         private async void comboBox1_Enter(object sender, EventArgs e)
         {
@@ -505,6 +513,107 @@ namespace LTI_RouterOS
             finally
             {
                 textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
+            }
+        }
+
+        private async void comboBoxInterfaces_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> intList = ParseNamesFromJsonArray(response, "default-name");
+                // Clear existing items in the ComboBox
+                comboBoxInterfaces.Items.Clear();
+                
+                // Add each bridge name as an item in the ComboBox
+                foreach (string intName in intList)
+                {
+                    comboBoxInterfaces.Items.Add(intName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void comboBoxBridgeInterfaces_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface/bridge");
+                List<string> bridgeList = ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBoxBridgeInterfaces.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string bridgeName in bridgeList)
+                {
+                    comboBoxBridgeInterfaces.Items.Add(bridgeName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button17_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get selected interface from ComboBox
+                string selectedInterface = comboBoxInterfaces.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(selectedInterface))
+                {
+                    MessageBox.Show("Please select an interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface="+ selectedInterface +"");
+                List<string> list = ParseNamesFromJsonArray(response, ".id");
+                string id = list[0].ToString();
+               
+                // Get selected bridge from ComboBox
+                string selectedBridge = comboBoxBridgeInterfaces.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(selectedBridge))
+                {
+                    MessageBox.Show("Please select a bridge.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Get horizon value
+                int horizonValue;
+                if (!int.TryParse(numericUpDownHorizon.Text, out horizonValue))
+                {
+                    MessageBox.Show("Invalid horizon value. Please enter a valid integer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Get learn option
+                string learnOption = comboBox2.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(learnOption))
+                {
+                    MessageBox.Show("Please select a learn option.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Check if options are checked
+                bool unknownUnicastFlood = checkBoxUnicastFlood.Checked;
+                bool broadcastFlood = checkBoxBroadcast.Checked;
+                bool hardwareOffload = checkBoxHardwareOffload.Checked;
+                bool unknownMulticastFlood = checkBoxMulticast.Checked;
+                bool trusted = checkBoxTrusted.Checked;
+                string multicastRouter = comboBox17.SelectedItem?.ToString();
+                bool fastLeave = checkBoxFastLeave.Checked;
+
+                // Perform operations using the method controller
+                await Controller.AssociateBridge(id, selectedBridge, horizonValue, learnOption, unknownUnicastFlood, broadcastFlood, hardwareOffload, unknownMulticastFlood, trusted, multicastRouter, fastLeave);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
