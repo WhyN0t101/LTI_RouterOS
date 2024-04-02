@@ -365,11 +365,6 @@ namespace LTI_RouterOS
             }
         }
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedItem = comboBox4.SelectedItem.ToString();
-        }
-
         private void PopulateCountryNamesComboBox()
         {
             // Clear any existing items in the ComboBox
