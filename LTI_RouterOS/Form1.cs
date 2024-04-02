@@ -27,26 +27,29 @@ namespace LTI_RouterOS
             InitializeComponent();
             httpClient = new HttpClient();
             wifiProfile = new WifiSecurityProfile();
+            InitializeComboBoxes();
+        }
+        private void InitializeComboBoxes()
+        {
             textBox4.Enabled = false;
             textBox5.Enabled = false;
             textBox6.Enabled = false;
             textBox7.Enabled = false;
-            comboBoxARP.SelectedIndex= 1;
+            comboBoxARP.SelectedIndex = 1;
             checkedListBox3.Enabled = false;
             checkedListBox1.Enabled = false;
             checkedListBox2.Enabled = false;
             comboBoxInterfaces.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxBridgeInterfaces.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.DropDownStyle= ComboBoxStyle.DropDownList;
-            comboBoxARP.DropDownStyle= ComboBoxStyle.DropDownList;
-            comboBox17.DropDownStyle= ComboBoxStyle.DropDownList;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
             PopulateCountryNamesComboBox();
-
         }
 
         private async void connectButton_Click(object sender, EventArgs e)
@@ -77,14 +80,12 @@ namespace LTI_RouterOS
             MessageBox.Show("Connected to router successfully!");
         }
 
-
         private async void button1_Click_1(object sender, EventArgs e)
         {
             try
             {
                 string response = await Controller.Retrieve("/rest/interface");
                 List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
-
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
             }
             catch (Exception ex)
@@ -145,7 +146,6 @@ namespace LTI_RouterOS
             }
             return names;
         }
-
 
         private async void comboBox1_Enter(object sender, EventArgs e)
         {
@@ -263,8 +263,6 @@ namespace LTI_RouterOS
             }
         }
 
-
-
         private async void button8_Click(object sender, EventArgs e)
         {
             // Update wifiProfile object with values from the form before creating the security profile
@@ -299,26 +297,6 @@ namespace LTI_RouterOS
                 textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
         }
-
-        private string ParseTimeFormat(string time)
-        {
-            // Assuming time is in the format HH:MM:SS
-            string[] parts = time.Split(':');
-            if (parts.Length != 3)
-            {
-                MessageBox.Show("Time format hh:mm:ss");
-            }
-
-            // Convert each part to an integer
-            int hours = int.Parse(parts[0]);
-            int minutes = int.Parse(parts[1]);
-            int seconds = int.Parse(parts[2]);
-
-            // Return the formatted time string
-            return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
-        }
-
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check the selected item in the combo box
@@ -331,7 +309,6 @@ namespace LTI_RouterOS
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
-                // Disable certain text boxes or checkboxes
                 checkedListBox1.Enabled = false;
                 checkedListBox2.SetItemChecked(0, true);
                 checkedListBox2.Enabled = false;
@@ -358,8 +335,6 @@ namespace LTI_RouterOS
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
-
-
                 checkedListBox1.Enabled = false;
                 checkedListBox2.SetItemChecked(0, true);
                 checkedListBox2.Enabled = false;
@@ -393,9 +368,8 @@ namespace LTI_RouterOS
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItem = comboBox4.SelectedItem.ToString();
-}
+        }
 
-  
         private void PopulateCountryNamesComboBox()
         {
             // Clear any existing items in the ComboBox
@@ -479,7 +453,8 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally {
+            finally
+            {
                 textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
 
@@ -488,7 +463,7 @@ namespace LTI_RouterOS
         private async void button6_Click(object sender, EventArgs e)
         {
             //Defaults
-            if(comboBox1.SelectedItem== null)
+            if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Select a bridge");
                 return;
@@ -525,7 +500,7 @@ namespace LTI_RouterOS
                 List<string> intList = ParseNamesFromJsonArray(response, "default-name");
                 // Clear existing items in the ComboBox
                 comboBoxInterfaces.Items.Clear();
-                
+
                 // Add each bridge name as an item in the ComboBox
                 foreach (string intName in intList)
                 {
@@ -562,6 +537,15 @@ namespace LTI_RouterOS
 
         private async void button17_Click(object sender, EventArgs e)
         {
+            // Check if options are checked
+            bool unknownUnicastFlood = checkBoxUnicastFlood.Checked;
+            bool broadcastFlood = checkBoxBroadcast.Checked;
+            bool hardwareOffload = checkBoxHardwareOffload.Checked;
+            bool unknownMulticastFlood = checkBoxMulticast.Checked;
+            bool trusted = checkBoxTrusted.Checked;
+
+            bool fastLeave = checkBoxFastLeave.Checked;
+
             try
             {
                 // Get selected interface from ComboBox
@@ -571,10 +555,10 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please select an interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface="+ selectedInterface +"");
+                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface=" + selectedInterface + "");
                 List<string> list = ParseNamesFromJsonArray(response, ".id");
                 string id = list[0].ToString();
-               
+
                 // Get selected bridge from ComboBox
                 string selectedBridge = comboBoxBridgeInterfaces.SelectedItem?.ToString();
                 if (string.IsNullOrEmpty(selectedBridge))
@@ -582,7 +566,12 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please select a bridge.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
+                string multicastRouter = comboBox17.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(multicastRouter))
+                {
+                    MessageBox.Show("Please select an option.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 // Get horizon value
                 int horizonValue;
                 if (!int.TryParse(numericUpDownHorizon.Text, out horizonValue))
@@ -598,23 +587,32 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please select a learn option.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                // Check if options are checked
-                bool unknownUnicastFlood = checkBoxUnicastFlood.Checked;
-                bool broadcastFlood = checkBoxBroadcast.Checked;
-                bool hardwareOffload = checkBoxHardwareOffload.Checked;
-                bool unknownMulticastFlood = checkBoxMulticast.Checked;
-                bool trusted = checkBoxTrusted.Checked;
-                string multicastRouter = comboBox17.SelectedItem?.ToString();
-                bool fastLeave = checkBoxFastLeave.Checked;
-
                 // Perform operations using the method controller
                 await Controller.AssociateBridge(id, selectedBridge, horizonValue, learnOption, unknownUnicastFlood, broadcastFlood, hardwareOffload, unknownMulticastFlood, trusted, multicastRouter, fastLeave);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private string ParseTimeFormat(string time)
+        {
+            // Assuming time is in the format HH:MM:SS
+            string[] parts = time.Split(':');
+            if (parts.Length != 3)
+            {
+                MessageBox.Show("Time format hh:mm:ss");
+            }
+
+            // Convert each part to an integer
+            int hours = int.Parse(parts[0]);
+            int minutes = int.Parse(parts[1]);
+            int seconds = int.Parse(parts[2]);
+
+            // Return the formatted time string
+            return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
+        }
+
     }
-    }
+}
