@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
 
 namespace LTI_RouterOS
 {
@@ -20,6 +23,7 @@ namespace LTI_RouterOS
         private MethodsController Controller; // Declaration of getData variable
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
+        private WirelessSettings wirelessSettings;
 
         public Form1()
         {
@@ -27,6 +31,7 @@ namespace LTI_RouterOS
             InitializeComponent();
             httpClient = new HttpClient();
             wifiProfile = new WifiSecurityProfile();
+            wirelessSettings = new WirelessSettings();
             InitializeComboBoxes();
         }
         private void InitializeComboBoxes()
@@ -146,6 +151,8 @@ namespace LTI_RouterOS
             }
             return names;
         }
+
+
 
         private async void comboBox1_Enter(object sender, EventArgs e)
         {
@@ -292,11 +299,8 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
-            }
         }
+
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check the selected item in the combo box
@@ -309,6 +313,7 @@ namespace LTI_RouterOS
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
+                // Disable certain text boxes or checkboxes
                 checkedListBox1.Enabled = false;
                 checkedListBox2.SetItemChecked(0, true);
                 checkedListBox2.Enabled = false;
@@ -335,6 +340,8 @@ namespace LTI_RouterOS
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
+
+
                 checkedListBox1.Enabled = false;
                 checkedListBox2.SetItemChecked(0, true);
                 checkedListBox2.Enabled = false;
@@ -361,9 +368,9 @@ namespace LTI_RouterOS
                 textBox5.Enabled = false;
                 textBox6.Enabled = false;
                 textBox7.Enabled = false;
-
             }
         }
+    
 
         private void PopulateCountryNamesComboBox()
         {
@@ -591,6 +598,59 @@ namespace LTI_RouterOS
                 MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+                    
+        }
+
+        private WirelessSettings RetrieveWirelessSettings(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/interface/wireless")
+                HttpResponseMessage response = httpClient.GetAsync("https://192.168.79.1/rest/interface/wireless").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WirelessSettings objects
+                List<WirelessSettings> settingsList = JsonConvert.DeserializeObject<List<WirelessSettings>>(responseBody);
+
+                // Find the WirelessSettings object with the matching name
+                return settingsList.FirstOrDefault(s => s.Name == name);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private async void WirelessInterfaceCombobox_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/interface/wireless");
+                List<string> wirelessList = ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBox1.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string wirelessName in wirelessList)
+                {
+                    WirelessInterfaceCombobox.Items.Add(wirelessName);
+                }
+            }
+            catch (Exception ex) { 
+                MessageBox.Show("Error retrieving Wireless Interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private string ParseTimeFormat(string time)
         {
             // Assuming time is in the format HH:MM:SS
@@ -608,6 +668,36 @@ namespace LTI_RouterOS
             // Return the formatted time string
             return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
         }
+
+
+        private async void WirelessInterfaceCombobox_IndexChanged(object sender, EventArgs e)
+        {
+            string name = WirelessInterfaceCombobox.SelectedItem.ToString();
+            WirelessSettings settings = RetrieveWirelessSettings(name);
+
+            if (settings != null)
+            {
+                // Update the TextBox controls with the corresponding properties
+                textBoxWirelessName.Text = settings.Name;
+                textBoxWirelessMTU.Text = settings.Mtu.ToString();
+                textBoxL2MTU.Text = settings.L2Mtu.ToString();
+                textBoxMACAddr.Text = settings.MacAddress;
+                comboBoxWirelessARP.SelectedItem = settings.Arp;
+                comboBoxWirelessMode.SelectedItem = settings.Mode;
+                comboBoxWirelessBand.SelectedItem = settings.Band;
+                comboBoxChannelWidth.SelectedItem = settings.ChannelWidth;
+                comboBoxFrequency.SelectedItem = settings.Frequency.ToString();
+                textBoxSSID.Text = settings.Ssid;
+                comboBoxSecProfile.SelectedItem = settings.SecurityProfile;
+                comboBoxCountryCodes.SelectedItem = settings.Country;
+                comboBoxFreqMode.SelectedItem = settings.FrequencyMode;
+                comboBox14.SelectedItem = settings.Installation;
+                checkBox1.Checked = settings.DefaultAuthentication;
+                textBox14.Text = settings.ArpTimeout;
+            }
+
+        }
+
 
     }
 }
