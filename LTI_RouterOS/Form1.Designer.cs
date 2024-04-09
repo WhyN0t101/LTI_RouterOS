@@ -842,7 +842,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(477, 0);
+            this.textBox2.Location = new System.Drawing.Point(480, 8);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -956,7 +956,7 @@
             // WirelessInterfaceCombobox
             // 
             this.WirelessInterfaceCombobox.FormattingEnabled = true;
-            this.WirelessInterfaceCombobox.Location = new System.Drawing.Point(128, 27);
+            this.WirelessInterfaceCombobox.Location = new System.Drawing.Point(96, 27);
             this.WirelessInterfaceCombobox.Margin = new System.Windows.Forms.Padding(2);
             this.WirelessInterfaceCombobox.Name = "WirelessInterfaceCombobox";
             this.WirelessInterfaceCombobox.Size = new System.Drawing.Size(225, 24);
@@ -967,7 +967,7 @@
             // label73
             // 
             this.label73.AutoSize = true;
-            this.label73.Location = new System.Drawing.Point(100, 37);
+            this.label73.Location = new System.Drawing.Point(9, 30);
             this.label73.Name = "label73";
             this.label73.Size = new System.Drawing.Size(58, 16);
             this.label73.TabIndex = 61;
@@ -975,7 +975,7 @@
             // 
             // textBoxSSID
             // 
-            this.textBoxSSID.Location = new System.Drawing.Point(211, 287);
+            this.textBoxSSID.Location = new System.Drawing.Point(199, 337);
             this.textBoxSSID.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSSID.Name = "textBoxSSID";
             this.textBoxSSID.Size = new System.Drawing.Size(143, 22);
@@ -1018,7 +1018,7 @@
             "local-proxy-arp",
             "proxy-arp",
             "reply-only"});
-            this.comboBoxWirelessARP.Location = new System.Drawing.Point(6, 144);
+            this.comboBoxWirelessARP.Location = new System.Drawing.Point(7, 189);
             this.comboBoxWirelessARP.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxWirelessARP.Name = "comboBoxWirelessARP";
             this.comboBoxWirelessARP.Size = new System.Drawing.Size(143, 24);
@@ -1027,7 +1027,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(4, 161);
+            this.label30.Location = new System.Drawing.Point(4, 171);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(35, 16);
             this.label30.TabIndex = 55;
@@ -1035,7 +1035,7 @@
             // 
             // textBoxMACAddr
             // 
-            this.textBoxMACAddr.Location = new System.Drawing.Point(156, 109);
+            this.textBoxMACAddr.Location = new System.Drawing.Point(199, 135);
             this.textBoxMACAddr.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxMACAddr.Name = "textBoxMACAddr";
             this.textBoxMACAddr.Size = new System.Drawing.Size(143, 22);
@@ -1045,7 +1045,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(208, 118);
+            this.label20.Location = new System.Drawing.Point(196, 117);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(87, 16);
             this.label20.TabIndex = 53;
@@ -1053,7 +1053,7 @@
             // 
             // textBoxL2MTU
             // 
-            this.textBoxL2MTU.Location = new System.Drawing.Point(4, 108);
+            this.textBoxL2MTU.Location = new System.Drawing.Point(7, 135);
             this.textBoxL2MTU.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxL2MTU.Name = "textBoxL2MTU";
             this.textBoxL2MTU.Size = new System.Drawing.Size(143, 22);
@@ -1063,7 +1063,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(4, 118);
+            this.label18.Location = new System.Drawing.Point(3, 117);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(54, 16);
             this.label18.TabIndex = 51;
@@ -1071,7 +1071,7 @@
             // 
             // textBoxWirelessMTU
             // 
-            this.textBoxWirelessMTU.Location = new System.Drawing.Point(160, 63);
+            this.textBoxWirelessMTU.Location = new System.Drawing.Point(199, 81);
             this.textBoxWirelessMTU.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxWirelessMTU.Name = "textBoxWirelessMTU";
             this.textBoxWirelessMTU.Size = new System.Drawing.Size(143, 22);
@@ -1081,7 +1081,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(215, 63);
+            this.label17.Location = new System.Drawing.Point(196, 63);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(37, 16);
             this.label17.TabIndex = 49;
@@ -1105,7 +1105,6 @@
             "any",
             "indoor",
             "outdoor"});
-            this.comboBox14.Location = new System.Drawing.Point(128, 330);
             this.comboBox14.Location = new System.Drawing.Point(171, 406);
             this.comboBox14.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox14.Name = "comboBox14";
@@ -1125,7 +1124,7 @@
             // comboBoxCountryCodes
             // 
             this.comboBoxCountryCodes.FormattingEnabled = true;
-            this.comboBoxCountryCodes.Location = new System.Drawing.Point(6, 330);
+            this.comboBoxCountryCodes.Location = new System.Drawing.Point(8, 406);
             this.comboBoxCountryCodes.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxCountryCodes.Name = "comboBoxCountryCodes";
             this.comboBoxCountryCodes.Size = new System.Drawing.Size(143, 24);
@@ -1147,7 +1146,7 @@
             "manual-txpower",
             "regulatory-domain",
             "superchannel"});
-            this.comboBoxFreqMode.Location = new System.Drawing.Point(158, 271);
+            this.comboBoxFreqMode.Location = new System.Drawing.Point(199, 285);
             this.comboBoxFreqMode.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxFreqMode.Name = "comboBoxFreqMode";
             this.comboBoxFreqMode.Size = new System.Drawing.Size(143, 24);
@@ -1156,7 +1155,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(212, 315);
+            this.label22.Location = new System.Drawing.Point(196, 317);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(109, 16);
@@ -1166,7 +1165,7 @@
             // comboBoxSecProfile
             // 
             this.comboBoxSecProfile.FormattingEnabled = true;
-            this.comboBoxSecProfile.Location = new System.Drawing.Point(9, 335);
+            this.comboBoxSecProfile.Location = new System.Drawing.Point(12, 335);
             this.comboBoxSecProfile.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSecProfile.Name = "comboBoxSecProfile";
             this.comboBoxSecProfile.Size = new System.Drawing.Size(143, 24);
@@ -1185,7 +1184,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(207, 267);
+            this.label28.Location = new System.Drawing.Point(196, 267);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(38, 16);
@@ -1280,7 +1279,7 @@
             "5695",
             "5700",
             "auto"});
-            this.comboBoxFrequency.Location = new System.Drawing.Point(9, 287);
+            this.comboBoxFrequency.Location = new System.Drawing.Point(10, 285);
             this.comboBoxFrequency.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxFrequency.Name = "comboBoxFrequency";
             this.comboBoxFrequency.Size = new System.Drawing.Size(143, 24);
@@ -1289,7 +1288,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(8, 267);
+            this.label25.Location = new System.Drawing.Point(9, 267);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(71, 16);
@@ -1306,7 +1305,7 @@
             "20/40mhz ec",
             "20/40mhz ce",
             "20/40mhz xx"});
-            this.comboBoxChannelWidth.Location = new System.Drawing.Point(157, 190);
+            this.comboBoxChannelWidth.Location = new System.Drawing.Point(199, 233);
             this.comboBoxChannelWidth.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxChannelWidth.Name = "comboBoxChannelWidth";
             this.comboBoxChannelWidth.Size = new System.Drawing.Size(143, 24);
@@ -1315,7 +1314,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(205, 215);
+            this.label24.Location = new System.Drawing.Point(196, 215);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(93, 16);
             this.label24.TabIndex = 35;
@@ -1338,7 +1337,7 @@
             "5ghz-only-ac",
             "5ghz-n/ac",
             ""});
-            this.comboBoxWirelessBand.Location = new System.Drawing.Point(7, 190);
+            this.comboBoxWirelessBand.Location = new System.Drawing.Point(7, 233);
             this.comboBoxWirelessBand.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxWirelessBand.Name = "comboBoxWirelessBand";
             this.comboBoxWirelessBand.Size = new System.Drawing.Size(143, 24);
@@ -1347,7 +1346,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(9, 215);
+            this.label23.Location = new System.Drawing.Point(7, 215);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(39, 16);
             this.label23.TabIndex = 33;
@@ -1355,7 +1354,7 @@
             // 
             // textBoxWirelessName
             // 
-            this.textBoxWirelessName.Location = new System.Drawing.Point(8, 63);
+            this.textBoxWirelessName.Location = new System.Drawing.Point(7, 81);
             this.textBoxWirelessName.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxWirelessName.Name = "textBoxWirelessName";
             this.textBoxWirelessName.Size = new System.Drawing.Size(143, 22);
@@ -1397,7 +1396,7 @@
             "station pseudobridge clone",
             "station wds",
             "wds slave"});
-            this.comboBoxWirelessMode.Location = new System.Drawing.Point(156, 144);
+            this.comboBoxWirelessMode.Location = new System.Drawing.Point(199, 189);
             this.comboBoxWirelessMode.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxWirelessMode.Name = "comboBoxWirelessMode";
             this.comboBoxWirelessMode.Size = new System.Drawing.Size(143, 24);
@@ -1406,7 +1405,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(209, 161);
+            this.label26.Location = new System.Drawing.Point(196, 171);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(42, 16);
             this.label26.TabIndex = 9;
@@ -1736,7 +1735,7 @@
             this.Rotas.Margin = new System.Windows.Forms.Padding(4);
             this.Rotas.Name = "Rotas";
             this.Rotas.Padding = new System.Windows.Forms.Padding(3);
-            this.Rotas.Size = new System.Drawing.Size(795, 425);
+            this.Rotas.Size = new System.Drawing.Size(1063, 526);
             this.Rotas.TabIndex = 3;
             this.Rotas.Text = "Rotas";
             this.Rotas.UseVisualStyleBackColor = true;
@@ -2029,12 +2028,12 @@
             this.textBox15.Margin = new System.Windows.Forms.Padding(4);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(337, 499);
+            this.textBox15.Size = new System.Drawing.Size(337, 456);
             this.textBox15.TabIndex = 4;
             // 
             // buttonListarRotas
             // 
-            this.buttonListarRotas.Location = new System.Drawing.Point(11, 369);
+            this.buttonListarRotas.Location = new System.Drawing.Point(7, 471);
             this.buttonListarRotas.Margin = new System.Windows.Forms.Padding(4);
             this.buttonListarRotas.Name = "buttonListarRotas";
             this.buttonListarRotas.Size = new System.Drawing.Size(189, 28);
@@ -2052,7 +2051,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(795, 425);
+            this.tabPage5.Size = new System.Drawing.Size(1063, 526);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "IP";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2223,7 +2222,7 @@
             this.tabPage6.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(795, 425);
+            this.tabPage6.Size = new System.Drawing.Size(1063, 526);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Servidores DHCP";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -2626,7 +2625,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(795, 425);
+            this.tabPage2.Size = new System.Drawing.Size(1063, 526);
             this.tabPage2.TabIndex = 6;
             this.tabPage2.Text = "DNS";
             this.tabPage2.UseVisualStyleBackColor = true;

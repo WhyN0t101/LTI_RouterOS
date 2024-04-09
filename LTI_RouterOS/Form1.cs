@@ -72,7 +72,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of wirelessInterfaces
                 string response = await Controller.Retrieve("/rest/interface/wireless/security-profiles");
-                List<string> SecProfiles = ParseNamesFromJsonArray(response, "name");
+                List<string> SecProfiles = Parser.ParseNamesFromJsonArray(response, "name");
 
                 // Clear existing items in the ComboBox
                 comboBoxSecProfile.Items.Clear();
@@ -717,7 +717,7 @@ namespace LTI_RouterOS
 
             if (settings != null)
             {
-                
+
                 // Update the TextBox controls with the corresponding properties
                 textBoxWirelessName.Text = settings.Name;
                 textBoxWirelessMTU.Text = settings.Mtu.ToString();
@@ -748,8 +748,8 @@ namespace LTI_RouterOS
             }
             string name = WirelessInterfaceCombobox.SelectedItem.ToString();
             WirelessSettings settings = RetrieveWirelessSettings(name);
-            
-            if(settings.disabled == "true")
+
+            if (settings.disabled == "true")
             {
                 MessageBox.Show("Wireless Interface already disabled");
                 return;
@@ -791,6 +791,8 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error Activating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
 
         private async void button20_Click(object sender, EventArgs e)
         {
@@ -832,5 +834,7 @@ namespace LTI_RouterOS
                 MessageBox.Show($"Error retrieving data: {ex.Message}");
             }
         }
+
+     
     }
 }
