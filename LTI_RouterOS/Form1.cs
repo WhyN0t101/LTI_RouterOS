@@ -24,6 +24,8 @@ namespace LTI_RouterOS
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
         private WirelessSettings wirelessSettings;
+        private Json Parser = new Json();
+        
 
         public Form1()
         {
@@ -33,6 +35,7 @@ namespace LTI_RouterOS
             wifiProfile = new WifiSecurityProfile();
             wirelessSettings = new WirelessSettings();
             InitializeComboBoxes();
+          
         }
         private void InitializeComboBoxes()
         {
@@ -91,7 +94,8 @@ namespace LTI_RouterOS
             try
             {
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> interfaceNames = ParseNamesFromJsonArray(response, "default-name");
+                List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "default-name");
+                
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
             }
             catch (Exception ex)
@@ -105,7 +109,7 @@ namespace LTI_RouterOS
             try
             {
                 string response = await Controller.Retrieve("/rest/interface/wireless");
-                List<string> wirelessNames = ParseNamesFromJsonArray(response, "default-name");
+                List<string> wirelessNames = Parser.ParseNamesFromJsonArray(response, "default-name");
 
                 InterfacesBox.Text = wirelessNames.Count > 0 ? string.Join(Environment.NewLine, wirelessNames) : "No Wireless interface names found.";
             }
@@ -137,34 +141,7 @@ namespace LTI_RouterOS
                 tabControl1.SelectedIndex = 0; // Switch back to the connection tab
             }
         }
-        private List<string> ParseNamesFromJsonArray(string json, string propertyName)
-        {
-            List<string> names = new List<string>();
-            JArray jsonArray = JArray.Parse(json);
-            foreach (JObject jsonObject in jsonArray)
-            {
-                // Check if the JSON object contains the specified property
-                if (jsonObject.ContainsKey(propertyName))
-                {
-                    string name = (string)jsonObject[propertyName];
-                    names.Add(name);
-                }
-            }
-            return names;
-        }
-        private List<string> ParseNamesFromJsonObject(string json, string propertyName)
-        {
-            List<string> names = new List<string>();
-            JObject jsonObject = JObject.Parse(json);
-            // Access the property directly instead of looping through the array
-            if (jsonObject.ContainsKey(propertyName))
-            {
-                string name = (string)jsonObject[propertyName];
-                names.Add(name);
-            }
-            return names;
-        }
-
+       
 
 
         private async void comboBox1_Enter(object sender, EventArgs e)
@@ -173,7 +150,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of bridges
                 string response = await Controller.Retrieve("/rest/interface/bridge");
-                List<string> bridgeList = ParseNamesFromJsonArray(response, "name");
+                List<string> bridgeList = Parser.ParseNamesFromJsonArray(response, "name");
                 // Clear existing items in the ComboBox
                 comboBox1.Items.Clear();
 
@@ -298,8 +275,8 @@ namespace LTI_RouterOS
             string bridgeName = textBoxBridgeName.Text;
             int mtu = (int)numericUpDown1.Value;
             string arpEnabled = comboBoxARP.SelectedItem.ToString();
-            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : ParseTimeFormat(textBoxArpTimeoutBridge.Text);
-            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : ParseTimeFormat(textBoxAgeingTime.Text);
+            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
+            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
             bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
             bool igmpSnooping = checkBoxIGMP.Checked;
             bool fastForward = checkBoxFF.Checked;
@@ -496,8 +473,8 @@ namespace LTI_RouterOS
             string bridgeName = textBoxBridgeName.Text;
             int mtu = (int)numericUpDown1.Value;
             string arpEnabled = comboBoxARP.SelectedItem.ToString();
-            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : ParseTimeFormat(textBoxArpTimeoutBridge.Text);
-            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : ParseTimeFormat(textBoxAgeingTime.Text);
+            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
+            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
             bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
             bool igmpSnooping = checkBoxIGMP.Checked;
             bool fastForward = checkBoxFF.Checked;
@@ -524,7 +501,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of bridges
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> intList = ParseNamesFromJsonArray(response, "default-name");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
                 // Clear existing items in the ComboBox
                 comboBoxInterfaces.Items.Clear();
 
@@ -546,7 +523,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of bridges
                 string response = await Controller.Retrieve("/rest/interface/bridge");
-                List<string> bridgeList = ParseNamesFromJsonArray(response, "name");
+                List<string> bridgeList = Parser.ParseNamesFromJsonArray(response, "name");
                 // Clear existing items in the ComboBox
                 comboBoxBridgeInterfaces.Items.Clear();
 
@@ -582,9 +559,6 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please select an interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface=" + selectedInterface + "");
-                List<string> list = ParseNamesFromJsonArray(response, ".id");
-                string id = list[0].ToString();
 
                 // Get selected bridge from ComboBox
                 string selectedBridge = comboBoxBridgeInterfaces.SelectedItem?.ToString();
@@ -614,6 +588,15 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please select a learn option.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                string response = await Controller.Retrieve("/rest/interface/bridge/port?interface=" + selectedInterface + "");
+                JArray jsonArray = JArray.Parse(response);
+                if (jsonArray.Count == 0)
+                {
+                    await Controller.CreatePortToBridgeConnection(selectedInterface, selectedBridge);
+                    return;
+                }
+                List<string> list = Parser.ParseNamesFromJsonArray(response, ".id");
+                string id = list[0].ToString();
                 // Perform operations using the method controller
                 await Controller.AssociateBridge(id, selectedBridge, horizonValue, learnOption, unknownUnicastFlood, broadcastFlood, hardwareOffload, unknownMulticastFlood, trusted, multicastRouter, fastLeave);
 
@@ -660,7 +643,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of wirelessInterfaces
                 string response = await Controller.Retrieve("/rest/interface/wireless");
-                List<string> wirelessList = ParseNamesFromJsonArray(response, "name");
+                List<string> wirelessList = Parser.ParseNamesFromJsonArray(response, "name");
 
                 // Clear existing items in the ComboBox
                 comboBox1.Items.Clear();
@@ -676,23 +659,7 @@ namespace LTI_RouterOS
             }
         }
 
-        private string ParseTimeFormat(string time)
-        {
-            // Assuming time is in the format HH:MM:SS
-            string[] parts = time.Split(':');
-            if (parts.Length != 3)
-            {
-                MessageBox.Show("Time format hh:mm:ss");
-            }
-
-            // Convert each part to an integer
-            int hours = int.Parse(parts[0]);
-            int minutes = int.Parse(parts[1]);
-            int seconds = int.Parse(parts[2]);
-
-            // Return the formatted time string
-            return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
-        }
+   
 
 
         private async void WirelessInterfaceCombobox_IndexChanged(object sender, EventArgs e)
@@ -723,6 +690,47 @@ namespace LTI_RouterOS
 
         }
 
+    
+        private async void button20_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInterfaces.SelectedItem == null)
+            {
+                MessageBox.Show("Select a interface");
+                return;
+            }
 
+            string selectedInterface = comboBoxInterfaces.SelectedItem.ToString();
+
+            try
+            {
+                string response = await Controller.Retrieve("/rest/interface/bridge/port");
+
+                // Parse the JSON response into a JArray
+                JArray portArray = JArray.Parse(response);
+
+                // Iterate through each JSON object in the array
+                foreach (JObject portObject in portArray)
+                {
+                    // Check if the "interface" property matches the selected interface name
+                    if (portObject.TryGetValue("interface", out var interfaceToken) && interfaceToken.ToString() == selectedInterface)
+                    {
+                        // Retrieve the ID from the current JSON object
+                        string selectedID = portObject[".id"].ToString();
+                        await Controller.DessacoiateBridge(selectedID);
+                        // Do something with the selected ID
+                        MessageBox.Show($"Selected ID for {selectedInterface}: {selectedID}");
+                        return;
+                    }
+                }
+
+
+                // If no matching interface is found
+                MessageBox.Show($"No matching interface found for {selectedInterface}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error retrieving data: {ex.Message}");
+            }
+        }
     }
 }
