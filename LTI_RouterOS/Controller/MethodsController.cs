@@ -144,7 +144,7 @@ namespace LTI_RouterOS.Controller
             catch (HttpRequestException ex)
             {
                 // Handle exceptions
-                MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error updating bridge: " + ex.Message, "Error, Check For Valid MTU Size", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public async Task AssociateBridge(string selectedInterface, string selectedBridge, int horizonValue, string learnOption, bool unknownUnicastFlood, bool broadcastFlood, bool hardwareOffload, bool unknownMulticastFlood, bool trusted, string multicastRouter, bool fastLeave)

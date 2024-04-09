@@ -456,7 +456,7 @@ namespace LTI_RouterOS
                     break;
             }
         }
-
+        //MTU Range Tem de ser alto
         private async void button4_Click(object sender, EventArgs e)
         {
             string bridge = comboBox1.SelectedItem.ToString();
