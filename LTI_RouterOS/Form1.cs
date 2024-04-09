@@ -617,7 +617,7 @@ namespace LTI_RouterOS
             try
             {
                 // Make an HTTP GET request to the specified endpoint ("/rest/interface/wireless")
-                HttpResponseMessage response = httpClient.GetAsync("https://192.168.79.1/rest/interface/wireless").Result;
+                HttpResponseMessage response = httpClient.GetAsync( baseUrl + "/rest/interface/wireless").Result;
                 response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
 
                 // Read the response content as a string
