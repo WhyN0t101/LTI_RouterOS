@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace LTI_RouterOS
 {
@@ -752,6 +753,59 @@ namespace LTI_RouterOS
 
         }
 
+        private async void button10_Click(object sender, EventArgs e)
+        {
+            if (WirelessInterfaceCombobox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Wireless Interface: ");
+                return;
+            }
+            string name = WirelessInterfaceCombobox.SelectedItem.ToString();
+            WirelessSettings settings = RetrieveWirelessSettings(name);
+            
+            if(settings.disabled == "true")
+            {
+                MessageBox.Show("Wireless Interface already disabled");
+                return;
+            }
 
+            try
+            {
+                await Controller.DeactivateWirelessInterface(settings.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Deactivating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void button11_Click(object sender, EventArgs e)
+        {
+
+            if (WirelessInterfaceCombobox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Wireless Interface: ");
+                return;
+            }
+            string name = WirelessInterfaceCombobox.SelectedItem.ToString();
+            WirelessSettings settings = RetrieveWirelessSettings(name);
+
+            if (settings.disabled == "false")
+            {
+                MessageBox.Show("Wireless Interface already enabled");
+                return;
+            }
+
+            try
+            {
+                await Controller.ActivateWirelessInterface(settings.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Activating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

@@ -220,5 +220,75 @@ namespace LTI_RouterOS.Controller
             }
             return names;
         }
+
+        public async Task DeactivateWirelessInterface(string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireless/{id}";
+
+                JObject payload = new JObject
+                {
+                    ["disabled"] = "true"
+                };
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Wireless Interface Deactivated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deactivating wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        public async Task ActivateWirelessInterface(string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireless/{id}";
+
+                JObject payload = new JObject
+                {
+                    ["disabled"] = "false"
+                };
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Wireless Interface Activated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Activating wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
