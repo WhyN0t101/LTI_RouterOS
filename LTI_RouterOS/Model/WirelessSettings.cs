@@ -61,6 +61,9 @@ namespace LTI_RouterOS.Model
         [JsonProperty("arp-timeout")]
         public string ArpTimeout { get; set; }
 
+        [JsonProperty("disabled")]
+        public string disabled { get; set; }
+
         public WirelessSettings()
         {
             // Initialize all optional property flags to false by default
