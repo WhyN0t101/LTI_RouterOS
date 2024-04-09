@@ -50,11 +50,40 @@ namespace LTI_RouterOS
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
+            PopulateCountryNamesComboBox();
+
+
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
-            PopulateCountryNamesComboBox();
+        }
+
+        private async Task PopulatecomboBoxSecProfile()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxSecProfile.Items.Clear();
+
+            try
+            {
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/interface/wireless/security-profiles");
+                List<string> SecProfiles = ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxSecProfile.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string SecProfile in SecProfiles)
+                {
+                    comboBoxSecProfile.Items.Add(SecProfile);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Security Profiles data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private async void connectButton_Click(object sender, EventArgs e)
@@ -387,13 +416,16 @@ namespace LTI_RouterOS
             foreach (CultureInfo culture in cultures)
             {
                 RegionInfo region = new RegionInfo(culture.Name);
+                string countryNameLowerCase = region.EnglishName.ToLower();
                 // Check if the country name is not already in the ComboBox
-                if (!comboBoxCountryCodes.Items.Contains(region.DisplayName))
+                if (!comboBoxCountryCodes.Items.Contains(countryNameLowerCase))
                 {
                     // Add the country name to the ComboBox
-                    comboBoxCountryCodes.Items.Add(region.DisplayName);
+                    comboBoxCountryCodes.Items.Add(countryNameLowerCase);
                 }
             }
+            string etsiCountry = "ETSI";
+            comboBoxCountryCodes.Items.Add(etsiCountry.ToLower());
 
             // Optionally, sort the items in the ComboBox
             comboBoxCountryCodes.Sorted = true;
@@ -638,12 +670,13 @@ namespace LTI_RouterOS
         {
             try
             {
+
                 // Retrieve the list of wirelessInterfaces
                 string response = await Controller.Retrieve("/rest/interface/wireless");
                 List<string> wirelessList = ParseNamesFromJsonArray(response, "name");
 
                 // Clear existing items in the ComboBox
-                comboBox1.Items.Clear();
+                WirelessInterfaceCombobox.Items.Clear();
 
                 // Add each bridge name as an item in the ComboBox
                 foreach (string wirelessName in wirelessList)
@@ -677,11 +710,27 @@ namespace LTI_RouterOS
 
         private async void WirelessInterfaceCombobox_IndexChanged(object sender, EventArgs e)
         {
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+
             string name = WirelessInterfaceCombobox.SelectedItem.ToString();
             WirelessSettings settings = RetrieveWirelessSettings(name);
+            await PopulatecomboBoxSecProfile();
+
 
             if (settings != null)
             {
+                
                 // Update the TextBox controls with the corresponding properties
                 textBoxWirelessName.Text = settings.Name;
                 textBoxWirelessMTU.Text = settings.Mtu.ToString();
