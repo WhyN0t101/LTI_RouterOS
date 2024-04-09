@@ -104,62 +104,70 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public async Task UpdateBridge(string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+
+        // EDITAR
+        public async Task UpdateBridge(string bridgeId, string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
-                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeName}";
+                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeId}";
 
                 // Construct the JSON payload for updating the bridge
                 JObject payload = new JObject
                 {
+                    ["name"] = bridgeName,
                     ["mtu"] = mtu,
                     ["arp"] = arpEnabled,
                     ["arp-timeout"] = arpTimeout,
                     ["ageing-time"] = ageingTime,
-                    ["igmp-snooping"] = igmpSnooping ? "yes" : "no",
-                    ["dhcp-snooping"] = dhcpSnooping ? "yes" : "no",
-                    ["fast-forward"] = fastForward ? "yes" : "no"
+                    ["igmp-snooping"] = igmpSnooping,
+                    ["dhcp-snooping"] = dhcpSnooping,
+                    ["fast-forward"] = fastForward
                 };
+
 
                 // Serialize the JSON payload
                 string jsonPayload = payload.ToString();
 
-                // Send a PUT request to update the bridge
-                HttpResponseMessage response = await httpClient.PutAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
-
                 // Display success message
                 MessageBox.Show("Bridge updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (HttpRequestException ex)
             {
                 // Handle exceptions
-                MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error updating bridge: " + ex.Message, "Error MTU ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public async Task AssociateBridge(string selectedInterface, string selectedBridge, int horizonValue, string learnOption, bool unknownUnicastFlood, bool broadcastFlood, bool hardwareOffload, bool unknownMulticastFlood, bool trusted, string multicastRouter, bool fastLeave)
         {
             try
             {
+
                 string apiUrl = baseUrl + $"/rest/interface/bridge/port/{selectedInterface}";
 
+                // Check if the port-to-bridge connection already exists
                 // Construct the JSON payload for updating the bridge
                 JObject payload = new JObject
                 {
-                    ["bridge"] = selectedBridge
-                    
-                   /* ["horizon"] = horizonValue,
+                    ["bridge"] = selectedBridge,
+                    ["horizon"] = horizonValue,
                     ["learn"] = learnOption,
-                    ["unknown-unicast-flood"] = unknownUnicastFlood ? "yes" : "no",
-                    ["broadcast-flood"] = broadcastFlood ? "yes" : "no",
-                    ["hw"] = hardwareOffload ? "enabled" : "disabled",
-                    ["unknown-multicast-flood"] = unknownMulticastFlood ? "yes" : "no",
-                    ["trusted"] = trusted ? "yes" : "no",
                     ["multicast-router"] = multicastRouter,
-                    ["fast-leave"] = fastLeave ? "yes" : "no"*/
+                    ["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
+                    ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                    ["hw"] = hardwareOffload ? "true" : "false",
+                    ["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                    ["trusted"] = trusted ? "true" : "false",       
+                    ["fast-leave"] = fastLeave ? "true" : "false"
                 };
 
                 // Serialize the JSON payload
@@ -175,6 +183,7 @@ namespace LTI_RouterOS.Controller
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
 
+
                 // Display success message
                 MessageBox.Show("Bridge updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -182,6 +191,72 @@ namespace LTI_RouterOS.Controller
             {
                 // Handle exceptions
                 MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public async Task CreatePortToBridgeConnection(string selectedInterface, string selectedBridge)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/bridge/port/add";
+
+                // Construct the JSON payload for creating the port-to-bridge connection
+                JObject payload = new JObject
+                {
+                    ["interface"] = selectedInterface,
+                    ["bridge"] = selectedBridge
+                };
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Send a POST request to create the port-to-bridge connection
+                HttpResponseMessage response = await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                //  ["horizon"] = horizonValue,
+                // ["learn"] = learnOption,
+                // ["multicast-router"] = multicastRouter,
+
+                // TO DO FIX
+
+                //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
+
+                // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                //["hw"] = hardwareOffload ? "true" : "false",
+                //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                //["trusted"] = trusted ? "true" : "false",       
+                //["fast-leave"] = fastLeave ? "true" : "false"
+
+                // Display success message
+                MessageBox.Show("Bridge created and associated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating port-to-bridge connection: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public async Task DessacoiateBridge(string selectedID)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/bridge/port/{selectedID}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Bridge deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -291,4 +366,9 @@ namespace LTI_RouterOS.Controller
             }
         }
     }
+
+
+
 }
+
+
