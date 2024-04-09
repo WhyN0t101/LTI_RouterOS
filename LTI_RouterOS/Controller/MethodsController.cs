@@ -106,7 +106,7 @@ namespace LTI_RouterOS.Controller
         }
 
         // EDITAR
-        public async Task UpdateBridge(string bridgeId,string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        public async Task UpdateBridge(string bridgeId, string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
@@ -155,25 +155,38 @@ namespace LTI_RouterOS.Controller
                 string apiUrl = baseUrl + $"/rest/interface/bridge/port/{selectedInterface}";
 
                 // Check if the port-to-bridge connection already exists
-                    // Construct the JSON payload for updating the bridge
-                    JObject payload = new JObject
-                    {
-                        ["bridge"] = selectedBridge
-                    };
+                // Construct the JSON payload for updating the bridge
+                JObject payload = new JObject
+                {
+                    ["bridge"] = selectedBridge,
+                    ["horizon"] = horizonValue,
+                    ["learn"] = learnOption,
+                    ["multicast-router"] = multicastRouter,
 
-                    // Serialize the JSON payload
-                    string jsonPayload = payload.ToString();
+                    // TO DO FIX
 
-                    // Create an HttpRequestMessage for PATCH request
-                    var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
-                    request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                    //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
 
-                    // Send the PATCH request
-                    HttpResponseMessage response = await httpClient.SendAsync(request);
+                    // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                    //["hw"] = hardwareOffload ? "true" : "false",
+                    //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                    //["trusted"] = trusted ? "true" : "false",       
+                    //["fast-leave"] = fastLeave ? "true" : "false"
+                };
 
-                    // Check if the request was successful
-                    response.EnsureSuccessStatusCode();
-                
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
 
                 // Display success message
                 MessageBox.Show("Bridge updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -184,7 +197,7 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public  async Task CreatePortToBridgeConnection(string selectedInterface, string selectedBridge)
+        public async Task CreatePortToBridgeConnection(string selectedInterface, string selectedBridge)
         {
             try
             {
@@ -205,6 +218,23 @@ namespace LTI_RouterOS.Controller
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
+
+                //  ["horizon"] = horizonValue,
+                // ["learn"] = learnOption,
+                // ["multicast-router"] = multicastRouter,
+
+                // TO DO FIX
+
+                //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
+
+                // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                //["hw"] = hardwareOffload ? "true" : "false",
+                //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                //["trusted"] = trusted ? "true" : "false",       
+                //["fast-leave"] = fastLeave ? "true" : "false"
+
+                // Display success message
+                MessageBox.Show("Bridge created and associated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (HttpRequestException ex)
             {
@@ -271,20 +301,8 @@ namespace LTI_RouterOS.Controller
         }
     }
 
-    //  Associate
-    //  ["horizon"] = horizonValue,
-    // ["learn"] = learnOption,
-    // ["multicast-router"] = multicastRouter,
 
-    // TO DO FIX
 
-    //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
-
-    // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
-    //["hw"] = hardwareOffload ? "true" : "false",
-    //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
-    //["trusted"] = trusted ? "true" : "false",       
-    //["fast-leave"] = fastLeave ? "true" : "false"
 }
 
 

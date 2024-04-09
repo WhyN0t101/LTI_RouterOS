@@ -25,7 +25,7 @@ namespace LTI_RouterOS
         private WifiSecurityProfile wifiProfile;
         private WirelessSettings wirelessSettings;
         private Json Parser = new Json();
-        
+
 
         public Form1()
         {
@@ -35,7 +35,7 @@ namespace LTI_RouterOS
             wifiProfile = new WifiSecurityProfile();
             wirelessSettings = new WirelessSettings();
             InitializeComboBoxes();
-          
+
         }
         private void InitializeComboBoxes()
         {
@@ -53,7 +53,7 @@ namespace LTI_RouterOS
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
-            WirelessInterfaceCombobox.DropDownStyle= ComboBoxStyle.DropDownList;
+            WirelessInterfaceCombobox.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace LTI_RouterOS
             {
                 string response = await Controller.Retrieve("/rest/interface");
                 List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "default-name");
-                
+
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
             }
             catch (Exception ex)
@@ -141,7 +141,7 @@ namespace LTI_RouterOS
                 tabControl1.SelectedIndex = 0; // Switch back to the connection tab
             }
         }
-       
+
 
 
         private async void comboBox1_Enter(object sender, EventArgs e)
@@ -360,7 +360,7 @@ namespace LTI_RouterOS
                 textBox7.Enabled = false;
             }
         }
-    
+
 
         private void PopulateCountryNamesComboBox()
         {
@@ -547,7 +547,6 @@ namespace LTI_RouterOS
             bool hardwareOffload = checkBoxHardwareOffload.Checked;
             bool unknownMulticastFlood = checkBoxMulticast.Checked;
             bool trusted = checkBoxTrusted.Checked;
-
             bool fastLeave = checkBoxFastLeave.Checked;
 
             try
@@ -580,7 +579,6 @@ namespace LTI_RouterOS
                     MessageBox.Show("Invalid horizon value. Please enter a valid integer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
                 // Get learn option
                 string learnOption = comboBox2.SelectedItem?.ToString();
                 if (string.IsNullOrEmpty(learnOption))
@@ -593,6 +591,7 @@ namespace LTI_RouterOS
                 if (jsonArray.Count == 0)
                 {
                     await Controller.CreatePortToBridgeConnection(selectedInterface, selectedBridge);
+
                     return;
                 }
                 List<string> list = Parser.ParseNamesFromJsonArray(response, ".id");
@@ -609,7 +608,7 @@ namespace LTI_RouterOS
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
-                    
+
         }
 
         private WirelessSettings RetrieveWirelessSettings(string name)
@@ -617,7 +616,7 @@ namespace LTI_RouterOS
             try
             {
                 // Make an HTTP GET request to the specified endpoint ("/rest/interface/wireless")
-                HttpResponseMessage response = httpClient.GetAsync( baseUrl + "/rest/interface/wireless").Result;
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + "/rest/interface/wireless").Result;
                 response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
 
                 // Read the response content as a string
@@ -654,12 +653,13 @@ namespace LTI_RouterOS
                     WirelessInterfaceCombobox.Items.Add(wirelessName);
                 }
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
                 MessageBox.Show("Error retrieving Wireless Interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-   
+
 
 
         private async void WirelessInterfaceCombobox_IndexChanged(object sender, EventArgs e)
@@ -690,7 +690,7 @@ namespace LTI_RouterOS
 
         }
 
-    
+
         private async void button20_Click(object sender, EventArgs e)
         {
             if (comboBoxInterfaces.SelectedItem == null)
@@ -698,7 +698,6 @@ namespace LTI_RouterOS
                 MessageBox.Show("Select a interface");
                 return;
             }
-
             string selectedInterface = comboBoxInterfaces.SelectedItem.ToString();
 
             try
@@ -718,7 +717,7 @@ namespace LTI_RouterOS
                         string selectedID = portObject[".id"].ToString();
                         await Controller.DessacoiateBridge(selectedID);
                         // Do something with the selected ID
-                        MessageBox.Show($"Selected ID for {selectedInterface}: {selectedID}");
+                        MessageBox.Show($"Removed bridge & port connection");
                         return;
                     }
                 }
