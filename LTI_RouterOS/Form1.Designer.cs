@@ -1897,12 +1897,12 @@
             this.textBox15.Location = new System.Drawing.Point(8, 6);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(254, 406);
+            this.textBox15.Size = new System.Drawing.Size(254, 371);
             this.textBox15.TabIndex = 4;
             // 
             // buttonListarRotas
             // 
-            this.buttonListarRotas.Location = new System.Drawing.Point(8, 300);
+            this.buttonListarRotas.Location = new System.Drawing.Point(6, 383);
             this.buttonListarRotas.Name = "buttonListarRotas";
             this.buttonListarRotas.Size = new System.Drawing.Size(142, 23);
             this.buttonListarRotas.TabIndex = 3;
