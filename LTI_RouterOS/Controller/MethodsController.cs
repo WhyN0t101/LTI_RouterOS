@@ -104,33 +104,40 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public async Task UpdateBridge(string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+
+        // EDITAR
+        public async Task UpdateBridge(string bridgeId,string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
-                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeName}";
+                string apiUrl = baseUrl + $"/rest/interface/bridge/{bridgeId}";
 
                 // Construct the JSON payload for updating the bridge
                 JObject payload = new JObject
                 {
+                    ["name"] = bridgeName,
                     ["mtu"] = mtu,
                     ["arp"] = arpEnabled,
                     ["arp-timeout"] = arpTimeout,
                     ["ageing-time"] = ageingTime,
-                    ["igmp-snooping"] = igmpSnooping ? "yes" : "no",
-                    ["dhcp-snooping"] = dhcpSnooping ? "yes" : "no",
-                    ["fast-forward"] = fastForward ? "yes" : "no"
+                    ["igmp-snooping"] = igmpSnooping,
+                    ["dhcp-snooping"] = dhcpSnooping,
+                    ["fast-forward"] = fastForward
                 };
+
 
                 // Serialize the JSON payload
                 string jsonPayload = payload.ToString();
 
-                // Send a PUT request to update the bridge
-                HttpResponseMessage response = await httpClient.PutAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
-
                 // Display success message
                 MessageBox.Show("Bridge updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -149,17 +156,20 @@ namespace LTI_RouterOS.Controller
                 // Construct the JSON payload for updating the bridge
                 JObject payload = new JObject
                 {
-                    ["bridge"] = selectedBridge
-                    
-                   /* ["horizon"] = horizonValue,
-                    ["learn"] = learnOption,
-                    ["unknown-unicast-flood"] = unknownUnicastFlood ? "yes" : "no",
-                    ["broadcast-flood"] = broadcastFlood ? "yes" : "no",
-                    ["hw"] = hardwareOffload ? "enabled" : "disabled",
-                    ["unknown-multicast-flood"] = unknownMulticastFlood ? "yes" : "no",
-                    ["trusted"] = trusted ? "yes" : "no",
-                    ["multicast-router"] = multicastRouter,
-                    ["fast-leave"] = fastLeave ? "yes" : "no"*/
+                    ["bridge"] = selectedBridge,
+                  //  ["horizon"] = horizonValue,
+                   // ["learn"] = learnOption,
+                    // ["multicast-router"] = multicastRouter,
+
+                    // TO DO FIX
+
+                    //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
+                  
+                   // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                    //["hw"] = hardwareOffload ? "true" : "false",
+                    //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                    //["trusted"] = trusted ? "true" : "false",       
+                    //["fast-leave"] = fastLeave ? "true" : "false"
                 };
 
                 // Serialize the JSON payload

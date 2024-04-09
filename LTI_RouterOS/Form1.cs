@@ -50,6 +50,7 @@ namespace LTI_RouterOS
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
+            WirelessInterfaceCombobox.DropDownStyle= ComboBoxStyle.DropDownList;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -148,6 +149,18 @@ namespace LTI_RouterOS
                     string name = (string)jsonObject[propertyName];
                     names.Add(name);
                 }
+            }
+            return names;
+        }
+        private List<string> ParseNamesFromJsonObject(string json, string propertyName)
+        {
+            List<string> names = new List<string>();
+            JObject jsonObject = JObject.Parse(json);
+            // Access the property directly instead of looping through the array
+            if (jsonObject.ContainsKey(propertyName))
+            {
+                string name = (string)jsonObject[propertyName];
+                names.Add(name);
             }
             return names;
         }
@@ -464,13 +477,23 @@ namespace LTI_RouterOS
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            //Defaults
+            // Defaults
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Select a bridge");
                 return;
             }
-            string bridgeName = comboBox1.SelectedItem.ToString();
+            string selected = comboBox1.SelectedItem.ToString();
+
+            string response = await Controller.Retrieve("/rest/interface/bridge/" + selected + "");
+
+            // Parse the JSON response into a JObject
+            JObject bridgeObject = JObject.Parse(response);
+
+            // Retrieve the bridge ID directly from the JObject
+            string bridgeId = bridgeObject[".id"].ToString();
+
+            string bridgeName = textBoxBridgeName.Text;
             int mtu = (int)numericUpDown1.Value;
             string arpEnabled = comboBoxARP.SelectedItem.ToString();
             string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : ParseTimeFormat(textBoxArpTimeoutBridge.Text);
@@ -481,17 +504,19 @@ namespace LTI_RouterOS
 
             try
             {
-                await Controller.UpdateBridge(bridgeName, mtu, arpEnabled, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+                await Controller.UpdateBridge(bridgeId, bridgeName, mtu, arpEnabled, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
             }
         }
+
+
 
         private async void comboBoxInterfaces_Enter(object sender, EventArgs e)
         {
