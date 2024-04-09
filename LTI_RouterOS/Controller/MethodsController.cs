@@ -162,16 +162,12 @@ namespace LTI_RouterOS.Controller
                     ["horizon"] = horizonValue,
                     ["learn"] = learnOption,
                     ["multicast-router"] = multicastRouter,
-
-                    // TO DO FIX
-
-                    //["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
-
-                    // ["broadcast-flood"] = broadcastFlood ? "true" : "false",
-                    //["hw"] = hardwareOffload ? "true" : "false",
-                    //["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
-                    //["trusted"] = trusted ? "true" : "false",       
-                    //["fast-leave"] = fastLeave ? "true" : "false"
+                    ["unknown-unicast-flood"] = unknownUnicastFlood ? "true" : "false",
+                    ["broadcast-flood"] = broadcastFlood ? "true" : "false",
+                    ["hw"] = hardwareOffload ? "true" : "false",
+                    ["unknown-multicast-flood"] = unknownMulticastFlood ? "true" : "false",
+                    ["trusted"] = trusted ? "true" : "false",       
+                    ["fast-leave"] = fastLeave ? "true" : "false"
                 };
 
                 // Serialize the JSON payload
