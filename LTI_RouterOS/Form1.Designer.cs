@@ -2032,7 +2032,7 @@
             this.textBox15.Margin = new System.Windows.Forms.Padding(4);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(337, 456);
+            this.textBox15.Size = new System.Drawing.Size(254, 371);
             this.textBox15.TabIndex = 4;
             // 
             // buttonListarRotas
