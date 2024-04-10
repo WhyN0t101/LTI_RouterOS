@@ -365,6 +365,36 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error Activating wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task ConfigureWirelessSettings(string id, JObject payload)
+        {
+            try
+            {
+                
+                string apiUrl = baseUrl + $"/rest/interface/wireless/{id}";
+
+                // Serialize the JSON payload
+                string jsonPayload = payload.ToString();
+
+                // Create an HttpRequestMessage for PATCH request
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
+                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                // Send the PATCH request
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Wireless Interface Configured successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Configuring wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 

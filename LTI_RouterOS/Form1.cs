@@ -835,6 +835,47 @@ namespace LTI_RouterOS
             }
         }
 
-     
+        private async void button12_Click(object sender, EventArgs e)
+        {
+            if (WirelessInterfaceCombobox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Wireless Interface: ");
+                return;
+            }
+            string name = WirelessInterfaceCombobox.SelectedItem.ToString();
+            WirelessSettings settings = RetrieveWirelessSettings(name);
+
+
+            JObject payload = new JObject
+            {
+                ["name"] = textBoxWirelessName.Text,
+                ["mtu"] = textBoxWirelessMTU.Text,
+                ["l2mtu"] = textBoxL2MTU.Text,
+                ["mac-address"] = textBoxMACAddr.Text,
+                ["arp"] = comboBoxWirelessARP.SelectedItem.ToString(),
+                ["mode"] = comboBoxWirelessMode.SelectedItem.ToString(),
+                ["band"] = comboBoxWirelessBand.SelectedItem.ToString(),
+                ["channel-width"] = comboBoxChannelWidth.SelectedItem.ToString(),
+                ["frequency"] = comboBoxFrequency.SelectedItem.ToString(),
+                ["ssid"] = textBoxSSID.Text,
+                ["security-profile"] = comboBoxSecProfile.SelectedItem.ToString(),
+                ["country"] = comboBoxCountryCodes.SelectedItem.ToString(),
+                ["frequency-mode"] = comboBoxFreqMode.SelectedItem.ToString(),
+                ["installation"] = comboBox14.SelectedItem.ToString(),
+                ["default-authentication"] = checkBox1.Checked,
+                ["arp-timeout"] = textBox14.Text
+            };
+
+            try
+            {
+                await Controller.ConfigureWirelessSettings(settings.Id, payload);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Configuring Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }
