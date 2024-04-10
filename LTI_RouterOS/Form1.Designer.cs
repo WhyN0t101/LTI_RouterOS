@@ -438,9 +438,9 @@
             // 
             this.comboBox17.FormattingEnabled = true;
             this.comboBox17.Items.AddRange(new object[] {
-            "Disabled",
-            "Permanent",
-            "Temporary Query"});
+            "disabled",
+            "permanent",
+            "temporary-query"});
             this.comboBox17.Location = new System.Drawing.Point(8, 272);
             this.comboBox17.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox17.Name = "comboBox17";
@@ -660,6 +660,11 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(181, 22);
             this.numericUpDown1.TabIndex = 84;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            64,
+            0,
+            0,
+            0});
             // 
             // checkBoxFF
             // 
@@ -1465,7 +1470,6 @@
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Perfis de Segurança";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // textBox8
             // 
@@ -2040,6 +2044,7 @@
             this.buttonListarRotas.TabIndex = 3;
             this.buttonListarRotas.Text = "Listar Rotas Estáticas";
             this.buttonListarRotas.UseVisualStyleBackColor = true;
+            this.buttonListarRotas.Click += new System.EventHandler(this.buttonListarRotas_Click);
             // 
             // tabPage5
             // 
