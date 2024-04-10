@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using LTI_RouterOS.Properties;
 
 namespace LTI_RouterOS
 {
@@ -244,16 +245,19 @@ namespace LTI_RouterOS
             try
             {
                 // Construct the JSON payload for the new security profile
-                JObject payload = new JObject();
-                payload["name"] = profile.Name;
-                payload["mode"] = profile.Mode;
-                payload["authentication-type"] = profile.AuthenticationType;
-                payload["unicast-ciphers"] = profile.UnicastCiphers;
-                payload["group-ciphers"] = profile.GroupCiphers;
-                payload["wpa-pre-shared-key"] = profile.WpaPresharedKey;
-                payload["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey;
-                payload["supplicant-identity"] = profile.SupplicantIdentity;
-                payload["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower();
+
+                JObject payload = new JObject
+                {
+                    ["name"] = profile.Name,
+                    ["mode"] = profile.Mode,
+                    ["authentication-type"] = profile.AuthenticationType,
+                    ["unicast-ciphers"] = profile.UnicastCiphers,
+                    ["group-ciphers"] = profile.GroupCiphers,
+                    ["wpa-pre-shared-key"] = profile.WpaPresharedKey,
+                    ["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey,
+                    ["supplicant-identity"] = profile.SupplicantIdentity,
+                    ["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower()
+                };
 
                 // Check if ManagementProtection is not null before adding it to the payload
                 if (profile.ManagementProtection != null)
@@ -269,20 +273,7 @@ namespace LTI_RouterOS
 
                 payload["management-protection-key"] = profile.ManagementProtectionKey;
 
-                // Serialize the JSON payload
-                string jsonPayload = payload.ToString();
-
-                // Define the API endpoint URL for creating security profiles
-                string apiUrl = baseUrl + "/api/security-profiles";
-
-                // Send a POST request to create the new security profile
-                HttpResponseMessage response = await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
-
-                // Check if the request was successful
-                response.EnsureSuccessStatusCode();
-
-                // Display success message
-                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await Controller.CreateWirelessSecurity(payload);
             }
             catch (Exception ex)
             {
