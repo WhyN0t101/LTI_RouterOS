@@ -83,6 +83,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBoxSSID = new System.Windows.Forms.TextBox();
             this.WirelessInterfaceCombobox = new System.Windows.Forms.ComboBox();
             this.label73 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -251,7 +252,6 @@
             this.textBoxServers = new System.Windows.Forms.TextBox();
             this.buttonDNSAtivar = new System.Windows.Forms.Button();
             this.buttonDNSDesativar = new System.Windows.Forms.Button();
-            this.textBoxSSID = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -428,7 +428,7 @@
             "disabled",
             "permanent",
             "temporary-query"});
-            this.comboBox17.Location = new System.Drawing.Point(8, 272);
+            this.comboBox17.Location = new System.Drawing.Point(7, 221);
             this.comboBox17.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox17.Name = "comboBox17";
             this.comboBox17.Size = new System.Drawing.Size(147, 21);
@@ -901,6 +901,15 @@
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Interfaces Wireless";
+            // 
+            // textBoxSSID
+            // 
+            this.textBoxSSID.Location = new System.Drawing.Point(150, 233);
+            this.textBoxSSID.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxSSID.Name = "textBoxSSID";
+            this.textBoxSSID.Size = new System.Drawing.Size(108, 20);
+            this.textBoxSSID.TabIndex = 63;
+            this.textBoxSSID.Text = "MikroTik";
             // 
             // WirelessInterfaceCombobox
             // 
@@ -2641,15 +2650,6 @@
             this.buttonDNSDesativar.TabIndex = 8;
             this.buttonDNSDesativar.Text = "Desativar";
             this.buttonDNSDesativar.UseVisualStyleBackColor = true;
-            // 
-            // textBoxSSID
-            // 
-            this.textBoxSSID.Location = new System.Drawing.Point(150, 233);
-            this.textBoxSSID.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxSSID.Name = "textBoxSSID";
-            this.textBoxSSID.Size = new System.Drawing.Size(108, 20);
-            this.textBoxSSID.TabIndex = 63;
-            this.textBoxSSID.Text = "MikroTik";
             // 
             // Form1
             // 
