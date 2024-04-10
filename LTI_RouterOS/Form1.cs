@@ -55,8 +55,10 @@ namespace LTI_RouterOS
             comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
             PopulateCountryNamesComboBox();
-
-
+            comboBox17.SelectedIndex= 2;
+            comboBox2.SelectedIndex = 0;
+            numericUpDown1.Maximum = 2000;
+            numericUpDown1.Value = 1492;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -622,7 +624,7 @@ namespace LTI_RouterOS
                 JArray jsonArray = JArray.Parse(response);
                 if (jsonArray.Count == 0)
                 {
-                    await Controller.CreatePortToBridgeConnection(selectedInterface, selectedBridge);
+                    await Controller.CreatePortToBridgeConnection(selectedInterface, selectedBridge, horizonValue, learnOption, unknownUnicastFlood, broadcastFlood, hardwareOffload, unknownMulticastFlood, trusted, multicastRouter, fastLeave);
 
                     return;
                 }
@@ -636,11 +638,6 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private WirelessSettings RetrieveWirelessSettings(string name)
@@ -818,7 +815,7 @@ namespace LTI_RouterOS
                     {
                         // Retrieve the ID from the current JSON object
                         string selectedID = portObject[".id"].ToString();
-                        await Controller.DessacoiateBridge(selectedID);
+                        await Controller.DeactivateBridge(selectedID);
                         // Do something with the selected ID
                         MessageBox.Show($"Removed bridge & port connection");
                         return;
@@ -835,6 +832,39 @@ namespace LTI_RouterOS
             }
         }
 
+        private async void buttonListarRotas_Click(object sender, EventArgs e)
+        {
+            textBox15.Clear();
+            try
+            {
+                string response = await Controller.Retrieve("/rest/ip/route");
+                JArray routesArray = JArray.Parse(response);
+
+                // Initialize a list to store route information
+                List<string> routeList = new List<string>();
+
+                // Iterate through each route object
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract destination address and gateway from the route object
+                    string destinationAddress = routeObject["dst-address"].ToString();
+                    string gateway = routeObject["gateway"].ToString();
+
+                    // Combine destination address and gateway
+                    string routeInfo = $"{destinationAddress} - {gateway}";
+
+                    // Add route information to the list
+                    routeList.Add(routeInfo);
+                }
+
+                // Display routes in the textbox
+                textBox15.Text = routeList.Count > 0 ? string.Join(Environment.NewLine, routeList) : "No routes found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving routes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private async void button12_Click(object sender, EventArgs e)
         {
             if (WirelessInterfaceCombobox.SelectedItem == null)
