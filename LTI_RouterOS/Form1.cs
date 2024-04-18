@@ -23,7 +23,7 @@ namespace LTI_RouterOS
     {
         private readonly HttpClient httpClient;
         private string baseUrl;
-        private MethodsController Controller; // Declaration of getData variable
+        private MethodsController Controller;
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
         private WirelessSettings wirelessSettings;
@@ -38,6 +38,8 @@ namespace LTI_RouterOS
             wifiProfile = new WifiSecurityProfile();
             wirelessSettings = new WirelessSettings();
             InitializeComboBoxes();
+
+
 
         }
         private void InitializeComboBoxes()
@@ -59,10 +61,12 @@ namespace LTI_RouterOS
             comboBoxARP.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox17.DropDownStyle = ComboBoxStyle.DropDownList;
             PopulateCountryNamesComboBox();
-            comboBox17.SelectedIndex= 2;
+            comboBox17.SelectedIndex = 2;
             comboBox2.SelectedIndex = 0;
             numericUpDown1.Maximum = 2000;
             numericUpDown1.Value = 1492;
+            comboBox15.SelectedIndex = 0;
+            comboBoxCheckGateway.SelectedIndex = 2;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -70,6 +74,8 @@ namespace LTI_RouterOS
             textBox1.Text = "192.168.79.1";
             textBox9.Text = "admin";
         }
+
+
 
         private async Task PopulatecomboBoxSecProfile()
         {
@@ -131,7 +137,7 @@ namespace LTI_RouterOS
             try
             {
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "default-name");
+                List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
             }
@@ -331,7 +337,8 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text) == ""){
+            if (ValidateAndUpdateTimeFormat(textBox7.Text) == "")
+            {
                 return;
             }
 
@@ -973,15 +980,128 @@ namespace LTI_RouterOS
 
         }
 
-        private async void button9_Click(object sender, EventArgs e)
+        private async void comboBoxVRF_Enter(object sender, EventArgs e)
         {
-            if (SecProfilesComboBox.SelectedItem == null)
+            try
             {
-                MessageBox.Show("Select a Security Profile: ");
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBoxVRF.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string intName in intList)
+                {
+                    comboBoxVRF.Items.Add(intName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button14_Click(object sender, EventArgs e)
+        {
+            // Get the destination address from the input
+            string destAddress = textBoxDestAddress.Text.Trim();
+            string gateway = textBoxGateway.Text.Trim();
+            string checkGateway = comboBoxCheckGateway.SelectedItem?.ToString(); // Handle possible null value
+            string distanceText = textBox18.Text.Trim();
+            string scope = textBox17.Text.Trim();
+            string targetScope = textBox19.Text.Trim();
+            string vrfInterface = comboBoxVRF.SelectedItem?.ToString(); // Handle possible null value
+            string routingTable = comboBox15.SelectedItem?.ToString(); // Handle possible null value
+            string prefSource = textBoxPrefSource.Text.Trim();
+            bool hw = checkboxHwOffload.Checked;
+
+            // Check if all parameters are null
+            if (string.IsNullOrEmpty(destAddress) && string.IsNullOrEmpty(gateway) &&
+                string.IsNullOrEmpty(checkGateway) && string.IsNullOrEmpty(distanceText) &&
+                string.IsNullOrEmpty(scope) && string.IsNullOrEmpty(targetScope) &&
+                string.IsNullOrEmpty(vrfInterface) && string.IsNullOrEmpty(routingTable) &&
+                string.IsNullOrEmpty(prefSource))
+            {
+                MessageBox.Show("Please provide at least one parameter.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            await EraseWifiSecProfile(wifiProfile.Id);
+            // Check if a VRF interface is selected
+            if (string.IsNullOrEmpty(vrfInterface))
+            {
+                MessageBox.Show("Please select a VRF interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Validate the destination address
+            if (IsValidIpAddress(destAddress) && IsValidIpAddressGateway(gateway))
+            {
+                // Call the method to create the route
+                await Controller.CreateRoute(destAddress, gateway, checkGateway, distanceText, scope, targetScope, vrfInterface, routingTable, prefSource, hw);
+            }
+            else
+            {
+                // Destination address or gateway is not valid
+                MessageBox.Show("Invalid destination address or gateway. Please enter valid IP addresses.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        // Validate an IPv4 address without a subnet mask
+        private bool IsValidIpAddressGateway(string ipAddress)
+        {
+            IPAddress ip;
+            return IPAddress.TryParse(ipAddress, out ip) && ip.AddressFamily == AddressFamily.InterNetwork;
+        }
+
+
+
+        private bool IsValidIpAddress(string ipAddress)
+        {
+            try
+            {
+                // Attempt to parse the IP address with subnet mask
+                IPAddress ip;
+                string[] parts = ipAddress.Split('/');
+
+                // Check if there are two parts (IP address and subnet mask)
+                if (parts.Length != 2)
+                    return false;
+
+                // Validate the IP address part
+                if (!IPAddress.TryParse(parts[0], out ip))
+                    return false;
+
+                // Validate the subnet mask part
+                int subnetMask = int.Parse(parts[1]);
+                if (subnetMask < 0 || subnetMask > 32)
+                    return false;
+
+                return true; // IP address with subnet mask is valid
+            }
+            catch (Exception)
+            {
+                return false; // Exception occurred while parsing
+            }
+        }
+
+        private async void button15_Click(object sender, EventArgs e)
+        {
+            if (comboBox19.SelectedItem != null)
+            {
+                // Get the selected item from the ComboBox
+                string selectedRouteInfo = comboBox19.SelectedItem.ToString();
+
+                // Extract the route ID from the selected item
+                string[] parts = selectedRouteInfo.Split('-');
+                string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
+                await Controller.DeleteRoute(routeId);
+                MessageBox.Show("Route Deleted");
+            }
+            else
+            {
+                // No item selected in the ComboBox
+                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private string TimeSpanToString(TimeSpan timeSpan)
@@ -1385,18 +1505,165 @@ namespace LTI_RouterOS
             }
         }
 
-        private async Task EraseWifiSecProfile(string id)
-        {
-            try
-            {
-                await Controller.DeleteSecProfile(id);
+
+                // Iterate over each route object in the array
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract the route ID and local address from each route object
+                    string routeId = routeObject.Value<string>(".id");
+                    string localAddress = routeObject.Value<string>("dst-address");
+                    string gateway = routeObject.Value<string>("gateway");
+
+                    // Combine route ID and local address into a single string
+                    string routeInfo = $"{localAddress}-{gateway}-{routeId}";
+
+                    // Add the combined string as an item in the ComboBox
+                    comboBox19.Items.Add(routeInfo);
+                }
             }
             catch (Exception ex)
             {
-                // Handle exceptions
-                MessageBox.Show("Error Editing security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private async void button13_Click_1(object sender, EventArgs e)
+        {
+            {
+                // Check if an item is selected in the ComboBox
+                if (comboBox19.SelectedItem != null)
+                {
+                    // Get the selected item from the ComboBox
+                    string selectedRouteInfo = comboBox19.SelectedItem.ToString();
+
+                    // Extract the route ID from the selected item
+                    string[] parts = selectedRouteInfo.Split('-');
+                    string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
+                                                                     // Get the destination address from the input
+                    string destAddress = textBoxDestAddress.Text.Trim();
+                    string gateway = textBoxGateway.Text.Trim();
+                    string checkGateway = comboBoxCheckGateway.SelectedItem?.ToString(); // Handle possible null value
+                    string distanceText = textBox18.Text.Trim();
+                    string scope = textBox17.Text.Trim();
+                    string targetScope = textBox19.Text.Trim();
+                    string vrfInterface = comboBoxVRF.SelectedItem?.ToString(); // Handle possible null value
+                    string routingTable = comboBox15.SelectedItem?.ToString(); // Handle possible null value
+                    string prefSource = textBoxPrefSource.Text.Trim();
+                    bool hw = checkboxHwOffload.Checked;
+
+                    // Check if all parameters are null
+                    if (string.IsNullOrEmpty(destAddress) && string.IsNullOrEmpty(gateway) &&
+                        string.IsNullOrEmpty(checkGateway) && string.IsNullOrEmpty(distanceText) &&
+                        string.IsNullOrEmpty(scope) && string.IsNullOrEmpty(targetScope) &&
+                        string.IsNullOrEmpty(vrfInterface) && string.IsNullOrEmpty(routingTable) &&
+                        string.IsNullOrEmpty(prefSource))
+                    {
+                        MessageBox.Show("Please provide at least one parameter.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Check if a VRF interface is selected
+                    if (string.IsNullOrEmpty(vrfInterface))
+                    {
+                        MessageBox.Show("Please select a VRF interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Validate the destination address
+                    if (IsValidIpAddress(destAddress) && IsValidIpAddressGateway(gateway))
+                    {
+                        // Call the method to create the route
+                        await Controller.UpdateRoute(routeId, destAddress, gateway, checkGateway, distanceText, scope, targetScope, vrfInterface, routingTable, prefSource, hw);
+                    }
+                    else
+                    {
+                        // Destination address or gateway is not valid
+                        MessageBox.Show("Invalid destination address or gateway. Please enter valid IP addresses.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+                }
+                else
+                {
+                    // No item selected in the ComboBox
+                    MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void buttonListarEndIp_Click(object sender, EventArgs e)
+        {
+            textBoxListarEndIp.Clear();
+            try
+            {
+                string response = await Controller.Retrieve("/rest/ip/address");
+                JArray routesArray = JArray.Parse(response);
+
+                // Initialize a list to store route information
+                List<string> routeList = new List<string>();
+
+                // Iterate through each route object
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract destination address and gateway from the route object
+                    string address = routeObject["address"].ToString();
+                    string network = routeObject["network"].ToString();
+                    string inter = routeObject["interface"].ToString();
+
+
+                    // Combine destination address and gateway
+                    string routeInfo = $"{address} - {network} - {inter}";
+
+                    // Add route information to the list
+                    routeList.Add(routeInfo);
+                }
+
+                // Display routes in the textbox
+                textBoxListarEndIp.Text = routeList.Count > 0 ? string.Join(Environment.NewLine, routeList) : "No addresses found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving addresses: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button19_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInterface.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Interface");
+            }
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || IsValidIpAddressGateway(textBoxNetwork.Text))
+            {
+                MessageBox.Show("Fill all Addresses with a valid ip ");
+            }
+            string address = textBoxEnderecoIP.Text.Trim();
+            string network = textBoxNetwork.Text.Trim();
+            string inter = comboBoxInterface.SelectedItem.ToString();
+            await Controller.CreateIp(address,network, inter);
+
+        }
+
+        private async void comboBoxInterface_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBoxInterface.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string intName in intList)
+                {
+                    comboBoxInterface.Items.Add(intName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

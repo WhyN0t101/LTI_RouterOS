@@ -4,7 +4,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -230,6 +232,27 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error deleting bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public async Task DeleteRoute(string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/route/{id}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Bridge deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
 
         public async Task DeactivateWirelessInterface(string id)
@@ -341,6 +364,38 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error Configuring wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public async Task CreateRoute(string destAddress, string gateway, string checkgateway, string distance, string scope, string targetscope, string vrfInt, string table, string prefsource, bool hw)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/route/add";
+
+                JObject payload = new JObject
+                {
+                    ["dst-address"] = destAddress,
+                    ["gateway"] = gateway,
+                    ["check-gateway"] = checkgateway,
+                    ["distance"] = distance,
+                    ["scope"] = scope,
+                    ["target-scope"] = targetscope,
+                    ["vrf-interface"] = vrfInt,
+                    ["routing-table"] = table,
+                    ["pref-src"] = prefsource != null ? prefsource : "",
+                    ["suppress-hw-offload"] = hw ? "true" : "false",
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Route created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex) { 
+            
+                MessageBox.Show("Error creating route: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+    
 
         public async Task CreateWirelessSecurity(JObject payload)
         {
@@ -427,6 +482,61 @@ namespace LTI_RouterOS.Controller
             {
                 // Handle exceptions
                 MessageBox.Show("Error deleting Security Profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public async Task UpdateRoute(string routeId, string destAddress, string gateway, string checkGateway, string distance, string scope, string targetScope, string vrfInterface, string routingTable, string prefSource, bool hw)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/route/" + routeId;
+
+                JObject payload = new JObject
+                {
+                    ["dst-address"] = destAddress,
+                    ["gateway"] = gateway,
+                    ["check-gateway"] = checkGateway,
+                    ["distance"] = distance,
+                    ["scope"] = scope,
+                    ["target-scope"] = targetScope,
+                    ["vrf-interface"] = vrfInterface,
+                    ["routing-table"] = routingTable,
+                    ["pref-src"] = prefSource != null ? prefSource : "",
+                    ["suppress-hw-offload"] = hw ? "true" : "false",
+                };
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Route updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Error updating route: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task CreateIp(string address, string network, string inter)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/address";
+
+                JObject payload = new JObject
+                {
+                    ["address"] = address,
+                    ["network"] = network,
+                    ["interface"] = inter,
+                   
+                };
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Address created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Error creating address: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
