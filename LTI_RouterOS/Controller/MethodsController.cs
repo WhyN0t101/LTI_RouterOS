@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using LTI_RouterOS.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -346,7 +349,7 @@ namespace LTI_RouterOS.Controller
                 string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles";
 
 
-                HttpResponseMessage response = await SendPutRequest(apiUrl, payload);
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
@@ -361,6 +364,71 @@ namespace LTI_RouterOS.Controller
             }
         }
 
+        public async Task CreatWirelessSecurity(JObject payload)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditWirelessSecurity(JObject payload, string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireless/security-profiles/{id}";
+
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Security profile Edited successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DeleteSecProfile(string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireless/security-profiles/{id}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Security Profile deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting Security Profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 

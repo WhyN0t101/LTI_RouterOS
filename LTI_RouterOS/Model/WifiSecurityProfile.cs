@@ -1,23 +1,46 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+
 namespace LTI_RouterOS.Model
 {
     internal class WifiSecurityProfile
     {
+        [JsonProperty(".id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
         public string Name { get; set; }
-        public string Mode { get; set; } // Mode property is required
 
-        // Optional properties
+        [JsonProperty("mode")]
+        public string Mode { get; set; }
+
+        [JsonProperty("authentication-types")]
         public string AuthenticationType { get; set; }
-        public string UnicastCiphers { get; set; }
-        public string GroupCiphers { get; set; }
-        public string WpaPresharedKey { get; set; }
-        public string Wpa2PresharedKey { get; set; }
-        public string SupplicantIdentity { get; set; }
-        public string GroupKeyUpdate { get; set; }
-        public string ManagementProtection { get; set; }
-        public string ManagementProtectionKey { get; set; }
 
-        // Flags to indicate whether optional properties are set
+        [JsonProperty("unicast-ciphers")]
+        public string UnicastCiphers { get; set; }
+
+        [JsonProperty("group-ciphers")]
+        public string GroupCiphers { get; set; }
+
+        [JsonProperty("wpa-pre-shared-key")]
+        public string WpaPresharedKey { get; set; }
+
+        [JsonProperty("wpa2-pre-shared-key")]
+        public string Wpa2PresharedKey { get; set; }
+
+        [JsonProperty("supplicant-identity")]
+        public string SupplicantIdentity { get; set; }
+
+        [JsonProperty("group-key-update")]
+        public string GroupKeyUpdate { get; set; }
+
+        [JsonProperty("management-protection")]
+        public string ManagementProtection { get; set; }
+
+        [JsonProperty("management-protection-key")]
+        public string ManagementProtectionKey { get; set; }
+        
         public bool IsAuthenticationTypeSet { get; set; }
         public bool IsUnicastCiphersSet { get; set; }
         public bool IsGroupCiphersSet { get; set; }
@@ -30,7 +53,6 @@ namespace LTI_RouterOS.Model
 
         public WifiSecurityProfile()
         {
-            // Initialize all optional property flags to false by default
             IsAuthenticationTypeSet = false;
             IsUnicastCiphersSet = false;
             IsGroupCiphersSet = false;
@@ -43,4 +65,3 @@ namespace LTI_RouterOS.Model
         }
     }
 }
-

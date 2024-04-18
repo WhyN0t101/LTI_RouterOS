@@ -67,6 +67,8 @@ namespace LTI_RouterOS
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            textBox1.Text = "192.168.79.1";
+            textBox9.Text = "admin";
         }
 
         private async Task PopulatecomboBoxSecProfile()
@@ -220,7 +222,7 @@ namespace LTI_RouterOS
             wifiProfile.Mode = comboBox3.SelectedItem.ToString().Replace(" ", "-");
             string selectedItems = "";
 
-            if (checkedListBox1.SelectedItem != null)
+            if (checkedListBox1.CheckedIndices.Count > 0)
             {
                 selectedItems = GetAllSelectedItems(checkedListBox1);
                 wifiProfile.AuthenticationType = selectedItems;
@@ -231,7 +233,7 @@ namespace LTI_RouterOS
                 wifiProfile.AuthenticationType = string.Empty;
             }
 
-            if (checkedListBox2.SelectedItem != null)
+            if (checkedListBox2.CheckedIndices.Count > 0)
             {
                 selectedItems = GetAllSelectedItems(checkedListBox2);
                 wifiProfile.UnicastCiphers = selectedItems;
@@ -241,7 +243,7 @@ namespace LTI_RouterOS
                 wifiProfile.UnicastCiphers = string.Empty;
             }
 
-            if (checkedListBox3.SelectedItem != null)
+            if (checkedListBox3.CheckedIndices.Count > 0)
             {
                 selectedItems = GetAllSelectedItems(checkedListBox3);
                 wifiProfile.GroupCiphers = selectedItems;
@@ -250,6 +252,7 @@ namespace LTI_RouterOS
             {
                 wifiProfile.GroupCiphers = string.Empty;
             }
+
 
             wifiProfile.WpaPresharedKey = textBox4.Text;
             wifiProfile.Wpa2PresharedKey = textBox5.Text;
@@ -332,12 +335,19 @@ namespace LTI_RouterOS
                 return;
             }
 
+            if (!ValidateDynamicKeys())
+            {
+                return;
+            }
+
             // Update wifiProfile object with values from the form before creating the security profile
             UpdateWifiProfileFromForm();
 
             // Create the security profile
             await CreateWifiSecurityProfile(wifiProfile);
         }
+
+
 
         private async void button5_Click(object sender, EventArgs e)
         {
@@ -963,9 +973,15 @@ namespace LTI_RouterOS
 
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private async void button9_Click(object sender, EventArgs e)
         {
+            if (SecProfilesComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Security Profile: ");
+                return;
+            }
 
+            await EraseWifiSecProfile(wifiProfile.Id);
         }
 
         private string TimeSpanToString(TimeSpan timeSpan)
@@ -1105,6 +1121,282 @@ namespace LTI_RouterOS
             }
         }
 
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            if (SecProfilesComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Security Profile: ");
+                return;
+            }
+
+            if (!ValidateSelectedItems(checkedListBox1))
+            {
+                // Halt execution if validation fails
+                return;
+            }
+
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBox7.Text) == "")
+            {
+                return;
+            }
+
+            if (!ValidateDynamicKeys())
+            {
+                return;
+            }
+
+            // Update wifiProfile object with values from the form before creating the security profile
+            UpdateWifiProfileFromForm();
+
+            // Create the security profile
+            await EditWifiSecurityProfile(wifiProfile);
+
+        }
+
+        private async void SecProfilesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+
+            string name = SecProfilesComboBox.SelectedItem.ToString();
+            WifiSecurityProfile secProfile = await RetrieveSecProfile(name);
+
+
+            if (secProfile != null)
+            {
+                wifiProfile.Id = secProfile.Id;
+                textBox3.Text = secProfile.Name;
+                comboBox3.SelectedItem = secProfile.Mode.Replace("-", " ");
+                FillcheckedListBox1(secProfile);
+                FillcheckedListBox23(secProfile);
+                textBox4.Text = secProfile.WpaPresharedKey;
+                textBox5.Text = secProfile.Wpa2PresharedKey;
+                textBox6.Text = secProfile.SupplicantIdentity;
+                textBox7.Text = ConvertTimeFormat(secProfile.GroupKeyUpdate);
+                comboBox4.SelectedItem = secProfile.ManagementProtection;
+                textBox8.Text = secProfile.ManagementProtectionKey;
+            }
+
+        }
+
+        private void FillcheckedListBox1(WifiSecurityProfile secProfile)
+        {
+            string authenticationTypes = secProfile.AuthenticationType;
+
+            // Split the string into individual authentication types and convert them to upper case
+            string[] types = authenticationTypes.Split(',').Select(type => type.ToUpper()).ToArray();
+
+            // Iterate through each authentication type
+            foreach (string type in types)
+            {
+                // Replace "-" with " "
+                string formattedType = type.Replace("-", " ");
+
+                // Check if the formatted type exists in the CheckedListBox
+                int index = checkedListBox1.Items.IndexOf(formattedType);
+                if (index != -1)
+                {
+                    // If it does, select it in the CheckedListBox
+                    checkedListBox1.SetItemChecked(index, true);
+                }
+            }
+
+        }
+
+        private void FillcheckedListBox23(WifiSecurityProfile secProfile)
+        {
+            string unicast = secProfile.UnicastCiphers;
+            string groupcast = secProfile.GroupCiphers;
+
+            // Split the string into individual authentication types and convert them to upper case
+            string[] unicastcypher = unicast.Split(',').Select(type => type.ToLower()).ToArray();
+            string[] groupcastcypher = groupcast.Split(',').Select(type => type.ToLower()).ToArray();
+
+            // Iterate through each authentication type
+            foreach (string type in unicastcypher)
+            {
+                // Replace "-" with " "
+                string formattedType = type.Replace("-", " ");
+
+                // Check if the formatted type exists in the CheckedListBox
+                int index = checkedListBox2.Items.IndexOf(formattedType);
+                if (index != -1)
+                {
+                    // If it does, select it in the CheckedListBox
+                    checkedListBox2.SetItemChecked(index, true);
+                }
+            }
+
+            foreach (string type in groupcastcypher)
+            {
+                // Replace "-" with " "
+                string formattedType = type.Replace("-", " ");
+
+                // Check if the formatted type exists in the ComboBox or CheckedListBox
+                int index = checkedListBox3.Items.IndexOf(formattedType);
+                if (index != -1)
+                {
+                    // If it does, select it in the CheckedListBox
+                    checkedListBox3.SetItemChecked(index, true);
+                }
+            }
+
+        }
+
+        private async void SecProfilesComboBox_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/interface/wireless/security-profiles");
+                List<string> wifiSecList = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                SecProfilesComboBox.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string secProfile in wifiSecList)
+                {
+                    SecProfilesComboBox.Items.Add(secProfile);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Security Profiles data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task<WifiSecurityProfile> RetrieveSecProfile(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint
+                HttpResponseMessage response = await httpClient.GetAsync(baseUrl + $"/rest/interface/wireless/security-profiles/{name}");
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON response into a WifiSecurityProfile object
+                WifiSecurityProfile secProfile = JsonConvert.DeserializeObject<WifiSecurityProfile>(responseBody);
+
+                return secProfile;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private async Task EditWifiSecurityProfile(WifiSecurityProfile profile)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = profile.Name,
+                    ["mode"] = profile.Mode,
+                    ["authentication-types"] = profile.AuthenticationType,
+                    ["unicast-ciphers"] = profile.UnicastCiphers,
+                    ["group-ciphers"] = profile.GroupCiphers,
+                    ["wpa-pre-shared-key"] = profile.WpaPresharedKey,
+                    ["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey,
+                    ["supplicant-identity"] = profile.SupplicantIdentity,
+                    ["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower()
+                };
+
+                // Check if ManagementProtection is not null before adding it to the payload
+                if (profile.ManagementProtection != null)
+                {
+                    payload["management-protection"] = profile.ManagementProtection.ToString().ToLower();
+                }
+                else
+                {
+                    // Handle the case where ManagementProtection is null
+                    // For example, set a default value or log a warning
+                    payload["management-protection"] = "disabled";
+                }
+
+                payload["management-protection-key"] = profile.ManagementProtectionKey;
+
+                await Controller.EditWirelessSecurity(payload, profile.Id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateDynamicKeys()
+        {
+            string selectedItem = comboBox3.SelectedItem.ToString();
+            if (selectedItem == "dynamic keys")
+            {
+                if (checkedListBox2.CheckedIndices.Count < 0 || checkedListBox3.CheckedIndices.Count < 0 || checkedListBox1.CheckedIndices.Count < 0)
+                {
+                    MessageBox.Show("Select at least 1 Authentication Type, 1 Unicast Cipher and 1 Group Cipher.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private string ConvertTimeFormat(string duration)
+        {
+            // Define a regular expression pattern to match the duration format
+            string pattern = @"(?:(?<hours>\d+)h)?(?:(?<minutes>\d+)m)?(?:(?<seconds>\d+)s)?";
+
+            // Match the input string against the pattern
+            Match match = Regex.Match(duration, pattern);
+
+            // Check if the input string matches the expected format
+            if (match.Success)
+            {
+                // Extract hours, minutes, and seconds from the match
+                int hours = match.Groups["hours"].Success ? int.Parse(match.Groups["hours"].Value) : 0;
+                int minutes = match.Groups["minutes"].Success ? int.Parse(match.Groups["minutes"].Value) : 0;
+                int seconds = match.Groups["seconds"].Success ? int.Parse(match.Groups["seconds"].Value) : 0;
+
+                // Format the time as "hh:mm:ss"
+                return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
+            }
+            else
+            {
+                // Return an empty string if the input format is invalid
+                return string.Empty;
+            }
+        }
+
+        private async Task EraseWifiSecProfile(string id)
+        {
+            try
+            {
+                await Controller.DeleteSecProfile(id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
     }
 }

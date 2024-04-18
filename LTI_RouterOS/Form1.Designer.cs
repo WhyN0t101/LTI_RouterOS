@@ -121,7 +121,9 @@
             this.button12 = new System.Windows.Forms.Button();
             this.label27 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SecProfilesComboBox = new System.Windows.Forms.ComboBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label74 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -1379,7 +1381,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.SecProfilesComboBox);
             this.groupBox2.Controls.Add(this.textBox8);
+            this.groupBox2.Controls.Add(this.label74);
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.comboBox4);
             this.groupBox2.Controls.Add(this.label12);
@@ -1411,6 +1415,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Perfis de Segurança";
             // 
+            // SecProfilesComboBox
+            // 
+            this.SecProfilesComboBox.FormattingEnabled = true;
+            this.SecProfilesComboBox.Location = new System.Drawing.Point(11, 45);
+            this.SecProfilesComboBox.Margin = new System.Windows.Forms.Padding(2);
+            this.SecProfilesComboBox.Name = "SecProfilesComboBox";
+            this.SecProfilesComboBox.Size = new System.Drawing.Size(147, 21);
+            this.SecProfilesComboBox.TabIndex = 65;
+            this.SecProfilesComboBox.SelectedIndexChanged += new System.EventHandler(this.SecProfilesComboBox_SelectedIndexChanged);
+            this.SecProfilesComboBox.Enter += new System.EventHandler(this.SecProfilesComboBox_Enter);
+            // 
             // textBox8
             // 
             this.textBox8.Enabled = false;
@@ -1418,6 +1433,16 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(142, 20);
             this.textBox8.TabIndex = 31;
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Location = new System.Drawing.Point(8, 30);
+            this.label74.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(77, 13);
+            this.label74.TabIndex = 64;
+            this.label74.Text = "Security Profile";
             // 
             // label13
             // 
@@ -1563,7 +1588,7 @@
             "WPA2 PSK",
             "WPA EAP",
             "WPA2 EAP"});
-            this.checkedListBox1.Location = new System.Drawing.Point(4, 102);
+            this.checkedListBox1.Location = new System.Drawing.Point(11, 136);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(120, 64);
             this.checkedListBox1.TabIndex = 15;
@@ -1572,7 +1597,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 86);
+            this.label5.Location = new System.Drawing.Point(14, 120);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(109, 13);
             this.label5.TabIndex = 14;
@@ -1580,7 +1605,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(6, 51);
+            this.textBox3.Location = new System.Drawing.Point(13, 85);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(142, 20);
             this.textBox3.TabIndex = 12;
@@ -1593,6 +1618,7 @@
             this.button7.TabIndex = 11;
             this.button7.Text = "Editar";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -1612,7 +1638,7 @@
             "dynamic keys",
             "static keys optional",
             "static keys required"});
-            this.comboBox3.Location = new System.Drawing.Point(183, 51);
+            this.comboBox3.Location = new System.Drawing.Point(184, 48);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(147, 21);
             this.comboBox3.TabIndex = 8;
@@ -1621,7 +1647,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(180, 35);
+            this.label3.Location = new System.Drawing.Point(181, 32);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 9;
@@ -1640,7 +1666,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 35);
+            this.label4.Location = new System.Drawing.Point(14, 69);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 6;
@@ -2930,5 +2956,7 @@
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.TextBox textBoxSSID;
+        private System.Windows.Forms.ComboBox SecProfilesComboBox;
+        private System.Windows.Forms.Label label74;
     }
 }
