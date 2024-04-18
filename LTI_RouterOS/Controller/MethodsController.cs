@@ -392,7 +392,7 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-    }
+    
 
         public async Task CreateWirelessSecurity(JObject payload)
         {

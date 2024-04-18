@@ -969,8 +969,27 @@ namespace LTI_RouterOS
 
         }
 
-        }
+        private async void comboBoxVRF_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
+                // Clear existing items in the ComboBox
+                comboBoxVRF.Items.Clear();
 
+                // Add each bridge name as an item in the ComboBox
+                foreach (string intName in intList)
+                {
+                    comboBoxVRF.Items.Add(intName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private async void button14_Click(object sender, EventArgs e)
         {
@@ -1016,7 +1035,6 @@ namespace LTI_RouterOS
                 MessageBox.Show("Invalid destination address or gateway. Please enter valid IP addresses.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         // Validate an IPv4 address without a subnet mask
         private bool IsValidIpAddressGateway(string ipAddress)
         {
@@ -1055,30 +1073,29 @@ namespace LTI_RouterOS
             }
         }
 
-
-        private async void comboBoxVRF_Enter(object sender, EventArgs e)
+        private async void button15_Click(object sender, EventArgs e)
         {
-            try
+            if (comboBox19.SelectedItem != null)
             {
-                // Retrieve the list of bridges
-                string response = await Controller.Retrieve("/rest/interface");
-                List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
-                // Clear existing items in the ComboBox
-                comboBoxVRF.Items.Clear();
+                // Get the selected item from the ComboBox
+                string selectedRouteInfo = comboBox19.SelectedItem.ToString();
 
-                // Add each bridge name as an item in the ComboBox
-                foreach (string intName in intList)
-                {
-                    comboBoxVRF.Items.Add(intName);
-                }
+                // Extract the route ID from the selected item
+                string[] parts = selectedRouteInfo.Split('-');
+                string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
+                await Controller.DeleteRoute(routeId);
+                MessageBox.Show("Route Deleted");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // No item selected in the ComboBox
+                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+    
 
-        private void button13_Click(object sender, EventArgs e)
+
+    private void button13_Click(object sender, EventArgs e)
         {
             // Check if an item is selected in the ComboBox
             if (comboBox19.SelectedItem != null)
@@ -1100,59 +1117,6 @@ namespace LTI_RouterOS
             }
         }
 
-        private async void comboBox19_Enter(object sender, EventArgs e)
-        {
-            try
-            {
-                // Retrieve the list of routes
-                string response = await Controller.Retrieve("/rest/ip/route");
-
-                // Parse the JSON response into a JArray
-                JArray routesArray = JArray.Parse(response);
-
-                // Clear existing items in the ComboBox
-                comboBox19.Items.Clear();
-
-                // Iterate over each route object in the array
-                foreach (JObject routeObject in routesArray)
-                {
-                    // Extract the route ID and local address from each route object
-                    string routeId = routeObject.Value<string>(".id");
-                    string localAddress = routeObject.Value<string>("dst-address");
-                    string gateway = routeObject.Value<string>("gateway");
-
-                    // Combine route ID and local address into a single string
-                    string routeInfo = $"{localAddress}-{gateway}-{routeId}";
-
-                    // Add the combined string as an item in the ComboBox
-                    comboBox19.Items.Add(routeInfo);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void button15_Click(object sender, EventArgs e)
-        {
-            if (comboBox19.SelectedItem != null)
-            {
-                // Get the selected item from the ComboBox
-                string selectedRouteInfo = comboBox19.SelectedItem.ToString();
-
-                // Extract the route ID from the selected item
-                string[] parts = selectedRouteInfo.Split('-');
-                string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
-                await Controller.DeleteRoute(routeId);
-                MessageBox.Show("Route Deleted");
-            }
-            else
-            {
-                // No item selected in the ComboBox
-                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private string TimeSpanToString(TimeSpan timeSpan)
         {
@@ -1291,6 +1255,38 @@ namespace LTI_RouterOS
             }
         }
 
+        private async void comboBox19_Enter_1(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of routes
+                string response = await Controller.Retrieve("/rest/ip/route");
 
+                // Parse the JSON response into a JArray
+                JArray routesArray = JArray.Parse(response);
+
+                // Clear existing items in the ComboBox
+                comboBox19.Items.Clear();
+
+                // Iterate over each route object in the array
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract the route ID and local address from each route object
+                    string routeId = routeObject.Value<string>(".id");
+                    string localAddress = routeObject.Value<string>("dst-address");
+                    string gateway = routeObject.Value<string>("gateway");
+
+                    // Combine route ID and local address into a single string
+                    string routeInfo = $"{localAddress}-{gateway}-{routeId}";
+
+                    // Add the combined string as an item in the ComboBox
+                    comboBox19.Items.Add(routeInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

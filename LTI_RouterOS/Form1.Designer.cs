@@ -1475,7 +1475,6 @@
             // textBox8
             // 
             this.textBox8.Enabled = false;
-            this.textBox8.Location = new System.Drawing.Point(183, 352);
             this.textBox8.Location = new System.Drawing.Point(244, 433);
             this.textBox8.Margin = new System.Windows.Forms.Padding(4);
             this.textBox8.Name = "textBox8";
@@ -1598,7 +1597,7 @@
             this.checkedListBox3.Location = new System.Drawing.Point(244, 201);
             this.checkedListBox3.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBox3.Name = "checkedListBox3";
-            this.checkedListBox3.Size = new System.Drawing.Size(120, 34);
+            this.checkedListBox3.Size = new System.Drawing.Size(120, 21);
             this.checkedListBox3.TabIndex = 19;
             // 
             // label7
@@ -1620,7 +1619,7 @@
             this.checkedListBox2.Location = new System.Drawing.Point(245, 124);
             this.checkedListBox2.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(120, 34);
+            this.checkedListBox2.Size = new System.Drawing.Size(120, 21);
             this.checkedListBox2.TabIndex = 17;
             // 
             // label6
@@ -1644,7 +1643,7 @@
             this.checkedListBox1.Location = new System.Drawing.Point(5, 126);
             this.checkedListBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 64);
+            this.checkedListBox1.Size = new System.Drawing.Size(120, 55);
             this.checkedListBox1.TabIndex = 15;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
@@ -1721,7 +1720,6 @@
             this.button9.TabIndex = 7;
             this.button9.Text = "Apagar";
             this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // label4
             // 
@@ -1773,7 +1771,6 @@
             this.button13.TabIndex = 11;
             this.button13.Text = "Editar";
             this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // label44
             // 
@@ -1793,7 +1790,7 @@
             this.comboBox19.Name = "comboBox19";
             this.comboBox19.Size = new System.Drawing.Size(195, 24);
             this.comboBox19.TabIndex = 12;
-            this.comboBox19.Enter += new System.EventHandler(this.comboBox19_Enter);
+            this.comboBox19.Enter += new System.EventHandler(this.comboBox19_Enter_1);
             // 
             // button15
             // 
