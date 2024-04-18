@@ -353,7 +353,6 @@ namespace LTI_RouterOS.Controller
 
                 // Display success message
                 MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (Exception ex)
             {

@@ -1413,6 +1413,7 @@
             // 
             // textBox8
             // 
+            this.textBox8.Enabled = false;
             this.textBox8.Location = new System.Drawing.Point(183, 352);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(142, 20);
@@ -1431,13 +1432,14 @@
             // 
             this.comboBox4.FormattingEnabled = true;
             this.comboBox4.Items.AddRange(new object[] {
-            "allowed ",
+            "allowed",
             "disabled",
             "required"});
             this.comboBox4.Location = new System.Drawing.Point(8, 351);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(147, 21);
             this.comboBox4.TabIndex = 28;
+            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
             // 
             // label12
             // 
@@ -1521,7 +1523,7 @@
             "tkip"});
             this.checkedListBox3.Location = new System.Drawing.Point(183, 163);
             this.checkedListBox3.Name = "checkedListBox3";
-            this.checkedListBox3.Size = new System.Drawing.Size(120, 19);
+            this.checkedListBox3.Size = new System.Drawing.Size(120, 34);
             this.checkedListBox3.TabIndex = 19;
             // 
             // label7
@@ -1541,7 +1543,7 @@
             "tkip"});
             this.checkedListBox2.Location = new System.Drawing.Point(184, 101);
             this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(120, 19);
+            this.checkedListBox2.Size = new System.Drawing.Size(120, 34);
             this.checkedListBox2.TabIndex = 17;
             // 
             // label6
@@ -1563,7 +1565,7 @@
             "WPA2 EAP"});
             this.checkedListBox1.Location = new System.Drawing.Point(4, 102);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 49);
+            this.checkedListBox1.Size = new System.Drawing.Size(120, 64);
             this.checkedListBox1.TabIndex = 15;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
@@ -1633,6 +1635,7 @@
             this.button9.TabIndex = 7;
             this.button9.Text = "Apagar";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // label4
             // 
