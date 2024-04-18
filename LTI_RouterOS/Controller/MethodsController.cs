@@ -416,6 +416,36 @@ namespace LTI_RouterOS.Controller
             }
         }
 
+        public async Task UpdateRoute(string routeId, string destAddress, string gateway, string checkGateway, string distance, string scope, string targetScope, string vrfInterface, string routingTable, string prefSource, bool hw)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/route/" + routeId;
+
+                JObject payload = new JObject
+                {
+                    ["dst-address"] = destAddress,
+                    ["gateway"] = gateway,
+                    ["check-gateway"] = checkGateway,
+                    ["distance"] = distance,
+                    ["scope"] = scope,
+                    ["target-scope"] = targetScope,
+                    ["vrf-interface"] = vrfInterface,
+                    ["routing-table"] = routingTable,
+                    ["pref-src"] = prefSource != null ? prefSource : "",
+                    ["suppress-hw-offload"] = hw ? "true" : "false",
+                };
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Route updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 

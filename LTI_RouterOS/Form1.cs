@@ -334,7 +334,8 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text) == ""){
+            if (ValidateAndUpdateTimeFormat(textBox7.Text) == "")
+            {
                 return;
             }
 
@@ -1092,30 +1093,7 @@ namespace LTI_RouterOS
                 MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    
 
-
-    private void button13_Click(object sender, EventArgs e)
-        {
-            // Check if an item is selected in the ComboBox
-            if (comboBox19.SelectedItem != null)
-            {
-                // Get the selected item from the ComboBox
-                string selectedRouteInfo = comboBox19.SelectedItem.ToString();
-
-                // Extract the route ID from the selected item
-                string[] parts = selectedRouteInfo.Split('-');
-                string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
-
-                // Now you have the route ID, you can use it as needed for editing
-                MessageBox.Show("Selected Route ID: " + routeId, "Route ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                // No item selected in the ComboBox
-                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
 
         private string TimeSpanToString(TimeSpan timeSpan)
@@ -1286,6 +1264,106 @@ namespace LTI_RouterOS
             catch (Exception ex)
             {
                 MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button13_Click_1(object sender, EventArgs e)
+        {
+            {
+                // Check if an item is selected in the ComboBox
+                if (comboBox19.SelectedItem != null)
+                {
+                    // Get the selected item from the ComboBox
+                    string selectedRouteInfo = comboBox19.SelectedItem.ToString();
+
+                    // Extract the route ID from the selected item
+                    string[] parts = selectedRouteInfo.Split('-');
+                    string routeId = parts[parts.Length - 1].Trim(); // Assuming the route ID is the last part
+                                                                     // Get the destination address from the input
+                    string destAddress = textBoxDestAddress.Text.Trim();
+                    string gateway = textBoxGateway.Text.Trim();
+                    string checkGateway = comboBoxCheckGateway.SelectedItem?.ToString(); // Handle possible null value
+                    string distanceText = textBox18.Text.Trim();
+                    string scope = textBox17.Text.Trim();
+                    string targetScope = textBox19.Text.Trim();
+                    string vrfInterface = comboBoxVRF.SelectedItem?.ToString(); // Handle possible null value
+                    string routingTable = comboBox15.SelectedItem?.ToString(); // Handle possible null value
+                    string prefSource = textBoxPrefSource.Text.Trim();
+                    bool hw = checkboxHwOffload.Checked;
+
+                    // Check if all parameters are null
+                    if (string.IsNullOrEmpty(destAddress) && string.IsNullOrEmpty(gateway) &&
+                        string.IsNullOrEmpty(checkGateway) && string.IsNullOrEmpty(distanceText) &&
+                        string.IsNullOrEmpty(scope) && string.IsNullOrEmpty(targetScope) &&
+                        string.IsNullOrEmpty(vrfInterface) && string.IsNullOrEmpty(routingTable) &&
+                        string.IsNullOrEmpty(prefSource))
+                    {
+                        MessageBox.Show("Please provide at least one parameter.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Check if a VRF interface is selected
+                    if (string.IsNullOrEmpty(vrfInterface))
+                    {
+                        MessageBox.Show("Please select a VRF interface.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Validate the destination address
+                    if (IsValidIpAddress(destAddress) && IsValidIpAddressGateway(gateway))
+                    {
+                        // Call the method to create the route
+                        await Controller.UpdateRoute(routeId, destAddress, gateway, checkGateway, distanceText, scope, targetScope, vrfInterface, routingTable, prefSource, hw);
+                    }
+                    else
+                    {
+                        // Destination address or gateway is not valid
+                        MessageBox.Show("Invalid destination address or gateway. Please enter valid IP addresses.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+                }
+                else
+                {
+                    // No item selected in the ComboBox
+                    MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void buttonListarEndIp_Click(object sender, EventArgs e)
+        {
+            textBoxListarEndIp.Clear();
+            try
+            {
+                string response = await Controller.Retrieve("/rest/ip/address");
+                JArray routesArray = JArray.Parse(response);
+
+                // Initialize a list to store route information
+                List<string> routeList = new List<string>();
+
+                // Iterate through each route object
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract destination address and gateway from the route object
+                    string address = routeObject["address"].ToString();
+                    string network = routeObject["network"].ToString();
+                    string inter = routeObject["actual-interface"].ToString();
+
+
+                    // Combine destination address and gateway
+                    string routeInfo = $"{address} - {network} - {inter}";
+
+                    // Add route information to the list
+                    routeList.Add(routeInfo);
+                }
+
+                // Display routes in the textbox
+                textBoxListarEndIp.Text = routeList.Count > 0 ? string.Join(Environment.NewLine, routeList) : "No addresses found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving addresses: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

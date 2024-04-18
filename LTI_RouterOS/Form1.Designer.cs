@@ -1771,6 +1771,7 @@
             this.button13.TabIndex = 11;
             this.button13.Text = "Editar";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click_1);
             // 
             // label44
             // 
@@ -2233,6 +2234,7 @@
             this.buttonListarEndIp.TabIndex = 5;
             this.buttonListarEndIp.Text = "Listar Endereços IP";
             this.buttonListarEndIp.UseVisualStyleBackColor = true;
+            this.buttonListarEndIp.Click += new System.EventHandler(this.buttonListarEndIp_Click);
             // 
             // tabPage6
             // 
