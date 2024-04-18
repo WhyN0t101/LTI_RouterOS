@@ -178,7 +178,6 @@
             this.buttonListarRotas = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.comboBoxInterface = new System.Windows.Forms.ComboBox();
             this.label43 = new System.Windows.Forms.Label();
             this.textBoxNetwork = new System.Windows.Forms.TextBox();
             this.label42 = new System.Windows.Forms.Label();
@@ -252,6 +251,7 @@
             this.textBoxServers = new System.Windows.Forms.TextBox();
             this.buttonDNSAtivar = new System.Windows.Forms.Button();
             this.buttonDNSDesativar = new System.Windows.Forms.Button();
+            this.comboBoxInterface = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -2097,15 +2097,6 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Gerenciar Bridges";
             // 
-            // comboBoxInterface
-            // 
-            this.comboBoxInterface.FormattingEnabled = true;
-            this.comboBoxInterface.Location = new System.Drawing.Point(40, 155);
-            this.comboBoxInterface.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBoxInterface.Name = "comboBoxInterface";
-            this.comboBoxInterface.Size = new System.Drawing.Size(195, 24);
-            this.comboBoxInterface.TabIndex = 12;
-            // 
             // label43
             // 
             this.label43.AutoSize = true;
@@ -2151,6 +2142,7 @@
             this.button19.TabIndex = 7;
             this.button19.Text = "Criar";
             this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
             // label41
             // 
@@ -2868,6 +2860,16 @@
             this.buttonDNSDesativar.Text = "Desativar";
             this.buttonDNSDesativar.UseVisualStyleBackColor = true;
             // 
+            // comboBoxInterface
+            // 
+            this.comboBoxInterface.FormattingEnabled = true;
+            this.comboBoxInterface.Location = new System.Drawing.Point(40, 155);
+            this.comboBoxInterface.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxInterface.Name = "comboBoxInterface";
+            this.comboBoxInterface.Size = new System.Drawing.Size(195, 24);
+            this.comboBoxInterface.TabIndex = 12;
+            this.comboBoxInterface.Enter += new System.EventHandler(this.comboBoxInterface_Enter);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3046,7 +3048,6 @@
         private System.Windows.Forms.ComboBox comboBoxEndIP;
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.Label label;
-        private System.Windows.Forms.ComboBox comboBoxInterface;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.TextBox textBoxNetwork;
         private System.Windows.Forms.Label label42;
@@ -3145,5 +3146,6 @@
         private System.Windows.Forms.Label label73;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.TextBox textBoxSSID;
+        private System.Windows.Forms.ComboBox comboBoxInterface;
     }
 }

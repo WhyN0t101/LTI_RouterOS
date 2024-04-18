@@ -135,7 +135,7 @@ namespace LTI_RouterOS
             try
             {
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "default-name");
+                List<string> interfaceNames = Parser.ParseNamesFromJsonArray(response, "name");
 
                 InterfacesBox.Text = interfaceNames.Count > 0 ? string.Join(Environment.NewLine, interfaceNames) : "No interface names found.";
             }
@@ -976,7 +976,7 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of bridges
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
                 // Clear existing items in the ComboBox
                 comboBoxVRF.Items.Clear();
 
@@ -1348,7 +1348,7 @@ namespace LTI_RouterOS
                     // Extract destination address and gateway from the route object
                     string address = routeObject["address"].ToString();
                     string network = routeObject["network"].ToString();
-                    string inter = routeObject["actual-interface"].ToString();
+                    string inter = routeObject["interface"].ToString();
 
 
                     // Combine destination address and gateway
@@ -1364,6 +1364,45 @@ namespace LTI_RouterOS
             catch (Exception ex)
             {
                 MessageBox.Show("Error retrieving addresses: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button19_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInterface.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Interface");
+            }
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || IsValidIpAddressGateway(textBoxNetwork.Text))
+            {
+                MessageBox.Show("Fill all Addresses with a valid ip ");
+            }
+            string address = textBoxEnderecoIP.Text.Trim();
+            string network = textBoxNetwork.Text.Trim();
+            string inter = comboBoxInterface.SelectedItem.ToString();
+            await Controller.CreateIp(address,network, inter);
+
+        }
+
+        private async void comboBoxInterface_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of bridges
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
+                // Clear existing items in the ComboBox
+                comboBoxInterface.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string intName in intList)
+                {
+                    comboBoxInterface.Items.Add(intName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

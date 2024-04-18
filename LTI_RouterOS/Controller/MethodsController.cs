@@ -446,6 +446,31 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task CreateIp(string address, string network, string inter)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/address";
+
+                JObject payload = new JObject
+                {
+                    ["address"] = address,
+                    ["network"] = network,
+                    ["interface"] = inter,
+                   
+                };
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Route updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 
