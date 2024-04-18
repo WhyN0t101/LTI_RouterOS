@@ -27,6 +27,7 @@ namespace LTI_RouterOS
         private bool isConnected = false;
         private WifiSecurityProfile wifiProfile;
         private WirelessSettings wirelessSettings;
+        private DHCPServer dhcpServer;
         private Json Parser = new Json();
 
 
@@ -37,9 +38,8 @@ namespace LTI_RouterOS
             httpClient = new HttpClient();
             wifiProfile = new WifiSecurityProfile();
             wirelessSettings = new WirelessSettings();
+            dhcpServer = new DHCPServer();
             InitializeComboBoxes();
-
-
 
         }
         private void InitializeComboBoxes()
@@ -979,7 +979,17 @@ namespace LTI_RouterOS
             }
 
         }
+        private async void button9_Click(object sender, EventArgs e)
+        {
+            if (SecProfilesComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Security Profile: ");
+                return;
+            }
 
+            await EraseWifiSecProfile(wifiProfile.Id);
+
+        }
         private async void comboBoxVRF_Enter(object sender, EventArgs e)
         {
             try
@@ -1000,6 +1010,7 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private async void button14_Click(object sender, EventArgs e)
@@ -1103,6 +1114,8 @@ namespace LTI_RouterOS
                 MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         private string TimeSpanToString(TimeSpan timeSpan)
         {
@@ -1505,6 +1518,31 @@ namespace LTI_RouterOS
             }
         }
 
+        private async Task EraseWifiSecProfile(string id)
+        {
+            try
+            {
+                await Controller.DeleteSecProfile(id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void comboBox19_Enter_1(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of routes
+                string response = await Controller.Retrieve("/rest/ip/route");
+
+                // Parse the JSON response into a JArray
+                JArray routesArray = JArray.Parse(response);
+
+                // Clear existing items in the ComboBox
+                comboBox19.Items.Clear();
 
                 // Iterate over each route object in the array
                 foreach (JObject routeObject in routesArray)
@@ -1640,7 +1678,7 @@ namespace LTI_RouterOS
             string address = textBoxEnderecoIP.Text.Trim();
             string network = textBoxNetwork.Text.Trim();
             string inter = comboBoxInterface.SelectedItem.ToString();
-            await Controller.CreateIp(address,network, inter);
+            await Controller.CreateIp(address, network, inter);
 
         }
 
@@ -1663,6 +1701,68 @@ namespace LTI_RouterOS
             catch (Exception ex)
             {
                 MessageBox.Show("Error retrieving interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void buttonListDHCP_Click(object sender, EventArgs e)
+        {
+            textBoxListarServidoresDhcp.Clear();
+            try
+            {
+                string response = await Controller.Retrieve("/rest/ip/dhcp-server");
+                JArray routesArray = JArray.Parse(response);
+
+                // Initialize a list to store route information
+                List<string> dhcpList = new List<string>();
+
+                // Iterate through each route object
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract destination address and gateway from the route object
+                    string name = routeObject["name"].ToString();
+                    string inter = routeObject["interface"].ToString();
+                    string addresspool = routeObject["address-pool"].ToString();
+                    string disabledValue = (bool)routeObject["disabled"] ? "disabled" : "enabled";
+
+
+                    // Combine destination address and gateway
+                    string dhcpInfo = $"{name} - {inter} - {addresspool} - {disabledValue}";
+
+                    // Add route information to the list
+                    dhcpList.Add(dhcpInfo);
+                }
+
+                // Display routes in the textbox
+                textBoxListarServidoresDhcp.Text = dhcpList.Count > 0 ? string.Join(Environment.NewLine, dhcpList) : "No DHCP Servers found.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving addresses: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void comboBoxServidorDHCP_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/ip/dhcp-server");
+                List<string> dhcpList = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxServidorDHCP.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string dhcp in dhcpList)
+                {
+                    comboBoxServidorDHCP.Items.Add(dhcp);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving DHCP Servers data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
