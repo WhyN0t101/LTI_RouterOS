@@ -386,9 +386,9 @@ namespace LTI_RouterOS.Controller
 
                 MessageBox.Show("Route created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            catch (HttpRequestException ex) { 
+            
+                MessageBox.Show("Error creating route: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -443,7 +443,7 @@ namespace LTI_RouterOS.Controller
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error updating route: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -464,11 +464,11 @@ namespace LTI_RouterOS.Controller
                 HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
                 response.EnsureSuccessStatusCode();
 
-                MessageBox.Show("Route updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Address created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error creating address: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
