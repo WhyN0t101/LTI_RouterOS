@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using LTI_RouterOS.Properties;
+using System.Text.RegularExpressions;
 
 namespace LTI_RouterOS
 {
@@ -47,6 +49,8 @@ namespace LTI_RouterOS
             textBox6.Enabled = false;
             textBox7.Enabled = false;
             comboBoxARP.SelectedIndex = 1;
+            //checkedListBox2.SetItemChecked(0, true);
+            //checkedListBox3.SetItemChecked(0, true);
             checkedListBox3.Enabled = false;
             checkedListBox1.Enabled = false;
             checkedListBox2.Enabled = false;
@@ -219,47 +223,83 @@ namespace LTI_RouterOS
         {
             // Update wifiProfile object with values from the form controls
             wifiProfile.Name = textBox3.Text;
-            wifiProfile.Mode = comboBox3.SelectedItem.ToString();
+            wifiProfile.Mode = comboBox3.SelectedItem.ToString().Replace(" ", "-");
+            string selectedItems = "";
 
             if (checkedListBox1.SelectedItem != null)
             {
-                wifiProfile.AuthenticationType = checkedListBox1.SelectedItem.ToString();
+                selectedItems = GetAllSelectedItems(checkedListBox1);
+                wifiProfile.AuthenticationType = selectedItems;
+
             }
             else
             {
                 wifiProfile.AuthenticationType = string.Empty;
             }
-            wifiProfile.UnicastCiphers = checkedListBox2.Text;
-            wifiProfile.GroupCiphers = checkedListBox3.Text;
+
+            if (checkedListBox2.SelectedItem != null)
+            {
+                selectedItems = GetAllSelectedItems(checkedListBox2);
+                wifiProfile.UnicastCiphers = selectedItems;
+            }
+            else
+            {
+                wifiProfile.UnicastCiphers = string.Empty;
+            }
+
+            if (checkedListBox3.SelectedItem != null)
+            {
+                selectedItems = GetAllSelectedItems(checkedListBox3);
+                wifiProfile.GroupCiphers = selectedItems;
+            }
+            else
+            {
+                wifiProfile.GroupCiphers = string.Empty;
+            }
+
             wifiProfile.WpaPresharedKey = textBox4.Text;
             wifiProfile.Wpa2PresharedKey = textBox5.Text;
             wifiProfile.SupplicantIdentity = textBox6.Text;
             wifiProfile.GroupKeyUpdate = textBox7.Text;
+
             if (comboBox4.SelectedItem != null)
             {
-                wifiProfile.AuthenticationType = comboBox4.SelectedItem.ToString();
+                wifiProfile.ManagementProtection = comboBox4.SelectedItem.ToString();
+                if (comboBox4.SelectedItem.ToString() != "disabled")
+                {
+                    wifiProfile.ManagementProtectionKey = textBox8.Text;
+                }
+                else
+                {
+                    wifiProfile.ManagementProtectionKey = string.Empty;
+                }
             }
             else
             {
-                wifiProfile.AuthenticationType = string.Empty;
+                wifiProfile.ManagementProtection = string.Empty;
+                wifiProfile.ManagementProtectionKey = string.Empty;
             }
-            wifiProfile.ManagementProtectionKey = textBox7.Text;
         }
+
+
         private async Task CreateWifiSecurityProfile(WifiSecurityProfile profile)
         {
             try
             {
                 // Construct the JSON payload for the new security profile
-                JObject payload = new JObject();
-                payload["name"] = profile.Name;
-                payload["mode"] = profile.Mode;
-                payload["authentication-type"] = profile.AuthenticationType;
-                payload["unicast-ciphers"] = profile.UnicastCiphers;
-                payload["group-ciphers"] = profile.GroupCiphers;
-                payload["wpa-pre-shared-key"] = profile.WpaPresharedKey;
-                payload["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey;
-                payload["supplicant-identity"] = profile.SupplicantIdentity;
-                payload["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower();
+
+                JObject payload = new JObject
+                {
+                    ["name"] = profile.Name,
+                    ["mode"] = profile.Mode,
+                    ["authentication-types"] = profile.AuthenticationType,
+                    ["unicast-ciphers"] = profile.UnicastCiphers,
+                    ["group-ciphers"] = profile.GroupCiphers,
+                    ["wpa-pre-shared-key"] = profile.WpaPresharedKey,
+                    ["wpa2-pre-shared-key"] = profile.Wpa2PresharedKey,
+                    ["supplicant-identity"] = profile.SupplicantIdentity,
+                    ["group-key-update"] = profile.GroupKeyUpdate.ToString().ToLower()
+                };
 
                 // Check if ManagementProtection is not null before adding it to the payload
                 if (profile.ManagementProtection != null)
@@ -270,25 +310,12 @@ namespace LTI_RouterOS
                 {
                     // Handle the case where ManagementProtection is null
                     // For example, set a default value or log a warning
-                    payload["management-protection"] = "default_value";
+                    payload["management-protection"] = "disabled";
                 }
 
                 payload["management-protection-key"] = profile.ManagementProtectionKey;
 
-                // Serialize the JSON payload
-                string jsonPayload = payload.ToString();
-
-                // Define the API endpoint URL for creating security profiles
-                string apiUrl = baseUrl + "/api/security-profiles";
-
-                // Send a POST request to create the new security profile
-                HttpResponseMessage response = await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
-
-                // Check if the request was successful
-                response.EnsureSuccessStatusCode();
-
-                // Display success message
-                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await Controller.CreateWirelessSecurity(payload);
             }
             catch (Exception ex)
             {
@@ -299,6 +326,18 @@ namespace LTI_RouterOS
 
         private async void button8_Click(object sender, EventArgs e)
         {
+
+            if (!ValidateSelectedItems(checkedListBox1))
+            {
+                // Halt execution if validation fails
+                return;
+            }
+
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBox7.Text) == ""){
+                return;
+            }
+
             // Update wifiProfile object with values from the form before creating the security profile
             UpdateWifiProfileFromForm();
 
@@ -336,43 +375,54 @@ namespace LTI_RouterOS
             // Enable/disable text boxes or checkboxes based on the selected item
             if (selectedItem == "none")
             {
+                /*
                 checkedListBox1.SetItemChecked(0, false);
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
+                */
                 // Disable certain text boxes or checkboxes
                 checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
+                //checkedListBox2.SetItemChecked(0, true);
                 checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
+                //checkedListBox3.SetItemChecked(0, true);
                 checkedListBox3.Enabled = false;
                 textBox4.Enabled = false;
                 textBox5.Enabled = false;
                 textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
 
             }
             else if (selectedItem == "dynamic keys")
             {
                 checkedListBox1.Enabled = true;
-                checkedListBox2.SetItemChecked(0, true);
-                checkedListBox3.SetItemChecked(0, true);
+                checkedListBox2.Enabled = true;
+                checkedListBox3.Enabled = true;
+                //checkedListBox2.SetItemChecked(0, true);
+                //checkedListBox3.SetItemChecked(0, true);
                 textBox4.Enabled = false;
                 textBox5.Enabled = false;
                 textBox6.Enabled = false;
+                textBox7.Enabled = true;
 
             }
             else if (selectedItem == "static keys optional")
             {
+                /*
                 checkedListBox1.SetItemChecked(0, false);
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
+                */
 
 
                 checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
+                //checkedListBox2.SetItemChecked(0, false);
+                //checkedListBox2.SetItemChecked(1, false);
                 checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
+                //checkedListBox3.SetItemChecked(0, false);
+                //checkedListBox3.SetItemChecked(0, false);
                 checkedListBox3.Enabled = false;
                 textBox4.Enabled = false;
                 textBox5.Enabled = false;
@@ -382,14 +432,18 @@ namespace LTI_RouterOS
             }
             else if (selectedItem == "static keys required")
             {
+                /*
                 checkedListBox1.SetItemChecked(0, false);
                 checkedListBox1.SetItemChecked(1, false);
                 checkedListBox1.SetItemChecked(2, false);
                 checkedListBox1.SetItemChecked(3, false);
+                ~*/
                 checkedListBox1.Enabled = false;
-                checkedListBox2.SetItemChecked(0, true);
+                //checkedListBox2.SetItemChecked(0, false);
+                //checkedListBox2.SetItemChecked(1, false);
                 checkedListBox2.Enabled = false;
-                checkedListBox3.SetItemChecked(0, true);
+                //checkedListBox3.SetItemChecked(0, false);
+                //checkedListBox3.SetItemChecked(1, false);
                 checkedListBox3.Enabled = false;
                 textBox4.Enabled = false;
                 textBox5.Enabled = false;
@@ -473,6 +527,7 @@ namespace LTI_RouterOS
                     break;
             }
         }
+
         //MTU Range Tem de ser alto
         private async void button4_Click(object sender, EventArgs e)
         {
@@ -914,6 +969,8 @@ namespace LTI_RouterOS
 
         }
 
+        }
+
 
         private async void button14_Click(object sender, EventArgs e)
         {
@@ -1096,5 +1153,144 @@ namespace LTI_RouterOS
                 MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private string TimeSpanToString(TimeSpan timeSpan)
+        {
+            string result = "";
+
+            // Add hours if present
+            if (timeSpan.TotalHours >= 1)
+            {
+                result += $"{(int)timeSpan.TotalHours}h";
+                timeSpan -= TimeSpan.FromHours((int)timeSpan.TotalHours);
+            }
+
+            // Add minutes if present
+            if (timeSpan.TotalMinutes >= 1)
+            {
+                result += $"{(int)timeSpan.TotalMinutes}m";
+                timeSpan -= TimeSpan.FromMinutes((int)timeSpan.TotalMinutes);
+            }
+
+            // Add seconds if present
+            if (timeSpan.TotalSeconds >= 1)
+            {
+                result += $"{(int)timeSpan.TotalSeconds}s";
+            }
+
+            return result.Trim();
+        }
+
+
+        private string ValidateAndUpdateTimeFormat(string inputTime)
+        {
+
+            // Define a regular expression pattern for the expected time format "hh:mm:ss"
+            string pattern = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+
+            // Check if the input matches the expected format
+            if (Regex.IsMatch(inputTime, pattern))
+            {
+                // Parse the inputted time string to a TimeSpan object
+                TimeSpan timeSpan = TimeSpan.Parse(inputTime);
+
+                // Convert TimeSpan to the desired format
+                string newTimeFormat = TimeSpanToString(timeSpan);
+
+                return newTimeFormat;
+            }
+            else
+            {
+                // If the input format is invalid, display an error message
+                MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
+                return "";
+            }
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedItem = comboBox4.SelectedItem.ToString();
+
+            // Enable/disable text boxes or checkboxes based on the selected item
+            if (selectedItem != "disabled")
+            {
+                textBox8.Enabled = true;
+            }
+            else
+            {
+                textBox8.Enabled = false;
+            }
+        }
+
+        private string GetAllSelectedItems(CheckedListBox checkedListBox)
+        {
+            string selectedItems = "";
+
+            // Iterate through the CheckedItems collection
+            foreach (var item in checkedListBox.CheckedItems)
+            {
+                // Convert to lowercase and replace spaces with hyphens
+                string formattedItem = item.ToString().ToLower().Replace(" ", "-");
+
+                // Append each selected item to the label
+                selectedItems += formattedItem + ",";
+            }
+
+            selectedItems = selectedItems.TrimEnd(',');
+
+            return selectedItems;
+        }
+
+        private bool ValidateSelectedItems(CheckedListBox checkedListBox)
+        {
+            bool wpaPskSelected = false;
+            bool wpa2PskSelected = false;
+
+            // Check if "WPA PSK" and "WPA2 PSK" are selected
+            foreach (var item in checkedListBox.CheckedItems)
+            {
+                string selectedItem = item.ToString().ToLower();
+                if (selectedItem == "wpa psk")
+                {
+                    wpaPskSelected = true;
+                }
+                else if (selectedItem == "wpa2 psk")
+                {
+                    wpa2PskSelected = true;
+                }
+            }
+
+            // Check if both "WPA PSK" and "WPA2 PSK" are selected and if the password has more than 8 characters
+            if (wpaPskSelected)
+            {
+                if (textBox4.Text.Length > 8 || textBox4.Text == "")
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("The password must have more than 8 characters for WPA PSK and not be empty.", "Password Length Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            if (wpa2PskSelected)
+            {
+                if (textBox5.Text.Length > 8 || textBox5.Text == "")
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("The password must have more than 8 characters for WPA2 PSK and not be empty.", "Password Length Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
     }
 }

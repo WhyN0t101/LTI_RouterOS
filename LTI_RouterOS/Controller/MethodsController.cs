@@ -263,15 +263,7 @@ namespace LTI_RouterOS.Controller
                     ["disabled"] = "true"
                 };
 
-                // Serialize the JSON payload
-                string jsonPayload = payload.ToString();
-
-                // Create an HttpRequestMessage for PATCH request
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
-                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-                // Send the PATCH request
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
@@ -299,15 +291,8 @@ namespace LTI_RouterOS.Controller
                     ["disabled"] = "false"
                 };
 
-                // Serialize the JSON payload
-                string jsonPayload = payload.ToString();
-
-                // Create an HttpRequestMessage for PATCH request
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
-                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
                 // Send the PATCH request
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
@@ -322,7 +307,7 @@ namespace LTI_RouterOS.Controller
             }
 
         }
-        private async Task<HttpResponseMessage> SendPatchRequest(string apiUrl, JObject payload)
+        public async Task<HttpResponseMessage> SendPatchRequest(string apiUrl, JObject payload)
         {
             string jsonPayload = payload.ToString();
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
@@ -330,10 +315,15 @@ namespace LTI_RouterOS.Controller
             return await httpClient.SendAsync(request);
         }
 
-        private async Task<HttpResponseMessage> SendPostRequest(string apiUrl, JObject payload)
+        public async Task<HttpResponseMessage> SendPostRequest(string apiUrl, JObject payload)
         {
             string jsonPayload = payload.ToString();
             return await httpClient.PostAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
+        }
+        public async Task<HttpResponseMessage> SendPutRequest(string apiUrl, JObject payload)
+        {
+            string jsonPayload = payload.ToString();
+            return await httpClient.PutAsync(apiUrl, new StringContent(jsonPayload, Encoding.UTF8, "application/json"));
         }
 
         private List<string> ParseNamesFromJsonArray(string json, string propertyName)
@@ -357,15 +347,7 @@ namespace LTI_RouterOS.Controller
                 
                 string apiUrl = baseUrl + $"/rest/interface/wireless/{id}";
 
-                // Serialize the JSON payload
-                string jsonPayload = payload.ToString();
-
-                // Create an HttpRequestMessage for PATCH request
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), apiUrl);
-                request.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-                // Send the PATCH request
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
 
                 // Check if the request was successful
                 response.EnsureSuccessStatusCode();
@@ -412,8 +394,30 @@ namespace LTI_RouterOS.Controller
 
     }
 
+        public async Task CreateWirelessSecurity(JObject payload)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles";
 
 
+                HttpResponseMessage response = await SendPutRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+    }
 }
+
 
 
