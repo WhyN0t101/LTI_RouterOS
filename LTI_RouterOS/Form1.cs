@@ -337,7 +337,7 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text) == "")
+            if (ValidateAndUpdateTimeFormat(textBox7.Text, 1) == "")
             {
                 return;
             }
@@ -1145,29 +1145,61 @@ namespace LTI_RouterOS
         }
 
 
-        private string ValidateAndUpdateTimeFormat(string inputTime)
+        private string ValidateAndUpdateTimeFormat(string inputTime, int mode)
         {
+            //1 -> sec profile
+            //2 -> dhcp
+            string pattern = "";
 
-            // Define a regular expression pattern for the expected time format "hh:mm:ss"
-            string pattern = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
-
-            // Check if the input matches the expected format
-            if (Regex.IsMatch(inputTime, pattern))
+            if (mode == 1)
             {
-                // Parse the inputted time string to a TimeSpan object
-                TimeSpan timeSpan = TimeSpan.Parse(inputTime);
+                // Define a regular expression pattern for the expected time format "hh:mm:ss"
+                pattern = @"^(?:00:(?:[3-5][0-9]|00):[0-5][0-9]|0[1-9]:[0-5][0-9]:[0-5][0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]|24:00:00$";
 
-                // Convert TimeSpan to the desired format
-                string newTimeFormat = TimeSpanToString(timeSpan);
+                // Check if the input matches the expected format
+                if (Regex.IsMatch(inputTime, pattern))
+                {
+                    // Parse the inputted time string to a TimeSpan object
+                    TimeSpan timeSpan = TimeSpan.Parse(inputTime);
 
-                return newTimeFormat;
+                    // Convert TimeSpan to the desired format
+                    string newTimeFormat = TimeSpanToString(timeSpan);
+
+                    return newTimeFormat;
+                }
+                else
+                {
+                    // If the input format is invalid, display an error message
+                    MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
+                    return "";
+                }
+
             }
-            else
+            else if (mode == 2)
             {
-                // If the input format is invalid, display an error message
-                MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
-                return "";
+                // Define a regular expression pattern for the expected time format "hh:mm:ss"
+                pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+
+                // Check if the input matches the expected format
+                if (Regex.IsMatch(inputTime, pattern))
+                {
+                    // Parse the inputted time string to a TimeSpan object
+                    TimeSpan timeSpan = TimeSpan.Parse(inputTime);
+
+                    // Convert TimeSpan to the desired format
+                    string newTimeFormat = TimeSpanToString(timeSpan);
+
+                    return newTimeFormat;
+                }
+                else
+                {
+                    // If the input format is invalid, display an error message
+                    MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
+                    return "";
+                }
             }
+            MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
+            return "";
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -1269,7 +1301,7 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text) == "")
+            if (ValidateAndUpdateTimeFormat(textBox7.Text, 1) == "")
             {
                 return;
             }
@@ -1704,6 +1736,31 @@ namespace LTI_RouterOS
             }
         }
 
+        private async Task<DHCPServer> RetrieveDHCPServer(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint
+                HttpResponseMessage response = await httpClient.GetAsync(baseUrl + $"/rest/ip/dhcp-server/{name}");
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON response into a WifiSecurityProfile object
+                DHCPServer dhcpServer = JsonConvert.DeserializeObject<DHCPServer>(responseBody);
+
+                return dhcpServer;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+
         private async void buttonListDHCP_Click(object sender, EventArgs e)
         {
             textBoxListarServidoresDhcp.Clear();
@@ -1763,6 +1820,262 @@ namespace LTI_RouterOS
             catch (Exception ex)
             {
                 MessageBox.Show("Error retrieving DHCP Servers data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        private async void buttonServerDHCPApagar_Click(object sender, EventArgs e)
+        {
+            if (comboBoxServidorDHCP.SelectedItem == null)
+            {
+                MessageBox.Show("Select a DHCP Server: ");
+                return;
+            }
+
+            await EraseDHCPServer(dhcpServer.Id);
+
+        }
+
+        private async Task EraseDHCPServer(string id)
+        {
+            try
+            {
+                await Controller.DeleteDHCPServer(id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Deleting DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async void comboBoxServidorDHCP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+
+            string name = comboBoxServidorDHCP.SelectedItem.ToString();
+            DHCPServer dhcpServ = await RetrieveDHCPServer(name);
+            await PopulatecomboBoxAddressPool();
+            await PopulatecomboBoxDHCPInterfaces();
+
+
+            if (dhcpServ != null)
+            {
+                dhcpServer.Id = dhcpServ.Id;
+                textBoxDHCPName.Text = dhcpServ.Name;
+                comboBoxAddressPool.SelectedItem = dhcpServ.AddressPool;
+                comboBoxRadius.SelectedItem = dhcpServ.UseRadius;
+                comboBox16.SelectedItem = dhcpServ.Interface;
+                textBoxLeaseTime.Text = ConvertTimeFormat(dhcpServ.LeaseTime);
+                checkBoxConflitDetetion.Checked = dhcpServ.ConflictDetection;
+                checkBoxClassless.Checked = dhcpServ.UseFramedAsClassless;
+            }
+
+        }
+
+        private async Task PopulatecomboBoxDHCPInterfaces()
+        {
+            // Clear any existing items in the ComboBox
+            comboBox16.Items.Clear();
+
+            try
+            {
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/interface");
+                List<string> InterfaceList = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBox16.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string inter in InterfaceList)
+                {
+                    comboBox16.Items.Add(inter.ToLower());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Interface data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task PopulatecomboBoxAddressPool()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxAddressPool.Items.Clear();
+
+            try
+            {
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/ip/pool");
+                List<string> AddressPoolList = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxAddressPool.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string AddressPool in AddressPoolList)
+                {
+                    comboBoxAddressPool.Items.Add(AddressPool);
+                }
+                string staticon = "static-only";
+                comboBoxAddressPool.Items.Add(staticon.ToLower());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Adress Pool data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void button21_Click(object sender, EventArgs e)
+        {
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBoxLeaseTime.Text, 2) == "")
+            {
+                return;
+            }
+            
+            if (await ValidateDHCPInterface())
+            {
+                return;
+            }
+
+            // Update wifiProfile object with values from the form before creating the security profile
+            UpdateDHCPServerFromForm();
+
+            // Create the security profile
+            await CreateDHCPServer(dhcpServer);
+            
+
+        }
+
+        private async Task<bool> ValidateDHCPInterface()
+        {
+            // Retrieve the list of wirelessInterfaces
+            string response = await Controller.Retrieve("/rest/interface");
+            string targetName = comboBox16.SelectedItem.ToString();
+
+            JArray jsonArray = JArray.Parse(response);
+
+            foreach (JObject obj in jsonArray)
+            {
+                // Access the "name" field
+                string name = (string)obj["name"];
+
+                // Check if the "name" matches the targetName
+                if (name == targetName)
+                {
+                    // If the names match, check if it is a slave interface
+                    if(obj.ContainsKey("slave") && (bool)obj["slave"] == true)
+                    {
+                        MessageBox.Show("The Interface is of Type slave, please chose another one.", "Password Length Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        private void UpdateDHCPServerFromForm()
+        {
+            // Update wifiProfile object with values from the form controls
+            dhcpServer.Name = textBoxDHCPName.Text;
+            dhcpServer.AddressPool = comboBoxAddressPool.SelectedItem.ToString();
+            dhcpServer.UseRadius = comboBoxRadius.SelectedItem.ToString();
+            dhcpServer.Interface = comboBox16.SelectedItem.ToString();
+            dhcpServer.LeaseTime = textBoxLeaseTime.Text;
+            dhcpServer.ConflictDetection = checkBoxConflitDetetion.Checked;
+            dhcpServer.UseFramedAsClassless = checkBoxClassless.Checked;
+
+        }
+
+        private async Task CreateDHCPServer(DHCPServer dhcpServer)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = dhcpServer.Name,
+                    ["address-pool"] = dhcpServer.AddressPool,
+                    ["conflict-detection"] = dhcpServer.ConflictDetection,
+                    ["use-framed-as-classless"] = dhcpServer.UseFramedAsClassless,
+                    ["interface"] = dhcpServer.Interface,
+                    ["lease-time"] = dhcpServer.LeaseTime,
+                    ["use-radius"] = dhcpServer.UseRadius
+                };
+
+                await Controller.CreateDHCPServer(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void buttonServerDHCPEditar_Click(object sender, EventArgs e)
+        {
+            if (comboBoxServidorDHCP.SelectedItem == null)
+            {
+                MessageBox.Show("Select a DHCP Server: ");
+                return;
+            }
+
+            //verifica time
+            if (ValidateAndUpdateTimeFormat(textBoxLeaseTime.Text, 2) == "")
+            {
+                return;
+            }
+
+            if (await ValidateDHCPInterface())
+            {
+                return;
+            }
+
+            // Update wifiProfile object with values from the form before creating the security profile
+            UpdateDHCPServerFromForm();
+
+            // Create the security profile
+            await EditDHCPServer(dhcpServer);
+
+        }
+
+        private async Task EditDHCPServer(DHCPServer dhcpServer)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = dhcpServer.Name,
+                    ["address-pool"] = dhcpServer.AddressPool,
+                    ["conflict-detection"] = dhcpServer.ConflictDetection,
+                    ["use-framed-as-classless"] = dhcpServer.UseFramedAsClassless,
+                    ["interface"] = dhcpServer.Interface,
+                    ["lease-time"] = dhcpServer.LeaseTime,
+                    ["use-radius"] = dhcpServer.UseRadius
+                };
+
+                await Controller.EditDHCPServer(payload, dhcpServer.Id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error editing DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -196,15 +196,13 @@
             this.buttonListarEndIp = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.comboBoxServidorDHCP = new System.Windows.Forms.ComboBox();
             this.buttonServerDHCPEditar = new System.Windows.Forms.Button();
             this.label45 = new System.Windows.Forms.Label();
-            this.comboBoxServidorDHCP = new System.Windows.Forms.ComboBox();
             this.buttonServerDHCPApagar = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBoxConflitDetetion = new System.Windows.Forms.CheckBox();
             this.checkBoxClassless = new System.Windows.Forms.CheckBox();
-            this.checkBoxARPForLeases = new System.Windows.Forms.CheckBox();
-            this.checkBoxAlwaysBroadcast = new System.Windows.Forms.CheckBox();
             this.comboBoxRadius = new System.Windows.Forms.ComboBox();
             this.label51 = new System.Windows.Forms.Label();
             this.textBoxLeaseTime = new System.Windows.Forms.TextBox();
@@ -214,14 +212,6 @@
             this.label53 = new System.Windows.Forms.Label();
             this.textBoxDHCPName = new System.Windows.Forms.TextBox();
             this.button21 = new System.Windows.Forms.Button();
-            this.comboBoxBootpSupport = new System.Windows.Forms.ComboBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.comboBoxAuthoritative = new System.Windows.Forms.ComboBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.textBoxDelay = new System.Windows.Forms.TextBox();
-            this.label50 = new System.Windows.Forms.Label();
-            this.textBoxServerAddress = new System.Windows.Forms.TextBox();
             this.comboBoxAddressPool = new System.Windows.Forms.ComboBox();
             this.label52 = new System.Windows.Forms.Label();
             this.textBoxListarServidoresDhcp = new System.Windows.Forms.TextBox();
@@ -244,12 +234,12 @@
             this.label59 = new System.Windows.Forms.Label();
             this.textBoxUSPPackageSize = new System.Windows.Forms.TextBox();
             this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
-            this.label58 = new System.Windows.Forms.Label();
-            this.textBoxDOHServer = new System.Windows.Forms.TextBox();
             this.label57 = new System.Windows.Forms.Label();
             this.textBoxServers = new System.Windows.Forms.TextBox();
             this.buttonDNSAtivar = new System.Windows.Forms.Button();
             this.buttonDNSDesativar = new System.Windows.Forms.Button();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -1665,6 +1655,7 @@
             this.button9.TabIndex = 7;
             this.button9.Text = "Apagar";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // label4
             // 
@@ -2013,6 +2004,7 @@
             this.comboBoxInterface.Name = "comboBoxInterface";
             this.comboBoxInterface.Size = new System.Drawing.Size(121, 21);
             this.comboBoxInterface.TabIndex = 19;
+            this.comboBoxInterface.Enter += new System.EventHandler(this.comboBoxInterfaces_Enter);
             // 
             // label43
             // 
@@ -2147,9 +2139,8 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.buttonServerDHCPEditar);
-            this.groupBox9.Controls.Add(this.label45);
             this.groupBox9.Controls.Add(this.comboBoxServidorDHCP);
+            this.groupBox9.Controls.Add(this.label45);
             this.groupBox9.Controls.Add(this.buttonServerDHCPApagar);
             this.groupBox9.Location = new System.Drawing.Point(268, 7);
             this.groupBox9.Name = "groupBox9";
@@ -2158,14 +2149,25 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Management";
             // 
+            // comboBoxServidorDHCP
+            // 
+            this.comboBoxServidorDHCP.FormattingEnabled = true;
+            this.comboBoxServidorDHCP.Location = new System.Drawing.Point(10, 55);
+            this.comboBoxServidorDHCP.Name = "comboBoxServidorDHCP";
+            this.comboBoxServidorDHCP.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxServidorDHCP.TabIndex = 14;
+            this.comboBoxServidorDHCP.SelectedIndexChanged += new System.EventHandler(this.comboBoxServidorDHCP_SelectedIndexChanged);
+            this.comboBoxServidorDHCP.Enter += new System.EventHandler(this.comboBoxServidorDHCP_Enter);
+            // 
             // buttonServerDHCPEditar
             // 
-            this.buttonServerDHCPEditar.Location = new System.Drawing.Point(324, 55);
+            this.buttonServerDHCPEditar.Location = new System.Drawing.Point(103, 254);
             this.buttonServerDHCPEditar.Name = "buttonServerDHCPEditar";
-            this.buttonServerDHCPEditar.Size = new System.Drawing.Size(86, 21);
+            this.buttonServerDHCPEditar.Size = new System.Drawing.Size(86, 23);
             this.buttonServerDHCPEditar.TabIndex = 11;
             this.buttonServerDHCPEditar.Text = "Editar";
             this.buttonServerDHCPEditar.UseVisualStyleBackColor = true;
+            this.buttonServerDHCPEditar.Click += new System.EventHandler(this.buttonServerDHCPEditar_Click);
             // 
             // label45
             // 
@@ -2176,15 +2178,6 @@
             this.label45.TabIndex = 13;
             this.label45.Text = "Servidor DHCP";
             // 
-            // comboBoxServidorDHCP
-            // 
-            this.comboBoxServidorDHCP.FormattingEnabled = true;
-            this.comboBoxServidorDHCP.Location = new System.Drawing.Point(6, 55);
-            this.comboBoxServidorDHCP.Name = "comboBoxServidorDHCP";
-            this.comboBoxServidorDHCP.Size = new System.Drawing.Size(147, 21);
-            this.comboBoxServidorDHCP.TabIndex = 12;
-            this.comboBoxServidorDHCP.Enter += new System.EventHandler(this.comboBoxServidorDHCP_Enter);
-            // 
             // buttonServerDHCPApagar
             // 
             this.buttonServerDHCPApagar.Location = new System.Drawing.Point(232, 55);
@@ -2193,13 +2186,13 @@
             this.buttonServerDHCPApagar.TabIndex = 7;
             this.buttonServerDHCPApagar.Text = "Apagar";
             this.buttonServerDHCPApagar.UseVisualStyleBackColor = true;
+            this.buttonServerDHCPApagar.Click += new System.EventHandler(this.buttonServerDHCPApagar_Click);
             // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.checkBoxConflitDetetion);
+            this.groupBox10.Controls.Add(this.buttonServerDHCPEditar);
             this.groupBox10.Controls.Add(this.checkBoxClassless);
-            this.groupBox10.Controls.Add(this.checkBoxARPForLeases);
-            this.groupBox10.Controls.Add(this.checkBoxAlwaysBroadcast);
             this.groupBox10.Controls.Add(this.comboBoxRadius);
             this.groupBox10.Controls.Add(this.label51);
             this.groupBox10.Controls.Add(this.textBoxLeaseTime);
@@ -2209,14 +2202,6 @@
             this.groupBox10.Controls.Add(this.label53);
             this.groupBox10.Controls.Add(this.textBoxDHCPName);
             this.groupBox10.Controls.Add(this.button21);
-            this.groupBox10.Controls.Add(this.comboBoxBootpSupport);
-            this.groupBox10.Controls.Add(this.label47);
-            this.groupBox10.Controls.Add(this.comboBoxAuthoritative);
-            this.groupBox10.Controls.Add(this.label48);
-            this.groupBox10.Controls.Add(this.label49);
-            this.groupBox10.Controls.Add(this.textBoxDelay);
-            this.groupBox10.Controls.Add(this.label50);
-            this.groupBox10.Controls.Add(this.textBoxServerAddress);
             this.groupBox10.Controls.Add(this.comboBoxAddressPool);
             this.groupBox10.Controls.Add(this.label52);
             this.groupBox10.Location = new System.Drawing.Point(268, 95);
@@ -2231,7 +2216,7 @@
             this.checkBoxConflitDetetion.AutoSize = true;
             this.checkBoxConflitDetetion.Checked = true;
             this.checkBoxConflitDetetion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxConflitDetetion.Location = new System.Drawing.Point(147, 283);
+            this.checkBoxConflitDetetion.Location = new System.Drawing.Point(11, 159);
             this.checkBoxConflitDetetion.Name = "checkBoxConflitDetetion";
             this.checkBoxConflitDetetion.Size = new System.Drawing.Size(104, 17);
             this.checkBoxConflitDetetion.TabIndex = 80;
@@ -2243,32 +2228,12 @@
             this.checkBoxClassless.AutoSize = true;
             this.checkBoxClassless.Checked = true;
             this.checkBoxClassless.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxClassless.Location = new System.Drawing.Point(147, 260);
+            this.checkBoxClassless.Location = new System.Drawing.Point(143, 159);
             this.checkBoxClassless.Name = "checkBoxClassless";
             this.checkBoxClassless.Size = new System.Drawing.Size(144, 17);
             this.checkBoxClassless.TabIndex = 79;
             this.checkBoxClassless.Text = "Use Framed As Classless";
             this.checkBoxClassless.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxARPForLeases
-            // 
-            this.checkBoxARPForLeases.AutoSize = true;
-            this.checkBoxARPForLeases.Location = new System.Drawing.Point(15, 283);
-            this.checkBoxARPForLeases.Name = "checkBoxARPForLeases";
-            this.checkBoxARPForLeases.Size = new System.Drawing.Size(122, 17);
-            this.checkBoxARPForLeases.TabIndex = 78;
-            this.checkBoxARPForLeases.Text = "Add ARP for Leases";
-            this.checkBoxARPForLeases.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAlwaysBroadcast
-            // 
-            this.checkBoxAlwaysBroadcast.AutoSize = true;
-            this.checkBoxAlwaysBroadcast.Location = new System.Drawing.Point(15, 260);
-            this.checkBoxAlwaysBroadcast.Name = "checkBoxAlwaysBroadcast";
-            this.checkBoxAlwaysBroadcast.Size = new System.Drawing.Size(110, 17);
-            this.checkBoxAlwaysBroadcast.TabIndex = 77;
-            this.checkBoxAlwaysBroadcast.Text = "Always Broadcast";
-            this.checkBoxAlwaysBroadcast.UseVisualStyleBackColor = true;
             // 
             // comboBoxRadius
             // 
@@ -2277,7 +2242,7 @@
             "yes",
             "no",
             "accounting"});
-            this.comboBoxRadius.Location = new System.Drawing.Point(343, 154);
+            this.comboBoxRadius.Location = new System.Drawing.Point(94, 114);
             this.comboBoxRadius.Name = "comboBoxRadius";
             this.comboBoxRadius.Size = new System.Drawing.Size(142, 21);
             this.comboBoxRadius.TabIndex = 76;
@@ -2286,7 +2251,7 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(256, 157);
+            this.label51.Location = new System.Drawing.Point(7, 117);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(70, 13);
             this.label51.TabIndex = 75;
@@ -2316,6 +2281,7 @@
             this.comboBox16.Name = "comboBox16";
             this.comboBox16.Size = new System.Drawing.Size(142, 21);
             this.comboBox16.TabIndex = 70;
+            this.comboBox16.Text = "ether1";
             // 
             // label54
             // 
@@ -2345,89 +2311,13 @@
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(343, 277);
+            this.button21.Location = new System.Drawing.Point(11, 254);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(86, 23);
             this.button21.TabIndex = 10;
             this.button21.Text = "Criar";
             this.button21.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxBootpSupport
-            // 
-            this.comboBoxBootpSupport.FormattingEnabled = true;
-            this.comboBoxBootpSupport.Items.AddRange(new object[] {
-            "static",
-            "none",
-            "dynamic"});
-            this.comboBoxBootpSupport.Location = new System.Drawing.Point(93, 198);
-            this.comboBoxBootpSupport.Name = "comboBoxBootpSupport";
-            this.comboBoxBootpSupport.Size = new System.Drawing.Size(142, 21);
-            this.comboBoxBootpSupport.TabIndex = 64;
-            this.comboBoxBootpSupport.Text = "static";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(6, 206);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(75, 13);
-            this.label47.TabIndex = 63;
-            this.label47.Text = "Bootp Support";
-            // 
-            // comboBoxAuthoritative
-            // 
-            this.comboBoxAuthoritative.FormattingEnabled = true;
-            this.comboBoxAuthoritative.Items.AddRange(new object[] {
-            "yes",
-            "no",
-            "after 2s delay",
-            "ater 10s delay"});
-            this.comboBoxAuthoritative.Location = new System.Drawing.Point(343, 115);
-            this.comboBoxAuthoritative.Name = "comboBoxAuthoritative";
-            this.comboBoxAuthoritative.Size = new System.Drawing.Size(142, 21);
-            this.comboBoxAuthoritative.TabIndex = 62;
-            this.comboBoxAuthoritative.Text = "yes";
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(256, 118);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(66, 13);
-            this.label48.TabIndex = 61;
-            this.label48.Text = "Authoritative";
-            // 
-            // label49
-            // 
-            this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(6, 162);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(84, 13);
-            this.label49.TabIndex = 59;
-            this.label49.Text = "Delay Threshold";
-            // 
-            // textBoxDelay
-            // 
-            this.textBoxDelay.Location = new System.Drawing.Point(93, 155);
-            this.textBoxDelay.Name = "textBoxDelay";
-            this.textBoxDelay.Size = new System.Drawing.Size(142, 20);
-            this.textBoxDelay.TabIndex = 60;
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(2, 119);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(79, 13);
-            this.label50.TabIndex = 17;
-            this.label50.Text = "Server Address";
-            // 
-            // textBoxServerAddress
-            // 
-            this.textBoxServerAddress.Location = new System.Drawing.Point(93, 116);
-            this.textBoxServerAddress.Name = "textBoxServerAddress";
-            this.textBoxServerAddress.Size = new System.Drawing.Size(142, 20);
-            this.textBoxServerAddress.TabIndex = 18;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // comboBoxAddressPool
             // 
@@ -2468,6 +2358,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label47);
+            this.tabPage2.Controls.Add(this.label46);
             this.tabPage2.Controls.Add(this.buttonDNSConfigurar);
             this.tabPage2.Controls.Add(this.label66);
             this.tabPage2.Controls.Add(this.textBoxCacheMaxTTL);
@@ -2485,8 +2377,6 @@
             this.tabPage2.Controls.Add(this.label59);
             this.tabPage2.Controls.Add(this.textBoxUSPPackageSize);
             this.tabPage2.Controls.Add(this.checkBoxRemoteRequests);
-            this.tabPage2.Controls.Add(this.label58);
-            this.tabPage2.Controls.Add(this.textBoxDOHServer);
             this.tabPage2.Controls.Add(this.label57);
             this.tabPage2.Controls.Add(this.textBoxServers);
             this.tabPage2.Controls.Add(this.buttonDNSAtivar);
@@ -2511,7 +2401,7 @@
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(22, 266);
+            this.label66.Location = new System.Drawing.Point(375, 208);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(84, 13);
             this.label66.TabIndex = 92;
@@ -2519,15 +2409,16 @@
             // 
             // textBoxCacheMaxTTL
             // 
-            this.textBoxCacheMaxTTL.Location = new System.Drawing.Point(112, 263);
+            this.textBoxCacheMaxTTL.Location = new System.Drawing.Point(465, 205);
             this.textBoxCacheMaxTTL.Name = "textBoxCacheMaxTTL";
             this.textBoxCacheMaxTTL.Size = new System.Drawing.Size(142, 20);
             this.textBoxCacheMaxTTL.TabIndex = 93;
+            this.textBoxCacheMaxTTL.Text = "00:30:00";
             // 
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(260, 230);
+            this.label65.Location = new System.Drawing.Point(613, 176);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(21, 13);
             this.label65.TabIndex = 91;
@@ -2536,7 +2427,7 @@
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(22, 234);
+            this.label64.Location = new System.Drawing.Point(390, 176);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(61, 13);
             this.label64.TabIndex = 89;
@@ -2544,15 +2435,16 @@
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(112, 227);
+            this.textBox20.Location = new System.Drawing.Point(465, 173);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(142, 20);
             this.textBox20.TabIndex = 90;
+            this.textBox20.Text = "2048";
             // 
             // label62
             // 
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(304, 175);
+            this.label62.Location = new System.Drawing.Point(18, 331);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(151, 13);
             this.label62.TabIndex = 87;
@@ -2560,15 +2452,16 @@
             // 
             // textBoxConcurrentTCPSessions
             // 
-            this.textBoxConcurrentTCPSessions.Location = new System.Drawing.Point(461, 168);
+            this.textBoxConcurrentTCPSessions.Location = new System.Drawing.Point(175, 324);
             this.textBoxConcurrentTCPSessions.Name = "textBoxConcurrentTCPSessions";
             this.textBoxConcurrentTCPSessions.Size = new System.Drawing.Size(142, 20);
             this.textBoxConcurrentTCPSessions.TabIndex = 88;
+            this.textBoxConcurrentTCPSessions.Text = "20";
             // 
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(304, 143);
+            this.label63.Location = new System.Drawing.Point(18, 287);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(121, 13);
             this.label63.TabIndex = 85;
@@ -2576,15 +2469,16 @@
             // 
             // textBoxConcurrentQueries
             // 
-            this.textBoxConcurrentQueries.Location = new System.Drawing.Point(461, 140);
+            this.textBoxConcurrentQueries.Location = new System.Drawing.Point(175, 284);
             this.textBoxConcurrentQueries.Name = "textBoxConcurrentQueries";
             this.textBoxConcurrentQueries.Size = new System.Drawing.Size(142, 20);
             this.textBoxConcurrentQueries.TabIndex = 86;
+            this.textBoxConcurrentQueries.Text = "100";
             // 
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(304, 115);
+            this.label60.Location = new System.Drawing.Point(19, 251);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(103, 13);
             this.label60.TabIndex = 83;
@@ -2592,15 +2486,16 @@
             // 
             // textBoxQueryTotalTimeout
             // 
-            this.textBoxQueryTotalTimeout.Location = new System.Drawing.Point(460, 112);
+            this.textBoxQueryTotalTimeout.Location = new System.Drawing.Point(175, 248);
             this.textBoxQueryTotalTimeout.Name = "textBoxQueryTotalTimeout";
             this.textBoxQueryTotalTimeout.Size = new System.Drawing.Size(142, 20);
             this.textBoxQueryTotalTimeout.TabIndex = 84;
+            this.textBoxQueryTotalTimeout.Text = "10.000";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(304, 83);
+            this.label61.Location = new System.Drawing.Point(19, 212);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(110, 13);
             this.label61.TabIndex = 81;
@@ -2608,15 +2503,16 @@
             // 
             // textBoxQueryServerTimeout
             // 
-            this.textBoxQueryServerTimeout.Location = new System.Drawing.Point(460, 80);
+            this.textBoxQueryServerTimeout.Location = new System.Drawing.Point(175, 209);
             this.textBoxQueryServerTimeout.Name = "textBoxQueryServerTimeout";
             this.textBoxQueryServerTimeout.Size = new System.Drawing.Size(142, 20);
             this.textBoxQueryServerTimeout.TabIndex = 82;
+            this.textBoxQueryServerTimeout.Text = "2.000";
             // 
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(304, 52);
+            this.label59.Location = new System.Drawing.Point(19, 176);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(122, 13);
             this.label59.TabIndex = 79;
@@ -2624,36 +2520,21 @@
             // 
             // textBoxUSPPackageSize
             // 
-            this.textBoxUSPPackageSize.Location = new System.Drawing.Point(460, 49);
+            this.textBoxUSPPackageSize.Location = new System.Drawing.Point(175, 173);
             this.textBoxUSPPackageSize.Name = "textBoxUSPPackageSize";
             this.textBoxUSPPackageSize.Size = new System.Drawing.Size(142, 20);
             this.textBoxUSPPackageSize.TabIndex = 80;
+            this.textBoxUSPPackageSize.Text = "4096";
             // 
             // checkBoxRemoteRequests
             // 
             this.checkBoxRemoteRequests.AutoSize = true;
-            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(21, 140);
+            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(425, 324);
             this.checkBoxRemoteRequests.Name = "checkBoxRemoteRequests";
             this.checkBoxRemoteRequests.Size = new System.Drawing.Size(139, 17);
             this.checkBoxRemoteRequests.TabIndex = 78;
             this.checkBoxRemoteRequests.Text = "Allow Remote Requests";
             this.checkBoxRemoteRequests.UseVisualStyleBackColor = true;
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(304, 20);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(87, 13);
-            this.label58.TabIndex = 71;
-            this.label58.Text = "Use DOH Server";
-            // 
-            // textBoxDOHServer
-            // 
-            this.textBoxDOHServer.Location = new System.Drawing.Point(460, 17);
-            this.textBoxDOHServer.Name = "textBoxDOHServer";
-            this.textBoxDOHServer.Size = new System.Drawing.Size(142, 20);
-            this.textBoxDOHServer.TabIndex = 72;
             // 
             // label57
             // 
@@ -2666,10 +2547,10 @@
             // 
             // textBoxServers
             // 
-            this.textBoxServers.Location = new System.Drawing.Point(74, 12);
+            this.textBoxServers.Location = new System.Drawing.Point(21, 38);
             this.textBoxServers.Multiline = true;
             this.textBoxServers.Name = "textBoxServers";
-            this.textBoxServers.Size = new System.Drawing.Size(142, 112);
+            this.textBoxServers.Size = new System.Drawing.Size(142, 106);
             this.textBoxServers.TabIndex = 70;
             // 
             // buttonDNSAtivar
@@ -2689,6 +2570,24 @@
             this.buttonDNSDesativar.TabIndex = 8;
             this.buttonDNSDesativar.Text = "Desativar";
             this.buttonDNSDesativar.UseVisualStyleBackColor = true;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(323, 212);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(12, 13);
+            this.label46.TabIndex = 95;
+            this.label46.Text = "s";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(323, 251);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(12, 13);
+            this.label47.TabIndex = 96;
+            this.label47.Text = "s";
             // 
             // Form1
             // 
@@ -2873,20 +2772,11 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button buttonServerDHCPEditar;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.ComboBox comboBoxServidorDHCP;
         private System.Windows.Forms.Button buttonServerDHCPApagar;
         private System.Windows.Forms.TextBox textBoxListarServidoresDhcp;
         private System.Windows.Forms.Button buttonListDHCP;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.ComboBox comboBoxBootpSupport;
-        private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.ComboBox comboBoxAuthoritative;
-        private System.Windows.Forms.Label label48;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.TextBox textBoxDelay;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.TextBox textBoxServerAddress;
         private System.Windows.Forms.ComboBox comboBoxAddressPool;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.TextBox textBoxLeaseTime;
@@ -2897,16 +2787,12 @@
         private System.Windows.Forms.TextBox textBoxDHCPName;
         private System.Windows.Forms.CheckBox checkBoxConflitDetetion;
         private System.Windows.Forms.CheckBox checkBoxClassless;
-        private System.Windows.Forms.CheckBox checkBoxARPForLeases;
-        private System.Windows.Forms.CheckBox checkBoxAlwaysBroadcast;
         private System.Windows.Forms.ComboBox comboBoxRadius;
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.TextBox textBoxUSPPackageSize;
         private System.Windows.Forms.CheckBox checkBoxRemoteRequests;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.TextBox textBoxDOHServer;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox textBoxServers;
         private System.Windows.Forms.Button buttonDNSAtivar;
@@ -2964,5 +2850,8 @@
         private System.Windows.Forms.ComboBox SecProfilesComboBox;
         private System.Windows.Forms.Label label74;
         private System.Windows.Forms.ComboBox comboBoxInterface;
+        private System.Windows.Forms.ComboBox comboBoxServidorDHCP;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label46;
     }
 }

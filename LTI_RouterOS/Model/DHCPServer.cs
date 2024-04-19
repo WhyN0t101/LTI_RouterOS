@@ -13,23 +13,17 @@ namespace LTI_RouterOS.Model
         [JsonProperty(".id")]
         public string Id { get; set; }
 
-        [JsonProperty("add-arp")]
-        public string AddArp { get; set; }
-
         [JsonProperty("address-pool")]
         public string AddressPool { get; set; }
 
-        [JsonProperty("always-broadcast")]
-        public string AlwaysBroadcast { get; set; }
-
-        [JsonProperty("authoritative")]
-        public string Authoritative { get; set; }
-
-        [JsonProperty("delay-threshold")]
-        public string DelayThreshold { get; set; }
-
         [JsonProperty("disabled")]
         public string Disabled { get; set; }
+
+        [JsonProperty("conflict-detection")]
+        public bool ConflictDetection { get; set; }
+
+        [JsonProperty("use-framed-as-classless")]
+        public bool UseFramedAsClassless { get; set; }
 
         [JsonProperty("interface")]
         public string Interface { get; set; }
@@ -40,10 +34,15 @@ namespace LTI_RouterOS.Model
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("server-address")]
-        public string ServerAddress { get; set; }
-
         [JsonProperty("use-radius")]
         public string UseRadius { get; set; }
+
+        public DHCPServer()
+        {
+            UseFramedAsClassless = true;
+            ConflictDetection = true;
+        }
     }
+
+    
 }

@@ -419,28 +419,6 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task CreatWirelessSecurity(JObject payload)
-        {
-            try
-            {
-                string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles";
-
-
-                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
-
-                // Check if the request was successful
-                response.EnsureSuccessStatusCode();
-
-                // Display success message
-                MessageBox.Show("Security profile created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         public async Task EditWirelessSecurity(JObject payload, string id)
         {
             try
@@ -537,6 +515,72 @@ namespace LTI_RouterOS.Controller
             catch (HttpRequestException ex)
             {
                 MessageBox.Show("Error creating address: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DeleteDHCPServer(string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dhcp-server/{id}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DHCP Server deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task CreateDHCPServer(JObject payload)
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/dhcp-server/add";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DHCP Server created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditDHCPServer(JObject payload, string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dhcp-server/{id}";
+
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DHCP Server Edited successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

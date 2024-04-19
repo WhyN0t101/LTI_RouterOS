@@ -47,5 +47,20 @@ namespace LTI_RouterOS
             // Return the formatted time string
             return string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
         }
+
+        public List<string> ParseNameSlaveFromJsonArray(string json, string propertyName)
+        {
+            List<string> names = new List<string>();
+            JArray jsonArray = JArray.Parse(json);
+            foreach (JObject jsonObject in jsonArray)
+            {
+                if (jsonObject.ContainsKey(propertyName))
+                {
+                    string name = (string)jsonObject[propertyName];
+                    names.Add(name);
+                }
+            }
+            return names;
+        }
     }
 }
