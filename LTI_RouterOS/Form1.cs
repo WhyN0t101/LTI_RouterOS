@@ -28,6 +28,7 @@ namespace LTI_RouterOS
         private WifiSecurityProfile wifiProfile;
         private WirelessSettings wirelessSettings;
         private DHCPServer dhcpServer;
+        private DNS dns;
         private Json Parser = new Json();
 
 
@@ -39,6 +40,7 @@ namespace LTI_RouterOS
             wifiProfile = new WifiSecurityProfile();
             wirelessSettings = new WirelessSettings();
             dhcpServer = new DHCPServer();
+            dns = new DNS();
             InitializeComboBoxes();
 
         }
@@ -68,6 +70,8 @@ namespace LTI_RouterOS
             comboBox15.SelectedIndex = 0;
             comboBoxCheckGateway.SelectedIndex = 2;
         }
+
+        
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
@@ -116,6 +120,8 @@ namespace LTI_RouterOS
                 Controller = new MethodsController(username, password, ipAddress); // Instantiate GET class after user provides credentials
                 await Connect(ipAddress, username, password);
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //PopulateDHCPTab();
+
             }
             catch (Exception ex)
             {
@@ -182,6 +188,13 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Please connect to the router first.");
                 tabControl1.SelectedIndex = 0; // Switch back to the connection tab
+            }
+            TabControl tabControl = (TabControl)sender;
+            switch (tabControl.SelectedIndex)
+            {
+                case 6:
+                    PopulateDHCPTab();
+                    break;
             }
         }
 
@@ -2077,6 +2090,49 @@ namespace LTI_RouterOS
                 // Handle exceptions
                 MessageBox.Show("Error editing DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private async void PopulateDHCPTab()
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint
+                HttpResponseMessage response = await httpClient.GetAsync(baseUrl + $"/rest/ip/dns");
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON response into a DNS object
+                DNS dns = JsonConvert.DeserializeObject<DNS>(responseBody);
+
+                //Populate fields
+                // Split the servers string by comma
+                string[] serverList = dns.Servers.Split(',');
+
+                // Populate the textbox with servers
+                textBoxServers.Clear();
+                foreach (string server in serverList)
+                {
+                    textBoxServers.Text += server + Environment.NewLine;
+                }
+                textBoxUDPPackageSize.Text = dns.MaxUdpPacketSize;
+                textBoxQueryServerTimeout.Text = ConvertTimeFormat(dns.QueryServerTimeout);
+                textBoxQueryTotalTimeout.Text = ConvertTimeFormat(dns.QueryTotalTimeout);
+                textBoxConcurrentQueries.Text = dns.MaxConcurrentQueries;
+                textBoxConcurrentTCPSessions.Text = dns.MaxConcurrentTcpSessions;
+                textBox20.Text = dns.CacheSize;
+                textBoxCacheMaxTTL.Text = ConvertTimeFormat(dns.CacheMaxTTL);
+                textBox11.Text = dns.CacheUsed;
+                checkBoxRemoteRequests.Checked = dns.AllowRemoteRequests;
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }

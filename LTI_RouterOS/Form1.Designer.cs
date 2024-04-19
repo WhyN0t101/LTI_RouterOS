@@ -232,7 +232,7 @@
             this.label61 = new System.Windows.Forms.Label();
             this.textBoxQueryServerTimeout = new System.Windows.Forms.TextBox();
             this.label59 = new System.Windows.Forms.Label();
-            this.textBoxUSPPackageSize = new System.Windows.Forms.TextBox();
+            this.textBoxUDPPackageSize = new System.Windows.Forms.TextBox();
             this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.label57 = new System.Windows.Forms.Label();
             this.textBoxServers = new System.Windows.Forms.TextBox();
@@ -240,6 +240,8 @@
             this.buttonDNSDesativar = new System.Windows.Forms.Button();
             this.label46 = new System.Windows.Forms.Label();
             this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -2358,6 +2360,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label48);
+            this.tabPage2.Controls.Add(this.textBox11);
             this.tabPage2.Controls.Add(this.label47);
             this.tabPage2.Controls.Add(this.label46);
             this.tabPage2.Controls.Add(this.buttonDNSConfigurar);
@@ -2375,7 +2379,7 @@
             this.tabPage2.Controls.Add(this.label61);
             this.tabPage2.Controls.Add(this.textBoxQueryServerTimeout);
             this.tabPage2.Controls.Add(this.label59);
-            this.tabPage2.Controls.Add(this.textBoxUSPPackageSize);
+            this.tabPage2.Controls.Add(this.textBoxUDPPackageSize);
             this.tabPage2.Controls.Add(this.checkBoxRemoteRequests);
             this.tabPage2.Controls.Add(this.label57);
             this.tabPage2.Controls.Add(this.textBoxServers);
@@ -2518,13 +2522,13 @@
             this.label59.TabIndex = 79;
             this.label59.Text = "Max UDP Package Size";
             // 
-            // textBoxUSPPackageSize
+            // textBoxUDPPackageSize
             // 
-            this.textBoxUSPPackageSize.Location = new System.Drawing.Point(175, 173);
-            this.textBoxUSPPackageSize.Name = "textBoxUSPPackageSize";
-            this.textBoxUSPPackageSize.Size = new System.Drawing.Size(142, 20);
-            this.textBoxUSPPackageSize.TabIndex = 80;
-            this.textBoxUSPPackageSize.Text = "4096";
+            this.textBoxUDPPackageSize.Location = new System.Drawing.Point(175, 173);
+            this.textBoxUDPPackageSize.Name = "textBoxUDPPackageSize";
+            this.textBoxUDPPackageSize.Size = new System.Drawing.Size(142, 20);
+            this.textBoxUDPPackageSize.TabIndex = 80;
+            this.textBoxUDPPackageSize.Text = "4096";
             // 
             // checkBoxRemoteRequests
             // 
@@ -2588,6 +2592,23 @@
             this.label47.Size = new System.Drawing.Size(12, 13);
             this.label47.TabIndex = 96;
             this.label47.Text = "s";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(385, 238);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(66, 13);
+            this.label48.TabIndex = 97;
+            this.label48.Text = "Cache Used";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(465, 235);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(142, 20);
+            this.textBox11.TabIndex = 98;
+            this.textBox11.Text = "Cache Used";
             // 
             // Form1
             // 
@@ -2791,7 +2812,7 @@
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.TextBox textBoxUSPPackageSize;
+        private System.Windows.Forms.TextBox textBoxUDPPackageSize;
         private System.Windows.Forms.CheckBox checkBoxRemoteRequests;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox textBoxServers;
@@ -2853,5 +2874,7 @@
         private System.Windows.Forms.ComboBox comboBoxServidorDHCP;
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.TextBox textBox11;
     }
 }
