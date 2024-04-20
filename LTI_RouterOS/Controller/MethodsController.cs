@@ -88,23 +88,11 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task CreateBridge(string bridgeName, string mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        public async Task CreateBridge(JObject payload)
         {
             try
             {
                 string apiUrl = baseUrl + "/rest/interface/bridge/add";
-
-                JObject payload = new JObject
-                {
-                    ["name"] = bridgeName,
-                    ["mtu"] = mtu,
-                    ["arp"] = arpEnabled,
-                    ["arp-timeout"] = arpTimeout,
-                    ["ageing-time"] = ageingTime,
-                    ["igmp-snooping"] = igmpSnooping ? "true" : "false",
-                    ["dhcp-snooping"] = dhcpSnooping ? "true" : "false",
-                    ["fast-forward"] = fastForward ? "true" : "false"
-                };
 
                 HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
                 response.EnsureSuccessStatusCode();
@@ -117,23 +105,11 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task UpdateBridge(string bridgeId, string bridgeName, string mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        public async Task EditBridge(string bridgeId, JObject payload)
         {
             try
             {
                 string apiUrl = $"{baseUrl}/rest/interface/bridge/{bridgeId}";
-
-                JObject payload = new JObject
-                {
-                    ["name"] = bridgeName,
-                    ["mtu"] = mtu,
-                    ["arp"] = arpEnabled,
-                    ["arp-timeout"] = arpTimeout,
-                    ["ageing-time"] = ageingTime,
-                    ["igmp-snooping"] = igmpSnooping ? "true" : "false",
-                    ["dhcp-snooping"] = dhcpSnooping ? "true" : "false",
-                    ["fast-forward"] = fastForward ? "true" : "false",
-                };
 
                 HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
                 response.EnsureSuccessStatusCode();

@@ -2607,7 +2607,7 @@
             this.textBoxBridgeMTU.Name = "textBoxBridgeMTU";
             this.textBoxBridgeMTU.Size = new System.Drawing.Size(142, 20);
             this.textBoxBridgeMTU.TabIndex = 85;
-            this.textBoxBridgeMTU.Text = "64";
+            this.textBoxBridgeMTU.Text = "68";
             // 
             // Form1
             // 

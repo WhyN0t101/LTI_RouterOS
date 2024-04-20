@@ -9,6 +9,8 @@ namespace LTI_RouterOS.Model
 {
     internal class Bridge
     {
+        [JsonProperty(".id")]
+        public string Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

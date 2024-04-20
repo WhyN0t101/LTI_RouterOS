@@ -371,24 +371,77 @@ namespace LTI_RouterOS
 
         private async void button5_Click(object sender, EventArgs e)
         {
-            //Defaults
-            string bridgeName = textBoxBridgeName.Text;
-            string mtu = textBoxBridgeMTU.Text;
-            string arpEnabled = comboBoxARP.SelectedItem.ToString();
-            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
-            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
-            bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
-            bool igmpSnooping = checkBoxIGMP.Checked;
-            bool fastForward = checkBoxFF.Checked;
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
+            {
+                return;
+            }
 
+            if(ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text,0) == "")
+            {
+                return;
+            }
+
+            if (textBoxBridgeName.Text == "")
+            {
+                MessageBox.Show("Select a Bridge Name. ");
+                return;
+            }
+
+            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                return;
+            }
+
+            
+            // Update bridge object with values from the form before creating the security profile
+            UpdateBridgeFromForm();
+
+            // Create the security profile
+            await CreateBridge(bridge);
+        }
+
+        private async Task CreateBridge(Bridge bridge)
+        {
             try
             {
-                await Controller.CreateBridge(bridgeName, mtu, arpEnabled, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = bridge.Name,
+                    ["mtu"] = bridge.Mtu,
+                    ["arp"] = bridge.Arp,
+                    ["arp-timeout"] = bridge.ArpTimeout,
+                    ["ageing-time"] = bridge.AgeingTime,
+                    ["igmp-snooping"] = bridge.IgmpSnooping,
+                    ["dhcp-snooping"] = bridge.DhcpSnooping,
+                    ["fast-forward"] = bridge.FastForward
+                };
+
+                await Controller.CreateBridge(payload);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
+        }
+
+        private void UpdateBridgeFromForm()
+        {
+            bridge.Name = textBoxBridgeName.Text;
+            bridge.Mtu = textBoxBridgeMTU.Text;
+            bridge.Arp = comboBoxARP.SelectedItem.ToString();
+            bridge.ArpTimeout = textBoxArpTimeoutBridge.Text;
+            bridge.AgeingTime = textBoxAgeingTime.Text;
+            bridge.DhcpSnooping = checkBoxDHCPSnooping.Checked;
+            bridge.IgmpSnooping = checkBoxIGMP.Checked;
+            bridge.FastForward = checkBoxFF.Checked;
+
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -541,19 +594,20 @@ namespace LTI_RouterOS
             }
 
             string name = comboBox1.SelectedItem.ToString();
-            Bridge bridge = RetrieveBridge(name);
+            Bridge bridgeLocal = RetrieveBridge(name);
 
             
-            if (bridge != null)
+            if (bridgeLocal != null)
             {
-                textBoxBridgeName.Text = bridge.Name;
-                textBoxBridgeMTU.Text = bridge.Mtu;
-                comboBoxARP.SelectedItem = bridge.Arp;
-                textBoxArpTimeoutBridge.Text = ConvertTimeFormat(bridge.ArpTimeout);
-                textBoxAgeingTime.Text = ConvertTimeFormat(bridge.AgeingTime);
-                checkBoxFF.Checked = bridge.FastForward;
-                checkBoxIGMP.Checked = bridge.IgmpSnooping;
-                checkBoxDHCPSnooping.Checked = bridge.DhcpSnooping;
+                bridge.Id = bridgeLocal.Id;
+                textBoxBridgeName.Text = bridgeLocal.Name;
+                textBoxBridgeMTU.Text = bridgeLocal.Mtu;
+                comboBoxARP.SelectedItem = bridgeLocal.Arp;
+                textBoxArpTimeoutBridge.Text = ConvertTimeFormat(bridgeLocal.ArpTimeout);
+                textBoxAgeingTime.Text = ConvertTimeFormat(bridgeLocal.AgeingTime);
+                checkBoxFF.Checked = bridgeLocal.FastForward;
+                checkBoxIGMP.Checked = bridgeLocal.IgmpSnooping;
+                checkBoxDHCPSnooping.Checked = bridgeLocal.DhcpSnooping;
             }
         }
 
@@ -628,46 +682,70 @@ namespace LTI_RouterOS
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            // Defaults
+
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Select a bridge");
                 return;
             }
-            string selected = comboBox1.SelectedItem.ToString();
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
+            {
+                return;
+            }
 
-            string response = await Controller.Retrieve("/rest/interface/bridge/" + selected + "");
+            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
+            {
+                return;
+            }
 
-            // Parse the JSON response into a JObject
-            JObject bridgeObject = JObject.Parse(response);
+            if (textBoxBridgeName.Text == "")
+            {
+                MessageBox.Show("Select a Bridge Name. ");
+                return;
+            }
 
-            // Retrieve the bridge ID directly from the JObject
-            string bridgeId = bridgeObject[".id"].ToString();
+            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                return;
+            }
 
-            string bridgeName = textBoxBridgeName.Text;
-            string mtu = textBoxBridgeMTU.Text;
-            string arpEnabled = comboBoxARP.SelectedItem.ToString();
-            string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
-            string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
-            bool dhcpSnooping = checkBoxDHCPSnooping.Checked;
-            bool igmpSnooping = checkBoxIGMP.Checked;
-            bool fastForward = checkBoxFF.Checked;
+            // Update bridge object with values from the form before creating the security profile
+            UpdateBridgeFromForm();
 
+            // Create the security profile
+            await EditBridge(bridge);
+
+        }
+        
+        private async Task EditBridge(Bridge bridge)
+        {
             try
             {
-                await Controller.UpdateBridge(bridgeId, bridgeName, mtu, arpEnabled, arpTimeout, ageingTime, igmpSnooping, dhcpSnooping, fastForward);
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = bridge.Name,
+                    ["mtu"] = bridge.Mtu,
+                    ["arp"] = bridge.Arp,
+                    ["arp-timeout"] = bridge.ArpTimeout,
+                    ["ageing-time"] = bridge.AgeingTime,
+                    ["igmp-snooping"] = bridge.IgmpSnooping,
+                    ["dhcp-snooping"] = bridge.DhcpSnooping,
+                    ["fast-forward"] = bridge.FastForward
+                };
+
+                await Controller.EditBridge(bridge.Id, payload);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error updating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private async void comboBoxInterfaces_Enter(object sender, EventArgs e)
         {
@@ -1290,63 +1368,46 @@ namespace LTI_RouterOS
             return result.Trim();
         }
 
-
         private string ValidateAndUpdateTimeFormat(string inputTime, int mode)
         {
+            //0 -> hh:mm:ss
             //1 -> sec profile
             //2 -> dhcp
+            //3 -> bridge
             string pattern = "";
+            string errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'.";
 
-            if (mode == 1)
+            switch (mode)
             {
-                // Define a regular expression pattern for the expected time format "hh:mm:ss"
-                pattern = @"^(?:00:(?:[3-5][0-9]|00):[0-5][0-9]|0[1-9]:[0-5][0-9]:[0-5][0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]|24:00:00$";
-
-                // Check if the input matches the expected format
-                if (Regex.IsMatch(inputTime, pattern))
-                {
-                    // Parse the inputted time string to a TimeSpan object
-                    TimeSpan timeSpan = TimeSpan.Parse(inputTime);
-
-                    // Convert TimeSpan to the desired format
-                    string newTimeFormat = TimeSpanToString(timeSpan);
-
-                    return newTimeFormat;
-                }
-                else
-                {
-                    // If the input format is invalid, display an error message
-                    MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
+                case 0: // Change the default case label to case 0
+                    pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"; // Pattern for hh:mm:ss format
+                    break;
+                case 1:
+                    pattern = @"^(?:00:(?:[3-5][0-9]|00):[0-5][0-9]|0[1-9]:[0-5][0-9]:[0-5][0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]|24:00:00$";
+                    break;
+                case 2:
+                    pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+                    break;
+                case 3:
+                    pattern = @"^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$";
+                    break;
+                default:
+                    MessageBox.Show(errorMessage);
                     return "";
-                }
-
             }
-            else if (mode == 2)
+
+            if (Regex.IsMatch(inputTime, pattern))
             {
-                // Define a regular expression pattern for the expected time format "hh:mm:ss"
-                pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
-
-                // Check if the input matches the expected format
-                if (Regex.IsMatch(inputTime, pattern))
-                {
-                    // Parse the inputted time string to a TimeSpan object
-                    TimeSpan timeSpan = TimeSpan.Parse(inputTime);
-
-                    // Convert TimeSpan to the desired format
-                    string newTimeFormat = TimeSpanToString(timeSpan);
-
-                    return newTimeFormat;
-                }
-                else
-                {
-                    // If the input format is invalid, display an error message
-                    MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
-                    return "";
-                }
+                TimeSpan timeSpan = TimeSpan.Parse(inputTime);
+                return TimeSpanToString(timeSpan);
             }
-            MessageBox.Show("Invalid time format. Please enter the time in the format 'hh:mm:ss'.");
-            return "";
+            else
+            {
+                MessageBox.Show(errorMessage);
+                return "";
+            }
         }
+
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
