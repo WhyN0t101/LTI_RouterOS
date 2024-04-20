@@ -29,6 +29,7 @@ namespace LTI_RouterOS
         private WirelessSettings wirelessSettings;
         private DHCPServer dhcpServer;
         private DNS dns;
+        private Bridge bridge;
         private Json Parser = new Json();
 
 
@@ -41,6 +42,7 @@ namespace LTI_RouterOS
             wirelessSettings = new WirelessSettings();
             dhcpServer = new DHCPServer();
             dns = new DNS();
+            bridge = new Bridge();
             InitializeComboBoxes();
 
         }
@@ -65,13 +67,11 @@ namespace LTI_RouterOS
             PopulateCountryNamesComboBox();
             comboBox17.SelectedIndex = 2;
             comboBox2.SelectedIndex = 0;
-            numericUpDown1.Maximum = 2000;
-            numericUpDown1.Value = 1492;
             comboBox15.SelectedIndex = 0;
             comboBoxCheckGateway.SelectedIndex = 2;
         }
 
-        
+
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
@@ -373,7 +373,7 @@ namespace LTI_RouterOS
         {
             //Defaults
             string bridgeName = textBoxBridgeName.Text;
-            int mtu = (int)numericUpDown1.Value;
+            string mtu = textBoxBridgeMTU.Text;
             string arpEnabled = comboBoxARP.SelectedItem.ToString();
             string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
             string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
@@ -508,8 +508,8 @@ namespace LTI_RouterOS
             // Do something with the selected country name
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {/*
             string selectedItem = comboBox1.SelectedItem.ToString();
             // Enable/disable text boxes or checkboxes based on the selected item
             if (selectedItem == "disabled")
@@ -524,6 +524,61 @@ namespace LTI_RouterOS
             else if (selectedItem == "required")
             {
                 textBox8.Enabled = true;
+            }
+            */
+
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+
+            string name = comboBox1.SelectedItem.ToString();
+            Bridge bridge = RetrieveBridge(name);
+
+            
+            if (bridge != null)
+            {
+                textBoxBridgeName.Text = bridge.Name;
+                textBoxBridgeMTU.Text = bridge.Mtu;
+                comboBoxARP.SelectedItem = bridge.Arp;
+                textBoxArpTimeoutBridge.Text = ConvertTimeFormat(bridge.ArpTimeout);
+                textBoxAgeingTime.Text = ConvertTimeFormat(bridge.AgeingTime);
+                checkBoxFF.Checked = bridge.FastForward;
+                checkBoxIGMP.Checked = bridge.IgmpSnooping;
+                checkBoxDHCPSnooping.Checked = bridge.DhcpSnooping;
+            }
+        }
+
+        private Bridge RetrieveBridge(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/interface/bridge")
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + "/rest/interface/bridge").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WirelessSettings objects
+                List<Bridge> bridgeList = JsonConvert.DeserializeObject<List<Bridge>>(responseBody);
+
+                // Find the WirelessSettings object with the matching name
+                return bridgeList.FirstOrDefault(s => s.Name == name);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
         }
 
@@ -590,7 +645,7 @@ namespace LTI_RouterOS
             string bridgeId = bridgeObject[".id"].ToString();
 
             string bridgeName = textBoxBridgeName.Text;
-            int mtu = (int)numericUpDown1.Value;
+            string mtu = textBoxBridgeMTU.Text;
             string arpEnabled = comboBoxARP.SelectedItem.ToString();
             string arpTimeout = string.IsNullOrWhiteSpace(textBoxArpTimeoutBridge.Text) ? null : Parser.ParseTimeFormat(textBoxArpTimeoutBridge.Text);
             string ageingTime = string.IsNullOrWhiteSpace(textBoxAgeingTime.Text) ? null : Parser.ParseTimeFormat(textBoxAgeingTime.Text);
@@ -796,6 +851,64 @@ namespace LTI_RouterOS
             WirelessSettings settings = RetrieveWirelessSettings(name);
             await PopulatecomboBoxSecProfile();
 
+            comboBoxFrequency.Items.Clear();
+            comboBoxWirelessBand.Items.Clear();
+            comboBoxChannelWidth.Items.Clear();
+            comboBoxChannelWidth.Items.AddRange(new string[]
+            {
+                "20mhz",
+                "10mhz",
+                "5mhz",
+                "20/40mhz ec",
+                "20/40mhz ce",
+                "20/40mhz xx"
+            });
+            if (name == "wlan1")
+            {
+                // Populate with numbers in the range of 2412 to 2472
+                for (int i = 2412; i <= 2472; i += 5)
+                {
+                    comboBoxFrequency.Items.Add(i.ToString());
+                }
+                comboBoxFrequency.Items.Add("auto");
+
+                // Filter and add values starting with "2"
+                foreach (string value in GetFilteredValues("2"))
+                {
+                    comboBoxWirelessBand.Items.Add(value);
+                }
+
+            }
+            else if (name == "wlan2")
+            {
+                // Populate with numbers in the range of 5180 to 5315
+                for (int i = 5180; i <= 5320; i += 5)
+                {
+                    comboBoxFrequency.Items.Add(i.ToString());
+                }
+
+                // Add numbers from 5500 to 5700 and "auto"
+                for (int i = 5500; i <= 5700; i += 5)
+                {
+                    comboBoxFrequency.Items.Add(i.ToString());
+                }
+                comboBoxFrequency.Items.Add("auto");
+
+                // Filter and add values starting with "5"
+                foreach (string value in GetFilteredValues("5"))
+                {
+                    comboBoxWirelessBand.Items.Add(value);
+                }
+                comboBoxChannelWidth.Items.AddRange(new string[]
+                {
+                    "20/40/80mhz Ceee",
+                    "20/40/80mhz eCee",
+                    "20/40/80mhz eeCe",
+                    "20/40/80mhz eeeC",
+                    "20/40/80mhz xxxx"
+                });
+            }
+
 
             if (settings != null)
             {
@@ -957,6 +1070,26 @@ namespace LTI_RouterOS
                 MessageBox.Show("Select a Wireless Interface: ");
                 return;
             }
+
+            if (textBoxWirelessName.Text == "")
+            {
+                MessageBox.Show("Select a Wireless Interface Name. ");
+                return;
+            }
+
+            if (textBoxWirelessMTU.Text == "" || !int.TryParse(textBoxWirelessMTU.Text, out int value) || value < 32 || value > 2290)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [32, 2290] or invalid input. ");
+                return;
+            }
+            if (textBoxL2MTU.Text == "" || !int.TryParse(textBoxL2MTU.Text, out value) || value < 32 || value > 2290)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of L2 MTU is outside the range [32, 2290] or invalid input. ");
+                return;
+            }
+
             string name = WirelessInterfaceCombobox.SelectedItem.ToString();
             WirelessSettings settings = RetrieveWirelessSettings(name);
 
@@ -970,7 +1103,7 @@ namespace LTI_RouterOS
                 ["arp"] = comboBoxWirelessARP.SelectedItem.ToString(),
                 ["mode"] = comboBoxWirelessMode.SelectedItem.ToString(),
                 ["band"] = comboBoxWirelessBand.SelectedItem.ToString(),
-                ["channel-width"] = comboBoxChannelWidth.SelectedItem.ToString(),
+                ["channel-width"] = comboBoxChannelWidth.SelectedItem.ToString().Replace(" ", "-"),
                 ["frequency"] = comboBoxFrequency.SelectedItem.ToString(),
                 ["ssid"] = textBoxSSID.Text,
                 ["security-profile"] = comboBoxSecProfile.SelectedItem.ToString(),
@@ -1957,7 +2090,7 @@ namespace LTI_RouterOS
             {
                 return;
             }
-            
+
             if (await ValidateDHCPInterface())
             {
                 return;
@@ -1968,7 +2101,7 @@ namespace LTI_RouterOS
 
             // Create the security profile
             await CreateDHCPServer(dhcpServer);
-            
+
 
         }
 
@@ -1989,7 +2122,7 @@ namespace LTI_RouterOS
                 if (name == targetName)
                 {
                     // If the names match, check if it is a slave interface
-                    if(obj.ContainsKey("slave") && (bool)obj["slave"] == true)
+                    if (obj.ContainsKey("slave") && (bool)obj["slave"] == true)
                     {
                         MessageBox.Show("The Interface is of Type slave, please chose another one.", "Password Length Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return true;
@@ -2132,6 +2265,42 @@ namespace LTI_RouterOS
                 // Handle exceptions
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private void buttonDNSAtivar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDNSConfigurar_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private IEnumerable<string> GetFilteredValues(string prefix)
+        {
+            string[] values = {
+                "2ghz-b",
+                "2ghz-b-only-g",
+                "2ghz-b/g",
+                "2ghz-b/g/n",
+                "2ghz-g/n",
+                "2ghz-only-n",
+                "5ghz-a",
+                "5ghz-only-n",
+                "5ghz-a/n",
+                "5ghz-a/n/ac",
+                "5ghz-only-ac",
+                "5ghz-n/ac"
+            };
+
+            return values.Where(value => value.StartsWith(prefix));
+        }
+
+        private void comboBoxChannelWidth_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

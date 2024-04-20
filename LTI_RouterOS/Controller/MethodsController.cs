@@ -88,7 +88,7 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task CreateBridge(string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        public async Task CreateBridge(string bridgeName, string mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace LTI_RouterOS.Controller
             }
         }
 
-        public async Task UpdateBridge(string bridgeId, string bridgeName, int mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
+        public async Task UpdateBridge(string bridgeId, string bridgeName, string mtu, string arpEnabled, string arpTimeout, string ageingTime, bool igmpSnooping, bool dhcpSnooping, bool fastForward)
         {
             try
             {
