@@ -59,6 +59,7 @@
             this.comboBoxInterfaces = new System.Windows.Forms.ComboBox();
             this.label78 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxBridgeMTU = new System.Windows.Forms.TextBox();
             this.checkBoxFF = new System.Windows.Forms.CheckBox();
             this.checkBoxDHCPSnooping = new System.Windows.Forms.CheckBox();
             this.checkBoxIGMP = new System.Windows.Forms.CheckBox();
@@ -221,7 +222,7 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label47 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
-            this.buttonDNSConfigurar = new System.Windows.Forms.Button();
+            this.buttonDNSConfigure = new System.Windows.Forms.Button();
             this.label66 = new System.Windows.Forms.Label();
             this.textBoxCacheMaxTTL = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
@@ -240,9 +241,32 @@
             this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.label57 = new System.Windows.Forms.Label();
             this.textBoxServers = new System.Windows.Forms.TextBox();
-            this.buttonDNSAtivar = new System.Windows.Forms.Button();
-            this.buttonDNSDesativar = new System.Windows.Forms.Button();
-            this.textBoxBridgeMTU = new System.Windows.Forms.TextBox();
+            this.buttonDNSActivate = new System.Windows.Forms.Button();
+            this.buttonDNSDeactivate = new System.Windows.Forms.Button();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.textBoxDNSName = new System.Windows.Forms.TextBox();
+            this.label49 = new System.Windows.Forms.Label();
+            this.comboBoxDNSType = new System.Windows.Forms.ComboBox();
+            this.comboBoxDNSEntry = new System.Windows.Forms.ComboBox();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.textBoxDNSRegexp = new System.Windows.Forms.TextBox();
+            this.label58 = new System.Windows.Forms.Label();
+            this.label79 = new System.Windows.Forms.Label();
+            this.label80 = new System.Windows.Forms.Label();
+            this.textBoxDNSTTL = new System.Windows.Forms.TextBox();
+            this.checkBoxDNSMatchSubdomain = new System.Windows.Forms.CheckBox();
+            this.label81 = new System.Windows.Forms.Label();
+            this.textBoxDNSAddressList = new System.Windows.Forms.TextBox();
+            this.label82 = new System.Windows.Forms.Label();
+            this.textBoxDNSAddress = new System.Windows.Forms.TextBox();
+            this.buttonDNSStaticAdd = new System.Windows.Forms.Button();
+            this.buttonDNSStaticActivate = new System.Windows.Forms.Button();
+            this.buttonDNSStaticDeactivate = new System.Windows.Forms.Button();
+            this.buttonDNSStaticRemove = new System.Windows.Forms.Button();
+            this.buttonDNSStaticEdit = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Interfaces.SuspendLayout();
@@ -263,6 +287,7 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -274,6 +299,7 @@
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -394,20 +420,20 @@
             this.groupBox11.Controls.Add(this.label77);
             this.groupBox11.Controls.Add(this.comboBoxInterfaces);
             this.groupBox11.Controls.Add(this.label78);
-            this.groupBox11.Location = new System.Drawing.Point(384, 104);
+            this.groupBox11.Location = new System.Drawing.Point(384, 92);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(373, 312);
+            this.groupBox11.Size = new System.Drawing.Size(373, 324);
             this.groupBox11.TabIndex = 84;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Gerenciar Ports";
+            this.groupBox11.Text = "Port Management";
             // 
             // button20
             // 
-            this.button20.Location = new System.Drawing.Point(123, 283);
+            this.button20.Location = new System.Drawing.Point(108, 295);
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(117, 23);
             this.button20.TabIndex = 91;
-            this.button20.Text = "Remover Conexão";
+            this.button20.Text = "Remove Conection";
             this.button20.UseVisualStyleBackColor = true;
             this.button20.Click += new System.EventHandler(this.button20_Click);
             // 
@@ -541,11 +567,11 @@
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(6, 283);
+            this.button17.Location = new System.Drawing.Point(6, 295);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(86, 23);
             this.button17.TabIndex = 11;
-            this.button17.Text = "Editar";
+            this.button17.Text = "Edit";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
@@ -565,7 +591,7 @@
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(82, 13);
             this.label77.TabIndex = 9;
-            this.label77.Text = "Interface Bridge";
+            this.label77.Text = "Bridge Interface";
             // 
             // comboBoxInterfaces
             // 
@@ -610,7 +636,15 @@
             this.groupBox1.Size = new System.Drawing.Size(357, 324);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Gerenciar Bridges";
+            this.groupBox1.Text = "Bridge Management";
+            // 
+            // textBoxBridgeMTU
+            // 
+            this.textBoxBridgeMTU.Location = new System.Drawing.Point(166, 93);
+            this.textBoxBridgeMTU.Name = "textBoxBridgeMTU";
+            this.textBoxBridgeMTU.Size = new System.Drawing.Size(142, 20);
+            this.textBoxBridgeMTU.TabIndex = 85;
+            this.textBoxBridgeMTU.Text = "68";
             // 
             // checkBoxFF
             // 
@@ -689,7 +723,7 @@
             "reply-only"});
             this.comboBoxARP.Location = new System.Drawing.Point(10, 145);
             this.comboBoxARP.Name = "comboBoxARP";
-            this.comboBoxARP.Size = new System.Drawing.Size(147, 21);
+            this.comboBoxARP.Size = new System.Drawing.Size(142, 21);
             this.comboBoxARP.TabIndex = 17;
             // 
             // label69
@@ -732,7 +766,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(86, 23);
             this.button6.TabIndex = 11;
-            this.button6.Text = "Editar";
+            this.button6.Text = "Edit";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -742,7 +776,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(86, 23);
             this.button5.TabIndex = 10;
-            this.button5.Text = "Criar";
+            this.button5.Text = "Create";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -758,11 +792,11 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(111, 295);
+            this.button4.Location = new System.Drawing.Point(119, 295);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(86, 23);
             this.button4.TabIndex = 7;
-            this.button4.Text = "Apagar";
+            this.button4.Text = "Delete";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -773,11 +807,11 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Interface Bridge";
+            this.label1.Text = "Bridge Interface";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(360, 6);
+            this.textBox2.Location = new System.Drawing.Point(360, 0);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(292, 60);
@@ -785,11 +819,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(358, 66);
+            this.button3.Location = new System.Drawing.Point(360, 66);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(134, 23);
             this.button3.TabIndex = 3;
-            this.button3.Text = "Listar Interfaces Bridge";
+            this.button3.Text = "List Bridge Interfaces";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
@@ -799,7 +833,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(142, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "Listar Interfaces Wireless";
+            this.button2.Text = "List Wireless Interfaces";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -818,7 +852,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Listar Todas as Interfaces";
+            this.button1.Text = "List all Interfaces";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -878,7 +912,7 @@
             this.groupBox3.Size = new System.Drawing.Size(384, 410);
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Interfaces Wireless";
+            this.groupBox3.Text = "Wireless Interfaces";
             // 
             // textBoxSSID
             // 
@@ -945,7 +979,7 @@
             "local-proxy-arp",
             "proxy-arp",
             "reply-only"});
-            this.comboBoxWirelessARP.Location = new System.Drawing.Point(5, 154);
+            this.comboBoxWirelessARP.Location = new System.Drawing.Point(10, 154);
             this.comboBoxWirelessARP.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxWirelessARP.Name = "comboBoxWirelessARP";
             this.comboBoxWirelessARP.Size = new System.Drawing.Size(108, 21);
@@ -982,7 +1016,7 @@
             // 
             // textBoxL2MTU
             // 
-            this.textBoxL2MTU.Location = new System.Drawing.Point(5, 110);
+            this.textBoxL2MTU.Location = new System.Drawing.Point(10, 113);
             this.textBoxL2MTU.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxL2MTU.Name = "textBoxL2MTU";
             this.textBoxL2MTU.Size = new System.Drawing.Size(108, 20);
@@ -1262,7 +1296,7 @@
             "5ghz-only-ac",
             "5ghz-n/ac",
             ""});
-            this.comboBoxWirelessBand.Location = new System.Drawing.Point(5, 189);
+            this.comboBoxWirelessBand.Location = new System.Drawing.Point(10, 190);
             this.comboBoxWirelessBand.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxWirelessBand.Name = "comboBoxWirelessBand";
             this.comboBoxWirelessBand.Size = new System.Drawing.Size(108, 21);
@@ -1280,7 +1314,7 @@
             // 
             // textBoxWirelessName
             // 
-            this.textBoxWirelessName.Location = new System.Drawing.Point(5, 66);
+            this.textBoxWirelessName.Location = new System.Drawing.Point(10, 66);
             this.textBoxWirelessName.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxWirelessName.Name = "textBoxWirelessName";
             this.textBoxWirelessName.Size = new System.Drawing.Size(108, 20);
@@ -1292,7 +1326,7 @@
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(86, 23);
             this.button10.TabIndex = 11;
-            this.button10.Text = "Desativar";
+            this.button10.Text = "Deactivate";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
@@ -1302,7 +1336,7 @@
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(86, 23);
             this.button11.TabIndex = 10;
-            this.button11.Text = "Ativar";
+            this.button11.Text = "Activate";
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
@@ -1334,7 +1368,7 @@
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(34, 13);
             this.label26.TabIndex = 9;
-            this.label26.Text = "Modo";
+            this.label26.Text = "Mode";
             // 
             // button12
             // 
@@ -1342,7 +1376,7 @@
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(86, 23);
             this.button12.TabIndex = 7;
-            this.button12.Text = "Configurar";
+            this.button12.Text = "Edit";
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
@@ -1354,7 +1388,7 @@
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(35, 13);
             this.label27.TabIndex = 6;
-            this.label27.Text = "Nome";
+            this.label27.Text = "Name";
             // 
             // groupBox2
             // 
@@ -1390,7 +1424,7 @@
             this.groupBox2.Size = new System.Drawing.Size(386, 410);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Perfis de Segurança";
+            this.groupBox2.Text = "Security Profiles";
             // 
             // SecProfilesComboBox
             // 
@@ -1599,7 +1633,7 @@
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(86, 23);
             this.button7.TabIndex = 11;
-            this.button7.Text = "Editar";
+            this.button7.Text = "Edit";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
@@ -1609,7 +1643,7 @@
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(86, 23);
             this.button8.TabIndex = 10;
-            this.button8.Text = "Criar";
+            this.button8.Text = "Create";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
@@ -1636,7 +1670,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Modo";
+            this.label3.Text = "Mode";
             // 
             // button9
             // 
@@ -1644,7 +1678,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(86, 23);
             this.button9.TabIndex = 7;
-            this.button9.Text = "Apagar";
+            this.button9.Text = "Delete";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
@@ -1656,7 +1690,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Nome";
+            this.label4.Text = "Name";
             // 
             // Rotas
             // 
@@ -1688,27 +1722,27 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(288, 72);
+            this.button13.Location = new System.Drawing.Point(191, 59);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(86, 23);
             this.button13.TabIndex = 11;
-            this.button13.Text = "Editar";
+            this.button13.Text = "Edit";
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click_1);
             // 
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(8, 25);
+            this.label44.Location = new System.Drawing.Point(8, 45);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(70, 13);
+            this.label44.Size = new System.Drawing.Size(66, 13);
             this.label44.TabIndex = 13;
-            this.label44.Text = "Rota estática";
+            this.label44.Text = "Static Route";
             // 
             // comboBox19
             // 
             this.comboBox19.FormattingEnabled = true;
-            this.comboBox19.Location = new System.Drawing.Point(6, 74);
+            this.comboBox19.Location = new System.Drawing.Point(11, 61);
             this.comboBox19.Name = "comboBox19";
             this.comboBox19.Size = new System.Drawing.Size(147, 21);
             this.comboBox19.TabIndex = 12;
@@ -1716,11 +1750,11 @@
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(178, 72);
+            this.button15.Location = new System.Drawing.Point(284, 59);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(86, 23);
             this.button15.TabIndex = 7;
-            this.button15.Text = "Apagar";
+            this.button15.Text = "Delete";
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
@@ -1755,7 +1789,7 @@
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(86, 23);
             this.button14.TabIndex = 10;
-            this.button14.Text = "Criar";
+            this.button14.Text = "Create";
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
@@ -1934,7 +1968,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(258, 29);
+            this.label33.Location = new System.Drawing.Point(266, 25);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(49, 13);
             this.label33.TabIndex = 15;
@@ -1945,16 +1979,16 @@
             this.textBox15.Location = new System.Drawing.Point(8, 6);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(192, 302);
+            this.textBox15.Size = new System.Drawing.Size(254, 371);
             this.textBox15.TabIndex = 4;
             // 
             // buttonListarRotas
             // 
-            this.buttonListarRotas.Location = new System.Drawing.Point(5, 383);
+            this.buttonListarRotas.Location = new System.Drawing.Point(23, 383);
             this.buttonListarRotas.Name = "buttonListarRotas";
             this.buttonListarRotas.Size = new System.Drawing.Size(142, 23);
             this.buttonListarRotas.TabIndex = 3;
-            this.buttonListarRotas.Text = "Listar Rotas Estáticas";
+            this.buttonListarRotas.Text = "List Static Routes";
             this.buttonListarRotas.UseVisualStyleBackColor = true;
             this.buttonListarRotas.Click += new System.EventHandler(this.buttonListarRotas_Click);
             // 
@@ -1986,7 +2020,7 @@
             this.groupBox8.Size = new System.Drawing.Size(499, 321);
             this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Gerenciar Bridges";
+            this.groupBox8.Text = "Bridge Management";
             // 
             // comboBoxInterface
             // 
@@ -2016,7 +2050,7 @@
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(262, 37);
+            this.label42.Location = new System.Drawing.Point(212, 37);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(47, 13);
             this.label42.TabIndex = 16;
@@ -2035,7 +2069,7 @@
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(86, 23);
             this.button19.TabIndex = 7;
-            this.button19.Text = "Criar";
+            this.button19.Text = "Create";
             this.button19.UseVisualStyleBackColor = true;
             this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
@@ -2044,9 +2078,9 @@
             this.label41.AutoSize = true;
             this.label41.Location = new System.Drawing.Point(27, 37);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(66, 13);
+            this.label41.Size = new System.Drawing.Size(58, 13);
             this.label41.TabIndex = 6;
-            this.label41.Text = "Endereço IP";
+            this.label41.Text = "IP Address";
             // 
             // groupBox6
             // 
@@ -2059,15 +2093,15 @@
             this.groupBox6.Size = new System.Drawing.Size(499, 83);
             this.groupBox6.TabIndex = 9;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Gerenciar Endereços IP";
+            this.groupBox6.Text = "IP Address Management";
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(292, 51);
+            this.button16.Location = new System.Drawing.Point(215, 51);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(86, 23);
             this.button16.TabIndex = 11;
-            this.button16.Text = "Editar";
+            this.button16.Text = "Edit";
             this.button16.UseVisualStyleBackColor = true;
             // 
             // comboBoxEndIP
@@ -2080,11 +2114,11 @@
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(200, 51);
+            this.button18.Location = new System.Drawing.Point(307, 51);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(86, 23);
             this.button18.TabIndex = 7;
-            this.button18.Text = "Apagar";
+            this.button18.Text = "Delete";
             this.button18.UseVisualStyleBackColor = true;
             // 
             // label
@@ -2106,11 +2140,11 @@
             // 
             // buttonListarEndIp
             // 
-            this.buttonListarEndIp.Location = new System.Drawing.Point(8, 384);
+            this.buttonListarEndIp.Location = new System.Drawing.Point(19, 384);
             this.buttonListarEndIp.Name = "buttonListarEndIp";
             this.buttonListarEndIp.Size = new System.Drawing.Size(142, 23);
             this.buttonListarEndIp.TabIndex = 5;
-            this.buttonListarEndIp.Text = "Listar Endereços IP";
+            this.buttonListarEndIp.Text = "List IP Addresses";
             this.buttonListarEndIp.UseVisualStyleBackColor = true;
             this.buttonListarEndIp.Click += new System.EventHandler(this.buttonListarEndIp_Click);
             // 
@@ -2125,7 +2159,7 @@
             this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage6.Size = new System.Drawing.Size(795, 425);
             this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Servidores DHCP";
+            this.tabPage6.Text = "DHCP Servers";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // groupBox9
@@ -2155,9 +2189,9 @@
             this.label45.AutoSize = true;
             this.label45.Location = new System.Drawing.Point(8, 25);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(79, 13);
+            this.label45.Size = new System.Drawing.Size(71, 13);
             this.label45.TabIndex = 13;
-            this.label45.Text = "Servidor DHCP";
+            this.label45.Text = "DHCP Server";
             // 
             // buttonServerDHCPApagar
             // 
@@ -2165,7 +2199,7 @@
             this.buttonServerDHCPApagar.Name = "buttonServerDHCPApagar";
             this.buttonServerDHCPApagar.Size = new System.Drawing.Size(86, 21);
             this.buttonServerDHCPApagar.TabIndex = 7;
-            this.buttonServerDHCPApagar.Text = "Apagar";
+            this.buttonServerDHCPApagar.Text = "Delete";
             this.buttonServerDHCPApagar.UseVisualStyleBackColor = true;
             this.buttonServerDHCPApagar.Click += new System.EventHandler(this.buttonServerDHCPApagar_Click);
             // 
@@ -2206,11 +2240,11 @@
             // 
             // buttonServerDHCPEditar
             // 
-            this.buttonServerDHCPEditar.Location = new System.Drawing.Point(103, 254);
+            this.buttonServerDHCPEditar.Location = new System.Drawing.Point(103, 292);
             this.buttonServerDHCPEditar.Name = "buttonServerDHCPEditar";
             this.buttonServerDHCPEditar.Size = new System.Drawing.Size(86, 23);
             this.buttonServerDHCPEditar.TabIndex = 11;
-            this.buttonServerDHCPEditar.Text = "Editar";
+            this.buttonServerDHCPEditar.Text = "Edit";
             this.buttonServerDHCPEditar.UseVisualStyleBackColor = true;
             this.buttonServerDHCPEditar.Click += new System.EventHandler(this.buttonServerDHCPEditar_Click);
             // 
@@ -2302,11 +2336,11 @@
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(11, 254);
+            this.button21.Location = new System.Drawing.Point(11, 292);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(86, 23);
             this.button21.TabIndex = 10;
-            this.button21.Text = "Criar";
+            this.button21.Text = "Create";
             this.button21.UseVisualStyleBackColor = true;
             this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
@@ -2343,17 +2377,18 @@
             this.buttonListDHCP.Name = "buttonListDHCP";
             this.buttonListDHCP.Size = new System.Drawing.Size(142, 23);
             this.buttonListDHCP.TabIndex = 21;
-            this.buttonListDHCP.Text = "Listar Servidores DHCP";
+            this.buttonListDHCP.Text = "List DHCP Servers";
             this.buttonListDHCP.UseVisualStyleBackColor = true;
             this.buttonListDHCP.Click += new System.EventHandler(this.buttonListDHCP_Click);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox13);
             this.tabPage2.Controls.Add(this.label48);
             this.tabPage2.Controls.Add(this.textBox11);
             this.tabPage2.Controls.Add(this.label47);
             this.tabPage2.Controls.Add(this.label46);
-            this.tabPage2.Controls.Add(this.buttonDNSConfigurar);
+            this.tabPage2.Controls.Add(this.buttonDNSConfigure);
             this.tabPage2.Controls.Add(this.label66);
             this.tabPage2.Controls.Add(this.textBoxCacheMaxTTL);
             this.tabPage2.Controls.Add(this.label65);
@@ -2372,8 +2407,9 @@
             this.tabPage2.Controls.Add(this.checkBoxRemoteRequests);
             this.tabPage2.Controls.Add(this.label57);
             this.tabPage2.Controls.Add(this.textBoxServers);
-            this.tabPage2.Controls.Add(this.buttonDNSAtivar);
-            this.tabPage2.Controls.Add(this.buttonDNSDesativar);
+            this.tabPage2.Controls.Add(this.buttonDNSActivate);
+            this.tabPage2.Controls.Add(this.buttonDNSDeactivate);
+            this.tabPage2.Controls.Add(this.groupBox12);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
@@ -2385,7 +2421,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(385, 238);
+            this.label48.Location = new System.Drawing.Point(177, 248);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(66, 13);
             this.label48.TabIndex = 97;
@@ -2393,16 +2429,16 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(465, 235);
+            this.textBox11.Location = new System.Drawing.Point(170, 267);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(142, 20);
+            this.textBox11.Size = new System.Drawing.Size(111, 20);
             this.textBox11.TabIndex = 98;
             this.textBox11.Text = "Cache Used";
             // 
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(323, 251);
+            this.label47.Location = new System.Drawing.Point(147, 267);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(12, 13);
             this.label47.TabIndex = 96;
@@ -2411,26 +2447,26 @@
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(323, 212);
+            this.label46.Location = new System.Drawing.Point(147, 224);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(12, 13);
             this.label46.TabIndex = 95;
             this.label46.Text = "s";
             // 
-            // buttonDNSConfigurar
+            // buttonDNSConfigure
             // 
-            this.buttonDNSConfigurar.Location = new System.Drawing.Point(200, 382);
-            this.buttonDNSConfigurar.Name = "buttonDNSConfigurar";
-            this.buttonDNSConfigurar.Size = new System.Drawing.Size(86, 23);
-            this.buttonDNSConfigurar.TabIndex = 94;
-            this.buttonDNSConfigurar.Text = "Configurar";
-            this.buttonDNSConfigurar.UseVisualStyleBackColor = true;
-            this.buttonDNSConfigurar.Click += new System.EventHandler(this.buttonDNSConfigurar_Click);
+            this.buttonDNSConfigure.Location = new System.Drawing.Point(200, 382);
+            this.buttonDNSConfigure.Name = "buttonDNSConfigure";
+            this.buttonDNSConfigure.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSConfigure.TabIndex = 94;
+            this.buttonDNSConfigure.Text = "Edit";
+            this.buttonDNSConfigure.UseVisualStyleBackColor = true;
+            this.buttonDNSConfigure.Click += new System.EventHandler(this.buttonDNSConfigurar_Click);
             // 
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(375, 208);
+            this.label66.Location = new System.Drawing.Point(197, 205);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(84, 13);
             this.label66.TabIndex = 92;
@@ -2438,16 +2474,16 @@
             // 
             // textBoxCacheMaxTTL
             // 
-            this.textBoxCacheMaxTTL.Location = new System.Drawing.Point(465, 205);
+            this.textBoxCacheMaxTTL.Location = new System.Drawing.Point(170, 225);
             this.textBoxCacheMaxTTL.Name = "textBoxCacheMaxTTL";
-            this.textBoxCacheMaxTTL.Size = new System.Drawing.Size(142, 20);
+            this.textBoxCacheMaxTTL.Size = new System.Drawing.Size(111, 20);
             this.textBoxCacheMaxTTL.TabIndex = 93;
             this.textBoxCacheMaxTTL.Text = "00:30:00";
             // 
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(613, 176);
+            this.label65.Location = new System.Drawing.Point(287, 183);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(21, 13);
             this.label65.TabIndex = 91;
@@ -2456,7 +2492,7 @@
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(390, 176);
+            this.label64.Location = new System.Drawing.Point(197, 159);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(61, 13);
             this.label64.TabIndex = 89;
@@ -2464,16 +2500,16 @@
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(465, 173);
+            this.textBox20.Location = new System.Drawing.Point(170, 176);
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(142, 20);
+            this.textBox20.Size = new System.Drawing.Size(111, 20);
             this.textBox20.TabIndex = 90;
             this.textBox20.Text = "2048";
             // 
             // label62
             // 
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(18, 331);
+            this.label62.Location = new System.Drawing.Point(18, 324);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(151, 13);
             this.label62.TabIndex = 87;
@@ -2481,9 +2517,9 @@
             // 
             // textBoxConcurrentTCPSessions
             // 
-            this.textBoxConcurrentTCPSessions.Location = new System.Drawing.Point(175, 324);
+            this.textBoxConcurrentTCPSessions.Location = new System.Drawing.Point(18, 340);
             this.textBoxConcurrentTCPSessions.Name = "textBoxConcurrentTCPSessions";
-            this.textBoxConcurrentTCPSessions.Size = new System.Drawing.Size(142, 20);
+            this.textBoxConcurrentTCPSessions.Size = new System.Drawing.Size(123, 20);
             this.textBoxConcurrentTCPSessions.TabIndex = 88;
             this.textBoxConcurrentTCPSessions.Text = "20";
             // 
@@ -2498,16 +2534,16 @@
             // 
             // textBoxConcurrentQueries
             // 
-            this.textBoxConcurrentQueries.Location = new System.Drawing.Point(175, 284);
+            this.textBoxConcurrentQueries.Location = new System.Drawing.Point(18, 303);
             this.textBoxConcurrentQueries.Name = "textBoxConcurrentQueries";
-            this.textBoxConcurrentQueries.Size = new System.Drawing.Size(142, 20);
+            this.textBoxConcurrentQueries.Size = new System.Drawing.Size(123, 20);
             this.textBoxConcurrentQueries.TabIndex = 86;
             this.textBoxConcurrentQueries.Text = "100";
             // 
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(19, 251);
+            this.label60.Location = new System.Drawing.Point(19, 248);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(103, 13);
             this.label60.TabIndex = 83;
@@ -2515,16 +2551,16 @@
             // 
             // textBoxQueryTotalTimeout
             // 
-            this.textBoxQueryTotalTimeout.Location = new System.Drawing.Point(175, 248);
+            this.textBoxQueryTotalTimeout.Location = new System.Drawing.Point(18, 264);
             this.textBoxQueryTotalTimeout.Name = "textBoxQueryTotalTimeout";
-            this.textBoxQueryTotalTimeout.Size = new System.Drawing.Size(142, 20);
+            this.textBoxQueryTotalTimeout.Size = new System.Drawing.Size(123, 20);
             this.textBoxQueryTotalTimeout.TabIndex = 84;
             this.textBoxQueryTotalTimeout.Text = "10.000";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(19, 212);
+            this.label61.Location = new System.Drawing.Point(19, 205);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(110, 13);
             this.label61.TabIndex = 81;
@@ -2532,16 +2568,16 @@
             // 
             // textBoxQueryServerTimeout
             // 
-            this.textBoxQueryServerTimeout.Location = new System.Drawing.Point(175, 209);
+            this.textBoxQueryServerTimeout.Location = new System.Drawing.Point(18, 221);
             this.textBoxQueryServerTimeout.Name = "textBoxQueryServerTimeout";
-            this.textBoxQueryServerTimeout.Size = new System.Drawing.Size(142, 20);
+            this.textBoxQueryServerTimeout.Size = new System.Drawing.Size(123, 20);
             this.textBoxQueryServerTimeout.TabIndex = 82;
             this.textBoxQueryServerTimeout.Text = "2.000";
             // 
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(19, 176);
+            this.label59.Location = new System.Drawing.Point(19, 159);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(122, 13);
             this.label59.TabIndex = 79;
@@ -2549,16 +2585,16 @@
             // 
             // textBoxUDPPackageSize
             // 
-            this.textBoxUDPPackageSize.Location = new System.Drawing.Point(175, 173);
+            this.textBoxUDPPackageSize.Location = new System.Drawing.Point(18, 176);
             this.textBoxUDPPackageSize.Name = "textBoxUDPPackageSize";
-            this.textBoxUDPPackageSize.Size = new System.Drawing.Size(142, 20);
+            this.textBoxUDPPackageSize.Size = new System.Drawing.Size(123, 20);
             this.textBoxUDPPackageSize.TabIndex = 80;
             this.textBoxUDPPackageSize.Text = "4096";
             // 
             // checkBoxRemoteRequests
             // 
             this.checkBoxRemoteRequests.AutoSize = true;
-            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(425, 324);
+            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(180, 340);
             this.checkBoxRemoteRequests.Name = "checkBoxRemoteRequests";
             this.checkBoxRemoteRequests.Size = new System.Drawing.Size(139, 17);
             this.checkBoxRemoteRequests.TabIndex = 78;
@@ -2582,32 +2618,255 @@
             this.textBoxServers.Size = new System.Drawing.Size(142, 106);
             this.textBoxServers.TabIndex = 70;
             // 
-            // buttonDNSAtivar
+            // buttonDNSActivate
             // 
-            this.buttonDNSAtivar.Location = new System.Drawing.Point(16, 382);
-            this.buttonDNSAtivar.Name = "buttonDNSAtivar";
-            this.buttonDNSAtivar.Size = new System.Drawing.Size(86, 23);
-            this.buttonDNSAtivar.TabIndex = 9;
-            this.buttonDNSAtivar.Text = "Ativar";
-            this.buttonDNSAtivar.UseVisualStyleBackColor = true;
-            this.buttonDNSAtivar.Click += new System.EventHandler(this.buttonDNSAtivar_Click);
+            this.buttonDNSActivate.Location = new System.Drawing.Point(16, 382);
+            this.buttonDNSActivate.Name = "buttonDNSActivate";
+            this.buttonDNSActivate.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSActivate.TabIndex = 9;
+            this.buttonDNSActivate.Text = "Activate";
+            this.buttonDNSActivate.UseVisualStyleBackColor = true;
+            this.buttonDNSActivate.Click += new System.EventHandler(this.buttonDNSAtivar_Click);
             // 
-            // buttonDNSDesativar
+            // buttonDNSDeactivate
             // 
-            this.buttonDNSDesativar.Location = new System.Drawing.Point(108, 382);
-            this.buttonDNSDesativar.Name = "buttonDNSDesativar";
-            this.buttonDNSDesativar.Size = new System.Drawing.Size(86, 23);
-            this.buttonDNSDesativar.TabIndex = 8;
-            this.buttonDNSDesativar.Text = "Desativar";
-            this.buttonDNSDesativar.UseVisualStyleBackColor = true;
+            this.buttonDNSDeactivate.Location = new System.Drawing.Point(108, 382);
+            this.buttonDNSDeactivate.Name = "buttonDNSDeactivate";
+            this.buttonDNSDeactivate.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSDeactivate.TabIndex = 8;
+            this.buttonDNSDeactivate.Text = "Deactivate";
+            this.buttonDNSDeactivate.UseVisualStyleBackColor = true;
             // 
-            // textBoxBridgeMTU
+            // groupBox12
             // 
-            this.textBoxBridgeMTU.Location = new System.Drawing.Point(166, 93);
-            this.textBoxBridgeMTU.Name = "textBoxBridgeMTU";
-            this.textBoxBridgeMTU.Size = new System.Drawing.Size(142, 20);
-            this.textBoxBridgeMTU.TabIndex = 85;
-            this.textBoxBridgeMTU.Text = "68";
+            this.groupBox12.Location = new System.Drawing.Point(3, 5);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(352, 415);
+            this.groupBox12.TabIndex = 99;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "DNS Configs";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.buttonDNSStaticEdit);
+            this.groupBox13.Controls.Add(this.buttonDNSStaticRemove);
+            this.groupBox13.Controls.Add(this.buttonDNSStaticAdd);
+            this.groupBox13.Controls.Add(this.label82);
+            this.groupBox13.Controls.Add(this.buttonDNSStaticActivate);
+            this.groupBox13.Controls.Add(this.textBoxDNSAddress);
+            this.groupBox13.Controls.Add(this.buttonDNSStaticDeactivate);
+            this.groupBox13.Controls.Add(this.label81);
+            this.groupBox13.Controls.Add(this.textBoxDNSAddressList);
+            this.groupBox13.Controls.Add(this.checkBoxDNSMatchSubdomain);
+            this.groupBox13.Controls.Add(this.label80);
+            this.groupBox13.Controls.Add(this.label79);
+            this.groupBox13.Controls.Add(this.textBoxDNSTTL);
+            this.groupBox13.Controls.Add(this.label58);
+            this.groupBox13.Controls.Add(this.label55);
+            this.groupBox13.Controls.Add(this.textBoxDNSRegexp);
+            this.groupBox13.Controls.Add(this.label50);
+            this.groupBox13.Controls.Add(this.comboBoxDNSEntry);
+            this.groupBox13.Controls.Add(this.comboBoxDNSType);
+            this.groupBox13.Controls.Add(this.label49);
+            this.groupBox13.Controls.Add(this.textBoxDNSName);
+            this.groupBox13.Location = new System.Drawing.Point(361, 5);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(423, 415);
+            this.groupBox13.TabIndex = 100;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "DNS Static";
+            // 
+            // textBoxDNSName
+            // 
+            this.textBoxDNSName.Location = new System.Drawing.Point(18, 109);
+            this.textBoxDNSName.Name = "textBoxDNSName";
+            this.textBoxDNSName.Size = new System.Drawing.Size(120, 20);
+            this.textBoxDNSName.TabIndex = 0;
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(18, 90);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(61, 13);
+            this.label49.TabIndex = 1;
+            this.label49.Text = "DNS Name";
+            // 
+            // comboBoxDNSType
+            // 
+            this.comboBoxDNSType.FormattingEnabled = true;
+            this.comboBoxDNSType.Items.AddRange(new object[] {
+            "A",
+            "AAAA",
+            "CNAME"});
+            this.comboBoxDNSType.Location = new System.Drawing.Point(17, 170);
+            this.comboBoxDNSType.Name = "comboBoxDNSType";
+            this.comboBoxDNSType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDNSType.TabIndex = 2;
+            // 
+            // comboBoxDNSEntry
+            // 
+            this.comboBoxDNSEntry.FormattingEnabled = true;
+            this.comboBoxDNSEntry.Location = new System.Drawing.Point(17, 47);
+            this.comboBoxDNSEntry.Name = "comboBoxDNSEntry";
+            this.comboBoxDNSEntry.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDNSEntry.TabIndex = 3;
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(15, 31);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(87, 13);
+            this.label50.TabIndex = 4;
+            this.label50.Text = "DNS Static Entry";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(193, 90);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(44, 13);
+            this.label55.TabIndex = 6;
+            this.label55.Text = "Regexp";
+            // 
+            // textBoxDNSRegexp
+            // 
+            this.textBoxDNSRegexp.Location = new System.Drawing.Point(193, 109);
+            this.textBoxDNSRegexp.Name = "textBoxDNSRegexp";
+            this.textBoxDNSRegexp.Size = new System.Drawing.Size(120, 20);
+            this.textBoxDNSRegexp.TabIndex = 5;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(20, 152);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(31, 13);
+            this.label58.TabIndex = 7;
+            this.label58.Text = "Type";
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Location = new System.Drawing.Point(193, 154);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(27, 13);
+            this.label79.TabIndex = 8;
+            this.label79.Text = "TTL";
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Location = new System.Drawing.Point(319, 173);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(12, 13);
+            this.label80.TabIndex = 102;
+            this.label80.Text = "s";
+            // 
+            // textBoxDNSTTL
+            // 
+            this.textBoxDNSTTL.Location = new System.Drawing.Point(190, 170);
+            this.textBoxDNSTTL.Name = "textBoxDNSTTL";
+            this.textBoxDNSTTL.Size = new System.Drawing.Size(123, 20);
+            this.textBoxDNSTTL.TabIndex = 101;
+            this.textBoxDNSTTL.Text = "00:00:00";
+            // 
+            // checkBoxDNSMatchSubdomain
+            // 
+            this.checkBoxDNSMatchSubdomain.AutoSize = true;
+            this.checkBoxDNSMatchSubdomain.Location = new System.Drawing.Point(190, 200);
+            this.checkBoxDNSMatchSubdomain.Name = "checkBoxDNSMatchSubdomain";
+            this.checkBoxDNSMatchSubdomain.Size = new System.Drawing.Size(112, 17);
+            this.checkBoxDNSMatchSubdomain.TabIndex = 101;
+            this.checkBoxDNSMatchSubdomain.Text = "Match Subdomain";
+            this.checkBoxDNSMatchSubdomain.UseVisualStyleBackColor = true;
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Location = new System.Drawing.Point(18, 217);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(64, 13);
+            this.label81.TabIndex = 104;
+            this.label81.Text = "Address List";
+            // 
+            // textBoxDNSAddressList
+            // 
+            this.textBoxDNSAddressList.Location = new System.Drawing.Point(18, 236);
+            this.textBoxDNSAddressList.Name = "textBoxDNSAddressList";
+            this.textBoxDNSAddressList.Size = new System.Drawing.Size(120, 20);
+            this.textBoxDNSAddressList.TabIndex = 103;
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(18, 269);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(48, 13);
+            this.label82.TabIndex = 106;
+            this.label82.Text = "Address ";
+            // 
+            // textBoxDNSAddress
+            // 
+            this.textBoxDNSAddress.Location = new System.Drawing.Point(18, 288);
+            this.textBoxDNSAddress.Name = "textBoxDNSAddress";
+            this.textBoxDNSAddress.Size = new System.Drawing.Size(120, 20);
+            this.textBoxDNSAddress.TabIndex = 105;
+            // 
+            // buttonDNSStaticAdd
+            // 
+            this.buttonDNSStaticAdd.Location = new System.Drawing.Point(16, 350);
+            this.buttonDNSStaticAdd.Name = "buttonDNSStaticAdd";
+            this.buttonDNSStaticAdd.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSStaticAdd.TabIndex = 103;
+            this.buttonDNSStaticAdd.Text = "Add";
+            this.buttonDNSStaticAdd.UseVisualStyleBackColor = true;
+            // 
+            // buttonDNSStaticActivate
+            // 
+            this.buttonDNSStaticActivate.Location = new System.Drawing.Point(120, 350);
+            this.buttonDNSStaticActivate.Name = "buttonDNSStaticActivate";
+            this.buttonDNSStaticActivate.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSStaticActivate.TabIndex = 102;
+            this.buttonDNSStaticActivate.Text = "Activate";
+            this.buttonDNSStaticActivate.UseVisualStyleBackColor = true;
+            // 
+            // buttonDNSStaticDeactivate
+            // 
+            this.buttonDNSStaticDeactivate.Location = new System.Drawing.Point(120, 379);
+            this.buttonDNSStaticDeactivate.Name = "buttonDNSStaticDeactivate";
+            this.buttonDNSStaticDeactivate.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSStaticDeactivate.TabIndex = 101;
+            this.buttonDNSStaticDeactivate.Text = "Deactivate";
+            this.buttonDNSStaticDeactivate.UseVisualStyleBackColor = true;
+            // 
+            // buttonDNSStaticRemove
+            // 
+            this.buttonDNSStaticRemove.Location = new System.Drawing.Point(17, 377);
+            this.buttonDNSStaticRemove.Name = "buttonDNSStaticRemove";
+            this.buttonDNSStaticRemove.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSStaticRemove.TabIndex = 107;
+            this.buttonDNSStaticRemove.Text = "Remove";
+            this.buttonDNSStaticRemove.UseVisualStyleBackColor = true;
+            // 
+            // buttonDNSStaticEdit
+            // 
+            this.buttonDNSStaticEdit.Location = new System.Drawing.Point(216, 379);
+            this.buttonDNSStaticEdit.Name = "buttonDNSStaticEdit";
+            this.buttonDNSStaticEdit.Size = new System.Drawing.Size(86, 23);
+            this.buttonDNSStaticEdit.TabIndex = 108;
+            this.buttonDNSStaticEdit.Text = "Edit";
+            this.buttonDNSStaticEdit.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(795, 425);
+            this.tabPage4.TabIndex = 7;
+            this.tabPage4.Text = "Wireguard";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -2656,6 +2915,8 @@
             this.groupBox10.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2815,8 +3076,8 @@
         private System.Windows.Forms.CheckBox checkBoxRemoteRequests;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox textBoxServers;
-        private System.Windows.Forms.Button buttonDNSAtivar;
-        private System.Windows.Forms.Button buttonDNSDesativar;
+        private System.Windows.Forms.Button buttonDNSActivate;
+        private System.Windows.Forms.Button buttonDNSDeactivate;
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Label label62;
@@ -2827,7 +3088,7 @@
         private System.Windows.Forms.TextBox textBoxQueryTotalTimeout;
         private System.Windows.Forms.Label label61;
         private System.Windows.Forms.TextBox textBoxQueryServerTimeout;
-        private System.Windows.Forms.Button buttonDNSConfigurar;
+        private System.Windows.Forms.Button buttonDNSConfigure;
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.TextBox textBoxCacheMaxTTL;
         private System.Windows.Forms.Label label65;
@@ -2875,5 +3136,29 @@
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBoxBridgeMTU;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.TextBox textBoxDNSRegexp;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.ComboBox comboBoxDNSEntry;
+        private System.Windows.Forms.ComboBox comboBoxDNSType;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.TextBox textBoxDNSName;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.Button buttonDNSStaticRemove;
+        private System.Windows.Forms.Button buttonDNSStaticAdd;
+        private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.Button buttonDNSStaticActivate;
+        private System.Windows.Forms.TextBox textBoxDNSAddress;
+        private System.Windows.Forms.Button buttonDNSStaticDeactivate;
+        private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.TextBox textBoxDNSAddressList;
+        private System.Windows.Forms.CheckBox checkBoxDNSMatchSubdomain;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.TextBox textBoxDNSTTL;
+        private System.Windows.Forms.Button buttonDNSStaticEdit;
+        private System.Windows.Forms.TabPage tabPage4;
     }
 }

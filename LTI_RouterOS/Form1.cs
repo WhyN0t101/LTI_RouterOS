@@ -16,6 +16,7 @@ using System.Linq;
 using System.Xml.Linq;
 using LTI_RouterOS.Properties;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace LTI_RouterOS
 {
@@ -71,16 +72,29 @@ namespace LTI_RouterOS
             comboBoxCheckGateway.SelectedIndex = 2;
         }
 
-
+        #region BaseConfigs
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
             textBox1.Text = "192.168.79.1";
             textBox9.Text = "admin";
         }
-
-
-
+        private void tabControl1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            // Check if connected to router before allowing access to other tabs
+            if (!isConnected && tabControl1.SelectedIndex != 0)
+            {
+                MessageBox.Show("Please connect to the router first.");
+                tabControl1.SelectedIndex = 0; // Switch back to the connection tab
+            }
+            TabControl tabControl = (TabControl)sender;
+            switch (tabControl.SelectedIndex)
+            {
+                case 6:
+                    PopulateDHCPTab();
+                    break;
+            }
+        }
         private async Task PopulatecomboBoxSecProfile()
         {
             // Clear any existing items in the ComboBox
@@ -107,7 +121,6 @@ namespace LTI_RouterOS
             }
 
         }
-
         private async void connectButton_Click(object sender, EventArgs e)
         {
             string ipAddress = textBox1.Text.Trim();
@@ -137,6 +150,43 @@ namespace LTI_RouterOS
             isConnected = true;
             MessageBox.Show("Connected to router successfully!");
         }
+        private void PopulateCountryNamesComboBox()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxCountryCodes.Items.Clear();
+
+            // Get all countries
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.Name);
+                string countryNameLowerCase = region.EnglishName.ToLower();
+                // Check if the country name is not already in the ComboBox
+                if (!comboBoxCountryCodes.Items.Contains(countryNameLowerCase))
+                {
+                    // Add the country name to the ComboBox
+                    comboBoxCountryCodes.Items.Add(countryNameLowerCase);
+                }
+            }
+            string etsiCountry = "ETSI";
+            comboBoxCountryCodes.Items.Add(etsiCountry.ToLower());
+
+            // Optionally, sort the items in the ComboBox
+            comboBoxCountryCodes.Sorted = true;
+        }
+        public static void ChangeDefaultFontSize(Font newFont)
+        {
+            // Set the default font for all controls
+            typeof(Control).GetProperty("DefaultFont", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)?.SetValue(null, newFont);
+        }
+
+        #endregion
+
+
+        #region Interfaces
+
+        #region Listagens
+
 
         private async void button1_Click_1(object sender, EventArgs e)
         {
@@ -180,26 +230,9 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
 
-        private void tabControl1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            // Check if connected to router before allowing access to other tabs
-            if (!isConnected && tabControl1.SelectedIndex != 0)
-            {
-                MessageBox.Show("Please connect to the router first.");
-                tabControl1.SelectedIndex = 0; // Switch back to the connection tab
-            }
-            TabControl tabControl = (TabControl)sender;
-            switch (tabControl.SelectedIndex)
-            {
-                case 6:
-                    PopulateDHCPTab();
-                    break;
-            }
-        }
-
-
-
+        #region PopulateFields
         private async void comboBox1_Enter(object sender, EventArgs e)
         {
             try
@@ -233,6 +266,305 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error retrieving bridge data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+
+            string name = comboBox1.SelectedItem.ToString();
+            Bridge bridgeLocal = RetrieveBridge(name);
+
+            if (bridgeLocal != null)
+            {
+                bridge.Id = bridgeLocal.Id;
+                textBoxBridgeName.Text = bridgeLocal.Name;
+                textBoxBridgeMTU.Text = bridgeLocal.Mtu;
+                comboBoxARP.SelectedItem = bridgeLocal.Arp;
+                textBoxArpTimeoutBridge.Text = ConvertTimeFormat(bridgeLocal.ArpTimeout);
+                textBoxAgeingTime.Text = ConvertTimeFormat(bridgeLocal.AgeingTime);
+                checkBoxFF.Checked = bridgeLocal.FastForward;
+                checkBoxIGMP.Checked = bridgeLocal.IgmpSnooping;
+                checkBoxDHCPSnooping.Checked = bridgeLocal.DhcpSnooping;
+            }
+        }
+
+        #endregion
+
+        #region Add/Edit/Delete Bridge
+
+        //Creates Bridge
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
+            {
+                return;
+            }
+
+            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
+            {
+                return;
+            }
+
+            if (textBoxBridgeName.Text == "")
+            {
+                MessageBox.Show("Select a Bridge Name. ");
+                return;
+            }
+
+            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                return;
+            }
+
+
+            // Update bridge object with values from the form before creating the security profile
+            UpdateBridgeFromForm();
+
+            // Create the security profile
+            await CreateBridge(bridge);
+        }
+
+        //Makes Payload and Creates Bridge
+        private async Task CreateBridge(Bridge bridge)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = bridge.Name,
+                    ["mtu"] = bridge.Mtu,
+                    ["arp"] = bridge.Arp,
+                    ["arp-timeout"] = bridge.ArpTimeout,
+                    ["ageing-time"] = bridge.AgeingTime,
+                    ["igmp-snooping"] = bridge.IgmpSnooping,
+                    ["dhcp-snooping"] = bridge.DhcpSnooping,
+                    ["fast-forward"] = bridge.FastForward
+                };
+
+                await Controller.CreateBridge(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        //Delete Bridge
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            string bridgeName = comboBox1.SelectedItem.ToString();
+            try
+            {
+                await Controller.DeleteBridge(bridgeName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
+            }
+
+        }
+
+        //Edit Bridge
+        private async void button6_Click(object sender, EventArgs e)
+        {
+
+            if (comboBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Select a bridge");
+                return;
+            }
+            //verifica time e password lenght
+            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
+            {
+                return;
+            }
+
+            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
+            {
+                return;
+            }
+
+            if (textBoxBridgeName.Text == "")
+            {
+                MessageBox.Show("Select a Bridge Name. ");
+                return;
+            }
+
+            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                return;
+            }
+
+            // Update bridge object with values from the form before creating the security profile
+            UpdateBridgeFromForm();
+
+            // Create the security profile
+            await EditBridge(bridge);
+
+        }
+        
+        //Makes Payload and Edits Bridge
+        private async Task EditBridge(Bridge bridge)
+        {
+            try
+            {
+                // Construct the JSON payload for the new security profile
+
+                JObject payload = new JObject
+                {
+                    ["name"] = bridge.Name,
+                    ["mtu"] = bridge.Mtu,
+                    ["arp"] = bridge.Arp,
+                    ["arp-timeout"] = bridge.ArpTimeout,
+                    ["ageing-time"] = bridge.AgeingTime,
+                    ["igmp-snooping"] = bridge.IgmpSnooping,
+                    ["dhcp-snooping"] = bridge.DhcpSnooping,
+                    ["fast-forward"] = bridge.FastForward
+                };
+
+                await Controller.EditBridge(bridge.Id, payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region AUX
+
+        private void UpdateBridgeFromForm()
+        {
+            bridge.Name = textBoxBridgeName.Text;
+            bridge.Mtu = textBoxBridgeMTU.Text;
+            bridge.Arp = comboBoxARP.SelectedItem.ToString();
+            bridge.ArpTimeout = textBoxArpTimeoutBridge.Text;
+            bridge.AgeingTime = textBoxAgeingTime.Text;
+            bridge.DhcpSnooping = checkBoxDHCPSnooping.Checked;
+            bridge.IgmpSnooping = checkBoxIGMP.Checked;
+            bridge.FastForward = checkBoxFF.Checked;
+
+        }
+
+        private Bridge RetrieveBridge(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/interface/bridge")
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + "/rest/interface/bridge").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WirelessSettings objects
+                List<Bridge> bridgeList = JsonConvert.DeserializeObject<List<Bridge>>(responseBody);
+
+                // Find the WirelessSettings object with the matching name
+                return bridgeList.FirstOrDefault(s => s.Name == name);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+
+
+        #endregion
+
+        #endregion
+
+
+        #region Wireless
+
+        #region PopulateFields
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Check the selected item in the combo box
+            string selectedItem = comboBox3.SelectedItem.ToString();
+
+            // Enable/disable text boxes or checkboxes based on the selected item
+            if (selectedItem == "none")
+            {
+                // Disable certain text boxes or checkboxes
+                checkedListBox1.Enabled = false;
+                checkedListBox2.Enabled = false;
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+
+            }
+            else if (selectedItem == "dynamic keys")
+            {
+                checkedListBox1.Enabled = true;
+                checkedListBox2.Enabled = true;
+                checkedListBox3.Enabled = true;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = true;
+
+            }
+            else if (selectedItem == "static keys optional")
+            {
+
+                checkedListBox1.Enabled = false;
+                checkedListBox2.Enabled = false;
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+
+            }
+            else if (selectedItem == "static keys required")
+            {
+                checkedListBox1.Enabled = false;
+                checkedListBox2.Enabled = false;
+                checkedListBox3.Enabled = false;
+                textBox4.Enabled = false;
+                textBox5.Enabled = false;
+                textBox6.Enabled = false;
+                textBox7.Enabled = false;
+            }
+        }
+
+        #endregion
+
+        #region AUX
 
         private void UpdateWifiProfileFromForm()
         {
@@ -297,7 +629,34 @@ namespace LTI_RouterOS
             }
         }
 
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Get the index of the checked item
+            int index = e.Index;
 
+            // Determine which item is being checked
+            switch (index)
+            {
+                case 0: // First item checked
+                    textBox4.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 1: // Second item checked
+                    textBox5.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 2: // Third item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                case 3: // Fourth item checked
+                    textBox6.Enabled = e.NewValue == CheckState.Checked;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
+        # region Add/Edit/Delete WirelessSecProfile 
         private async Task CreateWifiSecurityProfile(WifiSecurityProfile profile)
         {
             try
@@ -338,6 +697,8 @@ namespace LTI_RouterOS
                 // Handle exceptions
                 MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
         }
 
         private async void button8_Click(object sender, EventArgs e)
@@ -368,384 +729,39 @@ namespace LTI_RouterOS
         }
 
 
+        #endregion
 
-        private async void button5_Click(object sender, EventArgs e)
-        {
-            //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
-            {
-                return;
-            }
-
-            if(ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text,0) == "")
-            {
-                return;
-            }
-
-            if (textBoxBridgeName.Text == "")
-            {
-                MessageBox.Show("Select a Bridge Name. ");
-                return;
-            }
-
-            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
-            {
-                // Value is outside the range [32, 2290] or invalid input
-                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
-                return;
-            }
-
-            
-            // Update bridge object with values from the form before creating the security profile
-            UpdateBridgeFromForm();
-
-            // Create the security profile
-            await CreateBridge(bridge);
-        }
-
-        private async Task CreateBridge(Bridge bridge)
-        {
-            try
-            {
-                // Construct the JSON payload for the new security profile
-
-                JObject payload = new JObject
-                {
-                    ["name"] = bridge.Name,
-                    ["mtu"] = bridge.Mtu,
-                    ["arp"] = bridge.Arp,
-                    ["arp-timeout"] = bridge.ArpTimeout,
-                    ["ageing-time"] = bridge.AgeingTime,
-                    ["igmp-snooping"] = bridge.IgmpSnooping,
-                    ["dhcp-snooping"] = bridge.DhcpSnooping,
-                    ["fast-forward"] = bridge.FastForward
-                };
-
-                await Controller.CreateBridge(payload);
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            
-        }
-
-        private void UpdateBridgeFromForm()
-        {
-            bridge.Name = textBoxBridgeName.Text;
-            bridge.Mtu = textBoxBridgeMTU.Text;
-            bridge.Arp = comboBoxARP.SelectedItem.ToString();
-            bridge.ArpTimeout = textBoxArpTimeoutBridge.Text;
-            bridge.AgeingTime = textBoxAgeingTime.Text;
-            bridge.DhcpSnooping = checkBoxDHCPSnooping.Checked;
-            bridge.IgmpSnooping = checkBoxIGMP.Checked;
-            bridge.FastForward = checkBoxFF.Checked;
-
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Check the selected item in the combo box
-            string selectedItem = comboBox3.SelectedItem.ToString();
-
-            // Enable/disable text boxes or checkboxes based on the selected item
-            if (selectedItem == "none")
-            {
-                /*
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                */
-                // Disable certain text boxes or checkboxes
-                checkedListBox1.Enabled = false;
-                //checkedListBox2.SetItemChecked(0, true);
-                checkedListBox2.Enabled = false;
-                //checkedListBox3.SetItemChecked(0, true);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
+        #endregion
 
 
-            }
-            else if (selectedItem == "dynamic keys")
-            {
-                checkedListBox1.Enabled = true;
-                checkedListBox2.Enabled = true;
-                checkedListBox3.Enabled = true;
-                //checkedListBox2.SetItemChecked(0, true);
-                //checkedListBox3.SetItemChecked(0, true);
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = true;
-
-            }
-            else if (selectedItem == "static keys optional")
-            {
-                /*
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                */
 
 
-                checkedListBox1.Enabled = false;
-                //checkedListBox2.SetItemChecked(0, false);
-                //checkedListBox2.SetItemChecked(1, false);
-                checkedListBox2.Enabled = false;
-                //checkedListBox3.SetItemChecked(0, false);
-                //checkedListBox3.SetItemChecked(0, false);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-
-            }
-            else if (selectedItem == "static keys required")
-            {
-                /*
-                checkedListBox1.SetItemChecked(0, false);
-                checkedListBox1.SetItemChecked(1, false);
-                checkedListBox1.SetItemChecked(2, false);
-                checkedListBox1.SetItemChecked(3, false);
-                ~*/
-                checkedListBox1.Enabled = false;
-                //checkedListBox2.SetItemChecked(0, false);
-                //checkedListBox2.SetItemChecked(1, false);
-                checkedListBox2.Enabled = false;
-                //checkedListBox3.SetItemChecked(0, false);
-                //checkedListBox3.SetItemChecked(1, false);
-                checkedListBox3.Enabled = false;
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                textBox6.Enabled = false;
-                textBox7.Enabled = false;
-            }
-        }
 
 
-        private void PopulateCountryNamesComboBox()
-        {
-            // Clear any existing items in the ComboBox
-            comboBoxCountryCodes.Items.Clear();
 
-            // Get all countries
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            foreach (CultureInfo culture in cultures)
-            {
-                RegionInfo region = new RegionInfo(culture.Name);
-                string countryNameLowerCase = region.EnglishName.ToLower();
-                // Check if the country name is not already in the ComboBox
-                if (!comboBoxCountryCodes.Items.Contains(countryNameLowerCase))
-                {
-                    // Add the country name to the ComboBox
-                    comboBoxCountryCodes.Items.Add(countryNameLowerCase);
-                }
-            }
-            string etsiCountry = "ETSI";
-            comboBoxCountryCodes.Items.Add(etsiCountry.ToLower());
 
-            // Optionally, sort the items in the ComboBox
-            comboBoxCountryCodes.Sorted = true;
-        }
 
-        private void comboBoxCountryCodes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedCountryName = comboBoxCountryCodes.SelectedItem.ToString();
-            // Do something with the selected country name
-        }
 
-        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {/*
-            string selectedItem = comboBox1.SelectedItem.ToString();
-            // Enable/disable text boxes or checkboxes based on the selected item
-            if (selectedItem == "disabled")
-            {
-                textBox8.Enabled = false;
-            }
-            else if (selectedItem == "allowed")
-            {
 
-                textBox8.Enabled = true;
-            }
-            else if (selectedItem == "required")
-            {
-                textBox8.Enabled = true;
-            }
-            */
 
-            // Clear textboxes and comboboxes
-            foreach (Control control in this.Controls)
-            {
-                if (control is TextBox)
-                {
-                    ((TextBox)control).Text = "";
-                }
-                if (control is ComboBox)
-                {
-                    ((ComboBox)control).SelectedIndex = -1;
-                }
-            }
 
-            string name = comboBox1.SelectedItem.ToString();
-            Bridge bridgeLocal = RetrieveBridge(name);
 
-            
-            if (bridgeLocal != null)
-            {
-                bridge.Id = bridgeLocal.Id;
-                textBoxBridgeName.Text = bridgeLocal.Name;
-                textBoxBridgeMTU.Text = bridgeLocal.Mtu;
-                comboBoxARP.SelectedItem = bridgeLocal.Arp;
-                textBoxArpTimeoutBridge.Text = ConvertTimeFormat(bridgeLocal.ArpTimeout);
-                textBoxAgeingTime.Text = ConvertTimeFormat(bridgeLocal.AgeingTime);
-                checkBoxFF.Checked = bridgeLocal.FastForward;
-                checkBoxIGMP.Checked = bridgeLocal.IgmpSnooping;
-                checkBoxDHCPSnooping.Checked = bridgeLocal.DhcpSnooping;
-            }
-        }
 
-        private Bridge RetrieveBridge(string name)
-        {
-            try
-            {
-                // Make an HTTP GET request to the specified endpoint ("/rest/interface/bridge")
-                HttpResponseMessage response = httpClient.GetAsync(baseUrl + "/rest/interface/bridge").Result;
-                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
 
-                // Read the response content as a string
-                string responseBody = response.Content.ReadAsStringAsync().Result;
 
-                // Deserialize the JSON response into a list of WirelessSettings objects
-                List<Bridge> bridgeList = JsonConvert.DeserializeObject<List<Bridge>>(responseBody);
-
-                // Find the WirelessSettings object with the matching name
-                return bridgeList.FirstOrDefault(s => s.Name == name);
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-
-        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            // Get the index of the checked item
-            int index = e.Index;
-
-            // Determine which item is being checked
-            switch (index)
-            {
-                case 0: // First item checked
-                    textBox4.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 1: // Second item checked
-                    textBox5.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 2: // Third item checked
-                    textBox6.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                case 3: // Fourth item checked
-                    textBox6.Enabled = e.NewValue == CheckState.Checked;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //MTU Range Tem de ser alto
-        private async void button4_Click(object sender, EventArgs e)
-        {
-            string bridge = comboBox1.SelectedItem.ToString();
-            try
-            {
-                await Controller.DeleteBridge(bridge);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating bridge: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                textBox2.Text = await Controller.GetBridges("/rest/interface/bridge");
-            }
-
-        }
-
-        private async void button6_Click(object sender, EventArgs e)
-        {
-
-            if (comboBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Select a bridge");
-                return;
-            }
-            //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
-            {
-                return;
-            }
-
-            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
-            {
-                return;
-            }
-
-            if (textBoxBridgeName.Text == "")
-            {
-                MessageBox.Show("Select a Bridge Name. ");
-                return;
-            }
-
-            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
-            {
-                // Value is outside the range [32, 2290] or invalid input
-                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
-                return;
-            }
-
-            // Update bridge object with values from the form before creating the security profile
-            UpdateBridgeFromForm();
-
-            // Create the security profile
-            await EditBridge(bridge);
-
-        }
         
-        private async Task EditBridge(Bridge bridge)
-        {
-            try
-            {
-                // Construct the JSON payload for the new security profile
 
-                JObject payload = new JObject
-                {
-                    ["name"] = bridge.Name,
-                    ["mtu"] = bridge.Mtu,
-                    ["arp"] = bridge.Arp,
-                    ["arp-timeout"] = bridge.ArpTimeout,
-                    ["ageing-time"] = bridge.AgeingTime,
-                    ["igmp-snooping"] = bridge.IgmpSnooping,
-                    ["dhcp-snooping"] = bridge.DhcpSnooping,
-                    ["fast-forward"] = bridge.FastForward
-                };
+        
+        
 
-                await Controller.EditBridge(bridge.Id, payload);
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                MessageBox.Show("Error creating security profile: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+
+
+
+
+
+        
+        
+        
 
         private async void comboBoxInterfaces_Enter(object sender, EventArgs e)
         {
