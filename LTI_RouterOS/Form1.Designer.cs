@@ -300,6 +300,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label16 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.disconnect = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -414,7 +415,7 @@
             // 
             this.connectButton.BackColor = System.Drawing.Color.Gainsboro;
             this.connectButton.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.connectButton.Location = new System.Drawing.Point(280, 201);
+            this.connectButton.Location = new System.Drawing.Point(43, 200);
             this.connectButton.Margin = new System.Windows.Forms.Padding(4);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(142, 45);
@@ -426,6 +427,7 @@
             // groupBox16
             // 
             this.groupBox16.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox16.Controls.Add(this.disconnect);
             this.groupBox16.Controls.Add(this.pictureBox1);
             this.groupBox16.Controls.Add(this.label14);
             this.groupBox16.Controls.Add(this.connectButton);
@@ -2344,7 +2346,7 @@
             // 
             // buttonListarEndIp
             // 
-            this.buttonListarEndIp.Location = new System.Drawing.Point(25, 473);
+            this.buttonListarEndIp.Location = new System.Drawing.Point(11, 473);
             this.buttonListarEndIp.Margin = new System.Windows.Forms.Padding(4);
             this.buttonListarEndIp.Name = "buttonListarEndIp";
             this.buttonListarEndIp.Size = new System.Drawing.Size(189, 28);
@@ -3506,6 +3508,18 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
+            // disconnect
+            // 
+            this.disconnect.BackColor = System.Drawing.Color.Gainsboro;
+            this.disconnect.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.disconnect.Location = new System.Drawing.Point(280, 200);
+            this.disconnect.Margin = new System.Windows.Forms.Padding(4);
+            this.disconnect.Name = "disconnect";
+            this.disconnect.Size = new System.Drawing.Size(142, 45);
+            this.disconnect.TabIndex = 8;
+            this.disconnect.Text = "Disconnect";
+            this.disconnect.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3840,5 +3854,6 @@
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button disconnect;
     }
 }
