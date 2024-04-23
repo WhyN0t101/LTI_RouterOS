@@ -70,6 +70,7 @@ namespace LTI_RouterOS
             comboBox2.SelectedIndex = 0;
             comboBox15.SelectedIndex = 0;
             comboBoxCheckGateway.SelectedIndex = 2;
+  
         }
 
         #region BaseConfigs
@@ -2380,5 +2381,7 @@ namespace LTI_RouterOS
         {
 
         }
+
+      
     }
 }
