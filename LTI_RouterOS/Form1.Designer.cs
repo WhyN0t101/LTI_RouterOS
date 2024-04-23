@@ -438,7 +438,7 @@
             this.groupBox16.Controls.Add(this.textBox10);
             this.groupBox16.Location = new System.Drawing.Point(47, 26);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(969, 445);
+            this.groupBox16.Size = new System.Drawing.Size(969, 491);
             this.groupBox16.TabIndex = 8;
             this.groupBox16.TabStop = false;
             // 
@@ -3503,7 +3503,7 @@
             this.pictureBox1.Image = global::LTI_RouterOS.Properties.Resources.mikrotik2;
             this.pictureBox1.Location = new System.Drawing.Point(480, 13);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(483, 426);
+            this.pictureBox1.Size = new System.Drawing.Size(483, 455);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
