@@ -147,7 +147,7 @@ namespace LTI_RouterOS
                 Controller = new MethodsController(username, password, ipAddress);
 
                 // Attempt to connect to the router
-                await Connect(baseUrl, username, password,protocol);
+                await Connect(ipAddress, username, password,protocol);
 
                 // If connection successful, display success message
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -163,29 +163,14 @@ namespace LTI_RouterOS
 
         private async Task Connect(string ipAddress, string username, string password, string protocol)
         {
-            string baseUrl = protocol + ipAddress;
+            baseUrl = protocol + ipAddress;
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
-
-            // Instantiate the HttpClient with the proper base URL and set the Authorization header
-            using (HttpClient httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri(baseUrl);
-                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-
-                // Test connection asynchronously
-                await Controller.TestConnection();
-
-                // Set isConnected flag to true upon successful connection
-                isConnected = true;
-
-                // Disable the textboxes after successful connection
-                textBox9.Enabled = false; // Username textbox
-                textBox10.Enabled = false; // Password textbox
-                textBox1.Enabled = false; // IP Address textbox
-
-                MessageBox.Show("Connected to router successfully!");
-            }
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
+            await Controller.TestConnection(); // Test connection asynchronously
+            isConnected = true;
+            MessageBox.Show("Connected to router successfully!");
         }
+
 
 
         private void PopulateCountryNamesComboBox()
