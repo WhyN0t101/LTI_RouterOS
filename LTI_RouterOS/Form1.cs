@@ -1030,6 +1030,8 @@ namespace LTI_RouterOS
                 comboBox14.SelectedItem = settings.Installation;
                 checkBox1.Checked = settings.DefaultAuthentication;
                 textBox14.Text = settings.ArpTimeout;
+                checkBox4.Checked = settings.disabled;
+
             }
 
         }
@@ -1053,6 +1055,7 @@ namespace LTI_RouterOS
             try
             {
                 await Controller.DeactivateWirelessInterface(settings.Id);
+                checkBox4.Checked = false;
             }
             catch (Exception ex)
             {
@@ -1081,6 +1084,7 @@ namespace LTI_RouterOS
             try
             {
                 await Controller.ActivateWirelessInterface(settings.Id);
+                checkBox4.Checked = true;
             }
             catch (Exception ex)
             {
@@ -2337,6 +2341,11 @@ namespace LTI_RouterOS
 
                 // Populate the textbox with servers
                 textBoxServers.Clear();
+                if(dns.Servers == "" && dns.AllowRemoteRequests == false)
+                {
+                    checkBox3.Checked = false;
+                }
+                checkBox3.Checked = true;
                 foreach (string server in serverList)
                 {
                     textBoxServers.Text += server + Environment.NewLine;
@@ -2548,6 +2557,14 @@ namespace LTI_RouterOS
             {
                 dnsStatic.Id = dnsStaticLocal.Id;
                 textBoxDNSName.Text = dnsStaticLocal.Name;
+                if(dnsStaticLocal.Type != "CNAME")
+                {
+                    textBox21.Enabled = false;
+                }
+                else
+                {
+                    textBox21.Enabled = true;
+                }
                 if (dnsStaticLocal.Type == null)
                 {
                     comboBoxDNSType.SelectedItem = "A";
@@ -2560,6 +2577,8 @@ namespace LTI_RouterOS
                 textBoxDNSTTL.Text = ConvertTimeFormat(dnsStaticLocal.TTL);
                 textBoxDNSAddressList.Text = dnsStaticLocal.AddressList;
                 textBoxDNSAddress.Text = dnsStaticLocal.Address;
+                checkBox2.Checked = dnsStaticLocal.Disabled;
+                
                 if (dnsStaticLocal.MatchSubdomain == null)
                 {
                     checkBoxDNSMatchSubdomain.Checked = false;
