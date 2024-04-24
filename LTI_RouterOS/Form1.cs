@@ -91,7 +91,7 @@ namespace LTI_RouterOS
             switch (tabControl.SelectedIndex)
             {
                 case 6:
-                    PopulateDHCPTab();
+                    PopulateDNSTab();
                     break;
             }
         }
@@ -1304,8 +1304,6 @@ namespace LTI_RouterOS
             return IPAddress.TryParse(ipAddress, out ip) && ip.AddressFamily == AddressFamily.InterNetwork;
         }
 
-
-
         private bool IsValidIpAddress(string ipAddress)
         {
             try
@@ -1390,6 +1388,7 @@ namespace LTI_RouterOS
             //1 -> sec profile
             //2 -> dhcp
             //3 -> bridge
+            //4 -> hh:mm:ss above 0
             string pattern = "";
             string errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'.";
 
@@ -1399,13 +1398,23 @@ namespace LTI_RouterOS
                     pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"; // Pattern for hh:mm:ss format
                     break;
                 case 1:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'," +
+                        "in the range of [00:30:00, 24:00:00].";
                     pattern = @"^(?:00:(?:[3-5][0-9]|00):[0-5][0-9]|0[1-9]:[0-5][0-9]:[0-5][0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]|24:00:00$";
                     break;
                 case 2:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss' " +
+                        "where hh is between 00 and 23, mm and ss are between 00 and 59.";
                     pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
                     break;
                 case 3:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'" +
+                        " where hh is between 00 and 23, mm and ss are between 00 and 59.";
                     pattern = @"^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$";
+                    break;
+                case 4:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss', and above 0s.";
+                    pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:(0[1-9]|[1-5][0-9])$";
                     break;
                 default:
                     MessageBox.Show(errorMessage);
@@ -2302,7 +2311,7 @@ namespace LTI_RouterOS
             }
         }
 
-        private async void PopulateDHCPTab()
+        private async void PopulateDNSTab()
         {
             try
             {
@@ -2345,16 +2354,9 @@ namespace LTI_RouterOS
 
         }
 
-        private void buttonDNSAtivar_Click(object sender, EventArgs e)
-        {
+        
 
-        }
-
-        private void buttonDNSConfigurar_Click(object sender, EventArgs e)
-        {
-
-
-        }
+        
 
         private IEnumerable<string> GetFilteredValues(string prefix)
         {
@@ -2380,5 +2382,124 @@ namespace LTI_RouterOS
         {
 
         }
+
+        private async void buttonDNSAtivar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Controller.ActivateDNS();
+                PopulateDNSTab();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Deactivating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonDNSDeactivate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Controller.DeactivateDNS();
+                PopulateDNSTab();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Deactivating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void buttonDNSConfigurar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateIpAddress(textBoxServers.Text))
+                {
+                    return;
+                }
+                if (textBoxUDPPackageSize.Text == "" || !int.TryParse(textBoxUDPPackageSize.Text, out int value) || value < 50 || value > 65507)
+                {
+                    MessageBox.Show("Value of UDP Package Size is outside the range [50, 65507] or invalid input. ");
+                }
+                if(ValidateAndUpdateTimeFormat(textBoxQueryServerTimeout.Text, 4) == ""){
+                    return;
+                }
+                if (ValidateAndUpdateTimeFormat(textBoxQueryTotalTimeout.Text, 4) == "")
+                {
+                    return;
+                }
+                if (textBox20.Text == "" || !int.TryParse(textBoxUDPPackageSize.Text, out value) || value < 64 )
+                {
+                    MessageBox.Show("Value of Cache Size is inferior to 63 or invalid input. ");
+                }
+                /*if (ValidateAndUpdateTimeFormat(textBoxCacheMaxTTL.Text, 0) == "")
+                {
+                    return;
+                }*/
+
+                UpdateDNSFromForm();
+                await EditDNS(dns);
+                PopulateDNSTab();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Editing Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        private async Task EditDNS(DNS dns)
+        {
+            try
+            {
+
+                JObject payload = dns.ToJObject();
+                payload.Remove("cache-used");
+
+                await Controller.EditDNS(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error editing DNS " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void UpdateDNSFromForm()
+        {
+            dns.Servers = textBoxServers.Text.Replace("\r\n", ",");
+            dns.MaxUdpPacketSize = textBoxUDPPackageSize.Text;
+            dns.QueryServerTimeout = textBoxQueryServerTimeout.Text;
+            dns.QueryTotalTimeout = textBoxQueryTotalTimeout.Text;
+            dns.MaxConcurrentQueries = textBoxConcurrentQueries.Text;
+            dns.MaxConcurrentTcpSessions = textBoxConcurrentTCPSessions.Text;
+            dns.CacheSize = textBox20.Text;
+            dns.CacheMaxTTL = textBoxCacheMaxTTL.Text;
+            dns.AllowRemoteRequests = checkBoxRemoteRequests.Checked;
+
+        }
+
+        private bool ValidateIpAddress(string ipAddressText)
+        {
+            // Split the multiline text into individual lines
+            string[] lines = ipAddressText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string line in lines)
+            {
+                // Try to parse each line as an IP address
+                if (!IPAddress.TryParse(line, out IPAddress ip))
+                {
+                    MessageBox.Show($"Invalid IP address: {line}");
+                    return false;
+                }
+            }
+
+            // All IP addresses are valid
+            return true;
+        }
+
     }
 }

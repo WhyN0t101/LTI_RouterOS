@@ -559,6 +559,84 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show("Error Editing DHCP Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task DeactivateDNS()
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/set";
+
+                JObject payload = new JObject
+                {
+                    ["servers"] = "",
+                    ["allow-remote-requests"] = "false"
+
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DNS Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Disabling DNS Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task ActivateDNS()
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/set";
+
+                JObject payload = new JObject
+                {
+                    ["servers"] = "8.8.8.8",
+                    ["allow-remote-requests"] = "true"
+
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DNS Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Enabling DNS Server: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditDNS(JObject payload)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/set";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("DNS Edited successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error Editing DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 
