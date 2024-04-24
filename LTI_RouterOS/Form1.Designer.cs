@@ -88,6 +88,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.textBoxSSID = new System.Windows.Forms.TextBox();
             this.WirelessInterfaceCombobox = new System.Windows.Forms.ComboBox();
             this.label73 = new System.Windows.Forms.Label();
@@ -223,6 +224,7 @@
             this.buttonListDHCP = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.buttonDNSStaticEdit = new System.Windows.Forms.Button();
             this.buttonDNSStaticRemove = new System.Windows.Forms.Button();
             this.buttonDNSStaticAdd = new System.Windows.Forms.Button();
@@ -261,6 +263,7 @@
             this.buttonDNSActivate = new System.Windows.Forms.Button();
             this.buttonDNSDeactivate = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label47 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label48 = new System.Windows.Forms.Label();
@@ -270,6 +273,7 @@
             this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.comboBoxWireguardPeer = new System.Windows.Forms.ComboBox();
             this.label91 = new System.Windows.Forms.Label();
             this.buttonWireguardDisablePeer = new System.Windows.Forms.Button();
@@ -285,6 +289,9 @@
             this.textBoxWireguardPeerName = new System.Windows.Forms.TextBox();
             this.label86 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.label92 = new System.Windows.Forms.Label();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.comboBoxWireguardInterface = new System.Windows.Forms.ComboBox();
             this.label90 = new System.Windows.Forms.Label();
             this.buttonWireguardDisableInterface = new System.Windows.Forms.Button();
@@ -299,13 +306,6 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.label92 = new System.Windows.Forms.Label();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -1073,6 +1073,17 @@
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Wireless Interfaces";
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Enabled = false;
+            this.checkBox4.Location = new System.Drawing.Point(346, 29);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(75, 22);
+            this.checkBox4.TabIndex = 64;
+            this.checkBox4.Text = "Active";
+            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // textBoxSSID
             // 
@@ -2249,7 +2260,7 @@
             this.groupBox8.Size = new System.Drawing.Size(665, 395);
             this.groupBox8.TabIndex = 12;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Bridge Management";
+            this.groupBox8.Text = "IP Creation";
             // 
             // comboBoxInterface
             // 
@@ -2719,6 +2730,17 @@
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "DNS Static";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Enabled = false;
+            this.checkBox2.Location = new System.Drawing.Point(253, 58);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(75, 22);
+            this.checkBox2.TabIndex = 101;
+            this.checkBox2.Text = "Active";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // buttonDNSStaticEdit
             // 
             this.buttonDNSStaticEdit.Location = new System.Drawing.Point(288, 466);
@@ -3114,6 +3136,17 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "DNS Configs";
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Enabled = false;
+            this.checkBox3.Location = new System.Drawing.Point(295, 149);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(75, 22);
+            this.checkBox3.TabIndex = 109;
+            this.checkBox3.Text = "Active";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // label47
             // 
             this.label47.AutoSize = true;
@@ -3227,6 +3260,17 @@
             this.groupBox15.TabIndex = 1;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Wireguard Peer";
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Enabled = false;
+            this.checkBox6.Location = new System.Drawing.Point(117, 388);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(75, 22);
+            this.checkBox6.TabIndex = 23;
+            this.checkBox6.Text = "Active";
+            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // comboBoxWireguardPeer
             // 
@@ -3390,6 +3434,35 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Wireguard Interface";
             // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(29, 396);
+            this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(91, 18);
+            this.label92.TabIndex = 22;
+            this.label92.Text = "Private Key";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(32, 418);
+            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(351, 26);
+            this.textBox16.TabIndex = 21;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Enabled = false;
+            this.checkBox5.Location = new System.Drawing.Point(441, 302);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(75, 22);
+            this.checkBox5.TabIndex = 2;
+            this.checkBox5.Text = "Active";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
             // comboBoxWireguardInterface
             // 
             this.comboBoxWireguardInterface.FormattingEnabled = true;
@@ -3518,79 +3591,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(253, 58);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(75, 22);
-            this.checkBox2.TabIndex = 101;
-            this.checkBox2.Text = "Active";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Enabled = false;
-            this.checkBox3.Location = new System.Drawing.Point(295, 149);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(75, 22);
-            this.checkBox3.TabIndex = 109;
-            this.checkBox3.Text = "Active";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(346, 29);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(75, 22);
-            this.checkBox4.TabIndex = 64;
-            this.checkBox4.Text = "Active";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Enabled = false;
-            this.checkBox5.Location = new System.Drawing.Point(441, 302);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(75, 22);
-            this.checkBox5.TabIndex = 2;
-            this.checkBox5.Text = "Active";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // textBox16
-            // 
-            this.textBox16.Location = new System.Drawing.Point(32, 418);
-            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(351, 26);
-            this.textBox16.TabIndex = 21;
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(29, 396);
-            this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(91, 18);
-            this.label92.TabIndex = 22;
-            this.label92.Text = "Private Key";
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Enabled = false;
-            this.checkBox6.Location = new System.Drawing.Point(117, 388);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(75, 22);
-            this.checkBox6.TabIndex = 23;
-            this.checkBox6.Text = "Active";
-            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
