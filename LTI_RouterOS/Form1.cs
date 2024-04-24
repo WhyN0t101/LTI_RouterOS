@@ -33,6 +33,7 @@ namespace LTI_RouterOS
         private Bridge bridge;
         private DNSStatic dnsStatic;
         private Json Parser = new Json();
+        
 
 
         public Form1()
@@ -2469,7 +2470,7 @@ namespace LTI_RouterOS
             }
 
         }
-
+        
         private void UpdateDNSFromForm()
         {
             dns.Servers = textBoxServers.Text.Replace("\r\n", ",");
@@ -2641,6 +2642,70 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error Removing Static DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private async void buttonDNSStaticAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string type = comboBoxDNSType.Text;
+                if (textBoxDNSName.Text == "")
+                {
+                    MessageBox.Show("Please Select a Name for Static Entry.");
+                    return;
+                }
+                switch (type)
+                {
+                    case "A":
+                        if (!IsValidIpAddressGateway(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid IPv4 Address: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                    case "AAAA":
+                        if (!Parser.ValidateIPv6(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid IPv6 Address: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                    case "CNAME":
+                        if (!Parser.ValidateCNAME(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid CNAME: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                }
+                if (ValidateAndUpdateTimeFormat(textBoxDNSTTL.Text, 0) == "")
+                {
+                    return;
+                }
+                UpdateDNSFromForm();
+                await CreateStaticDNS();
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task CreateStaticDNS()
+        {
+            try
+            {
+
+                JObject payload = dnsStatic.ToJObject();
+
+                await Controller.CreateStaticDNS(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Creating Static DNS Entry {dnsStatic.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

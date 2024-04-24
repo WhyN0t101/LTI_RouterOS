@@ -2507,6 +2507,7 @@
             this.buttonDNSStaticAdd.TabIndex = 103;
             this.buttonDNSStaticAdd.Text = "Add";
             this.buttonDNSStaticAdd.UseVisualStyleBackColor = true;
+            this.buttonDNSStaticAdd.Click += new System.EventHandler(this.buttonDNSStaticAdd_Click);
             // 
             // label82
             // 

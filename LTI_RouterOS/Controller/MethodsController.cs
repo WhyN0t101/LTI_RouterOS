@@ -716,6 +716,28 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Removing Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task CreateStaticDNS(JObject payload)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/set/add";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"DNS Static Entry: {(string)payload["name"]} Created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Editing DNS Static Entry {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 
