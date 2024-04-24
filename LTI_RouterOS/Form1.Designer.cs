@@ -32,13 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.disconnect = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.connectButton = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.connectButton = new System.Windows.Forms.Button();
-            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
             this.Interfaces = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.button20 = new System.Windows.Forms.Button();
@@ -241,15 +244,9 @@
             this.comboBoxDNSType = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.textBoxDNSName = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
             this.buttonDNSConfigure = new System.Windows.Forms.Button();
-            this.label66 = new System.Windows.Forms.Label();
             this.textBoxCacheMaxTTL = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.label62 = new System.Windows.Forms.Label();
             this.textBoxConcurrentTCPSessions = new System.Windows.Forms.TextBox();
@@ -261,12 +258,18 @@
             this.textBoxQueryServerTimeout = new System.Windows.Forms.TextBox();
             this.label59 = new System.Windows.Forms.Label();
             this.textBoxUDPPackageSize = new System.Windows.Forms.TextBox();
-            this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.label57 = new System.Windows.Forms.Label();
             this.textBoxServers = new System.Windows.Forms.TextBox();
             this.buttonDNSActivate = new System.Windows.Forms.Button();
             this.buttonDNSDeactivate = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.comboBoxWireguardPeer = new System.Windows.Forms.ComboBox();
@@ -298,12 +301,17 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.label16 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.disconnect = new System.Windows.Forms.Button();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.label92 = new System.Windows.Forms.Label();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Interfaces.SuspendLayout();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHorizon)).BeginInit();
@@ -327,7 +335,6 @@
             this.tabPage4.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -361,16 +368,45 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Intro";
             // 
-            // label15
+            // groupBox16
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(38, 95);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 23);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "Password:";
+            this.groupBox16.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox16.Controls.Add(this.disconnect);
+            this.groupBox16.Controls.Add(this.pictureBox1);
+            this.groupBox16.Controls.Add(this.label14);
+            this.groupBox16.Controls.Add(this.connectButton);
+            this.groupBox16.Controls.Add(this.label16);
+            this.groupBox16.Controls.Add(this.textBox9);
+            this.groupBox16.Controls.Add(this.textBox1);
+            this.groupBox16.Controls.Add(this.label15);
+            this.groupBox16.Controls.Add(this.textBox10);
+            this.groupBox16.Location = new System.Drawing.Point(47, 26);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(969, 491);
+            this.groupBox16.TabIndex = 8;
+            this.groupBox16.TabStop = false;
+            // 
+            // disconnect
+            // 
+            this.disconnect.BackColor = System.Drawing.Color.Gainsboro;
+            this.disconnect.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.disconnect.Location = new System.Drawing.Point(280, 200);
+            this.disconnect.Margin = new System.Windows.Forms.Padding(4);
+            this.disconnect.Name = "disconnect";
+            this.disconnect.Size = new System.Drawing.Size(142, 45);
+            this.disconnect.TabIndex = 8;
+            this.disconnect.Text = "Disconnect";
+            this.disconnect.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::LTI_RouterOS.Properties.Resources.mikrotik2;
+            this.pictureBox1.Location = new System.Drawing.Point(480, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(483, 455);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
             // 
             // label14
             // 
@@ -384,14 +420,29 @@
             this.label14.Text = "Username:";
             this.label14.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // textBox10
+            // connectButton
             // 
-            this.textBox10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(191, 95);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(231, 32);
-            this.textBox10.TabIndex = 3;
+            this.connectButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.connectButton.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.connectButton.Location = new System.Drawing.Point(43, 200);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(4);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(142, 45);
+            this.connectButton.TabIndex = 0;
+            this.connectButton.Text = "Connect";
+            this.connectButton.UseVisualStyleBackColor = false;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(39, 147);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(126, 23);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "IP Address:";
             // 
             // textBox9
             // 
@@ -411,36 +462,25 @@
             this.textBox1.Size = new System.Drawing.Size(231, 32);
             this.textBox1.TabIndex = 1;
             // 
-            // connectButton
+            // label15
             // 
-            this.connectButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.connectButton.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.connectButton.Location = new System.Drawing.Point(43, 200);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(4);
-            this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(142, 45);
-            this.connectButton.TabIndex = 0;
-            this.connectButton.Text = "Connect";
-            this.connectButton.UseVisualStyleBackColor = false;
-            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(38, 95);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(114, 23);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "Password:";
             // 
-            // groupBox16
+            // textBox10
             // 
-            this.groupBox16.BackColor = System.Drawing.Color.Gainsboro;
-            this.groupBox16.Controls.Add(this.disconnect);
-            this.groupBox16.Controls.Add(this.pictureBox1);
-            this.groupBox16.Controls.Add(this.label14);
-            this.groupBox16.Controls.Add(this.connectButton);
-            this.groupBox16.Controls.Add(this.label16);
-            this.groupBox16.Controls.Add(this.textBox9);
-            this.groupBox16.Controls.Add(this.textBox1);
-            this.groupBox16.Controls.Add(this.label15);
-            this.groupBox16.Controls.Add(this.textBox10);
-            this.groupBox16.Location = new System.Drawing.Point(47, 26);
-            this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(969, 491);
-            this.groupBox16.TabIndex = 8;
-            this.groupBox16.TabStop = false;
+            this.textBox10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox10.Location = new System.Drawing.Point(191, 95);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(231, 32);
+            this.textBox10.TabIndex = 3;
             // 
             // Interfaces
             // 
@@ -988,6 +1028,7 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox3.Controls.Add(this.checkBox4);
             this.groupBox3.Controls.Add(this.textBoxSSID);
             this.groupBox3.Controls.Add(this.WirelessInterfaceCombobox);
             this.groupBox3.Controls.Add(this.label73);
@@ -2651,6 +2692,7 @@
             // groupBox13
             // 
             this.groupBox13.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox13.Controls.Add(this.checkBox2);
             this.groupBox13.Controls.Add(this.buttonDNSStaticEdit);
             this.groupBox13.Controls.Add(this.buttonDNSStaticRemove);
             this.groupBox13.Controls.Add(this.buttonDNSStaticAdd);
@@ -2891,46 +2933,6 @@
             this.textBoxDNSName.Size = new System.Drawing.Size(159, 26);
             this.textBoxDNSName.TabIndex = 0;
             // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.BackColor = System.Drawing.Color.Gainsboro;
-            this.label48.Location = new System.Drawing.Point(220, 299);
-            this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(96, 18);
-            this.label48.TabIndex = 97;
-            this.label48.Text = "Cache Used";
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(223, 320);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(147, 26);
-            this.textBox11.TabIndex = 98;
-            this.textBox11.Text = "Cache Used";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(183, 323);
-            this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(16, 18);
-            this.label47.TabIndex = 96;
-            this.label47.Text = "s";
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(183, 269);
-            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(16, 18);
-            this.label46.TabIndex = 95;
-            this.label46.Text = "s";
-            // 
             // buttonDNSConfigure
             // 
             this.buttonDNSConfigure.Location = new System.Drawing.Point(267, 470);
@@ -2941,17 +2943,6 @@
             this.buttonDNSConfigure.Text = "Edit";
             this.buttonDNSConfigure.UseVisualStyleBackColor = true;
             this.buttonDNSConfigure.Click += new System.EventHandler(this.buttonDNSConfigurar_Click);
-            // 
-            // label66
-            // 
-            this.label66.AutoSize = true;
-            this.label66.BackColor = System.Drawing.Color.Gainsboro;
-            this.label66.Location = new System.Drawing.Point(220, 250);
-            this.label66.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(120, 18);
-            this.label66.TabIndex = 92;
-            this.label66.Text = "Cache Max TTL";
             // 
             // textBoxCacheMaxTTL
             // 
@@ -2972,17 +2963,6 @@
             this.label65.Size = new System.Drawing.Size(29, 18);
             this.label65.TabIndex = 91;
             this.label65.Text = "kib";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.BackColor = System.Drawing.Color.Gainsboro;
-            this.label64.Location = new System.Drawing.Point(220, 190);
-            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(90, 18);
-            this.label64.TabIndex = 89;
-            this.label64.Text = "Cache Size";
             // 
             // textBox20
             // 
@@ -3093,18 +3073,6 @@
             this.textBoxUDPPackageSize.TabIndex = 80;
             this.textBoxUDPPackageSize.Text = "4096";
             // 
-            // checkBoxRemoteRequests
-            // 
-            this.checkBoxRemoteRequests.AutoSize = true;
-            this.checkBoxRemoteRequests.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(223, 415);
-            this.checkBoxRemoteRequests.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxRemoteRequests.Name = "checkBoxRemoteRequests";
-            this.checkBoxRemoteRequests.Size = new System.Drawing.Size(206, 22);
-            this.checkBoxRemoteRequests.TabIndex = 78;
-            this.checkBoxRemoteRequests.Text = "Allow Remote Requests";
-            this.checkBoxRemoteRequests.UseVisualStyleBackColor = false;
-            // 
             // label57
             // 
             this.label57.AutoSize = true;
@@ -3150,6 +3118,7 @@
             // groupBox12
             // 
             this.groupBox12.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox12.Controls.Add(this.checkBox3);
             this.groupBox12.Controls.Add(this.label47);
             this.groupBox12.Controls.Add(this.textBox11);
             this.groupBox12.Controls.Add(this.label48);
@@ -3167,6 +3136,80 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "DNS Configs";
             // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(183, 323);
+            this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(16, 18);
+            this.label47.TabIndex = 96;
+            this.label47.Text = "s";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(223, 320);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(147, 26);
+            this.textBox11.TabIndex = 98;
+            this.textBox11.Text = "Cache Used";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.BackColor = System.Drawing.Color.Gainsboro;
+            this.label48.Location = new System.Drawing.Point(220, 299);
+            this.label48.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(96, 18);
+            this.label48.TabIndex = 97;
+            this.label48.Text = "Cache Used";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(183, 269);
+            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(16, 18);
+            this.label46.TabIndex = 95;
+            this.label46.Text = "s";
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.BackColor = System.Drawing.Color.Gainsboro;
+            this.label66.Location = new System.Drawing.Point(220, 250);
+            this.label66.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(120, 18);
+            this.label66.TabIndex = 92;
+            this.label66.Text = "Cache Max TTL";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.BackColor = System.Drawing.Color.Gainsboro;
+            this.label64.Location = new System.Drawing.Point(220, 190);
+            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(90, 18);
+            this.label64.TabIndex = 89;
+            this.label64.Text = "Cache Size";
+            // 
+            // checkBoxRemoteRequests
+            // 
+            this.checkBoxRemoteRequests.AutoSize = true;
+            this.checkBoxRemoteRequests.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.checkBoxRemoteRequests.Location = new System.Drawing.Point(223, 415);
+            this.checkBoxRemoteRequests.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxRemoteRequests.Name = "checkBoxRemoteRequests";
+            this.checkBoxRemoteRequests.Size = new System.Drawing.Size(206, 22);
+            this.checkBoxRemoteRequests.TabIndex = 78;
+            this.checkBoxRemoteRequests.Text = "Allow Remote Requests";
+            this.checkBoxRemoteRequests.UseVisualStyleBackColor = false;
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.Gainsboro;
@@ -3183,6 +3226,7 @@
             // groupBox15
             // 
             this.groupBox15.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox15.Controls.Add(this.checkBox6);
             this.groupBox15.Controls.Add(this.comboBoxWireguardPeer);
             this.groupBox15.Controls.Add(this.label91);
             this.groupBox15.Controls.Add(this.buttonWireguardDisablePeer);
@@ -3343,6 +3387,9 @@
             // groupBox14
             // 
             this.groupBox14.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox14.Controls.Add(this.label92);
+            this.groupBox14.Controls.Add(this.textBox16);
+            this.groupBox14.Controls.Add(this.checkBox5);
             this.groupBox14.Controls.Add(this.comboBoxWireguardInterface);
             this.groupBox14.Controls.Add(this.label90);
             this.groupBox14.Controls.Add(this.buttonWireguardDisableInterface);
@@ -3406,7 +3453,7 @@
             // 
             // buttonWireguardEnableInterface
             // 
-            this.buttonWireguardEnableInterface.Location = new System.Drawing.Point(28, 346);
+            this.buttonWireguardEnableInterface.Location = new System.Drawing.Point(33, 346);
             this.buttonWireguardEnableInterface.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWireguardEnableInterface.Name = "buttonWireguardEnableInterface";
             this.buttonWireguardEnableInterface.Size = new System.Drawing.Size(167, 28);
@@ -3436,7 +3483,7 @@
             // 
             // textBoxWireguardPublicKey
             // 
-            this.textBoxWireguardPublicKey.Location = new System.Drawing.Point(33, 450);
+            this.textBoxWireguardPublicKey.Location = new System.Drawing.Point(32, 472);
             this.textBoxWireguardPublicKey.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxWireguardPublicKey.Name = "textBoxWireguardPublicKey";
             this.textBoxWireguardPublicKey.Size = new System.Drawing.Size(351, 26);
@@ -3445,7 +3492,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(29, 431);
+            this.label85.Location = new System.Drawing.Point(29, 448);
             this.label85.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label85.Name = "label85";
             this.label85.Size = new System.Drawing.Size(81, 18);
@@ -3494,38 +3541,78 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // label16
+            // checkBox2
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(39, 147);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(126, 23);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "IP Address:";
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Enabled = false;
+            this.checkBox2.Location = new System.Drawing.Point(253, 58);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(75, 22);
+            this.checkBox2.TabIndex = 101;
+            this.checkBox2.Text = "Active";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // checkBox3
             // 
-            this.pictureBox1.Image = global::LTI_RouterOS.Properties.Resources.mikrotik2;
-            this.pictureBox1.Location = new System.Drawing.Point(480, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(483, 455);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 7;
-            this.pictureBox1.TabStop = false;
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Enabled = false;
+            this.checkBox3.Location = new System.Drawing.Point(295, 149);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(75, 22);
+            this.checkBox3.TabIndex = 109;
+            this.checkBox3.Text = "Active";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // disconnect
+            // checkBox4
             // 
-            this.disconnect.BackColor = System.Drawing.Color.Gainsboro;
-            this.disconnect.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.disconnect.Location = new System.Drawing.Point(280, 200);
-            this.disconnect.Margin = new System.Windows.Forms.Padding(4);
-            this.disconnect.Name = "disconnect";
-            this.disconnect.Size = new System.Drawing.Size(142, 45);
-            this.disconnect.TabIndex = 8;
-            this.disconnect.Text = "Disconnect";
-            this.disconnect.UseVisualStyleBackColor = false;
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Enabled = false;
+            this.checkBox4.Location = new System.Drawing.Point(346, 29);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(75, 22);
+            this.checkBox4.TabIndex = 64;
+            this.checkBox4.Text = "Active";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Enabled = false;
+            this.checkBox5.Location = new System.Drawing.Point(441, 302);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(75, 22);
+            this.checkBox5.TabIndex = 2;
+            this.checkBox5.Text = "Active";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(32, 418);
+            this.textBox16.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(351, 26);
+            this.textBox16.TabIndex = 21;
+            // 
+            // label92
+            // 
+            this.label92.AutoSize = true;
+            this.label92.Location = new System.Drawing.Point(29, 396);
+            this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label92.Name = "label92";
+            this.label92.Size = new System.Drawing.Size(91, 18);
+            this.label92.TabIndex = 22;
+            this.label92.Text = "Private Key";
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Enabled = false;
+            this.checkBox6.Location = new System.Drawing.Point(117, 388);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(75, 22);
+            this.checkBox6.TabIndex = 23;
+            this.checkBox6.Text = "Active";
+            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -3542,6 +3629,7 @@
             this.tabPage1.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Interfaces.ResumeLayout(false);
             this.Interfaces.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -3585,7 +3673,6 @@
             this.groupBox15.PerformLayout();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3862,5 +3949,12 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button disconnect;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.Label label92;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.CheckBox checkBox5;
     }
 }
