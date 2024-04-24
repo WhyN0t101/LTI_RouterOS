@@ -2996,11 +2996,7 @@ namespace LTI_RouterOS
                 MessageBox.Show($"Error Creating Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-                MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
+           
         private void disconnect_Click(object sender, EventArgs e)
         {
             Disconnect();
@@ -3012,6 +3008,7 @@ namespace LTI_RouterOS
             wgInterface.Disabled = false;
             wgInterface.ListenPort = textBoxWireguardListenPort.Text;
             wgInterface.PrivateKey = textBox16.Text;
+        }
         private void Disconnect()
         {
             // Reset isConnected flag to indicate disconnection
