@@ -168,6 +168,9 @@ namespace LTI_RouterOS
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
             await Controller.TestConnection(); // Test connection asynchronously
             isConnected = true;
+            textBox9.Enabled = false; // Username textbox
+            textBox10.Enabled = false; // Password textbox
+            textBox1.Enabled = false; // IP Address textbox
             MessageBox.Show("Connected to router successfully!");
         }
 
