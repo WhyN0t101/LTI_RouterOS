@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace LTI_RouterOS.Controller
 {
@@ -635,6 +636,58 @@ namespace LTI_RouterOS.Controller
             {
                 // Handle exceptions
                 MessageBox.Show("Error Editing DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task ActivateDNSStatic(string id, string name)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/static/enable";
+
+                JObject payload = new JObject
+                {
+                    [".id"] = id,
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Static DNS {name} Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Enabling Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DeactivateDNSStatic(string id, string name)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/static/disable";
+
+                JObject payload = new JObject
+                {
+                    [".id"] = id,
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Static DNS {name} Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Disabling Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

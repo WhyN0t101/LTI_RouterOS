@@ -31,6 +31,7 @@ namespace LTI_RouterOS
         private DHCPServer dhcpServer;
         private DNS dns;
         private Bridge bridge;
+        private DNSStatic dnsStatic;
         private Json Parser = new Json();
 
 
@@ -44,6 +45,7 @@ namespace LTI_RouterOS
             dhcpServer = new DHCPServer();
             dns = new DNS();
             bridge = new Bridge();
+            dnsStatic = new DNSStatic();
             InitializeComboBoxes();
 
         }
@@ -2392,7 +2394,7 @@ namespace LTI_RouterOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Deactivating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Activating DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -2406,7 +2408,7 @@ namespace LTI_RouterOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Deactivating Wireless Interface: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error Deactivating DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -2501,5 +2503,130 @@ namespace LTI_RouterOS
             return true;
         }
 
+        private void comboBoxDNSEntry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+            PopulateDNSStatic();
+        }
+
+        private void PopulateDNSStatic()
+        {
+            string name = comboBoxDNSEntry.SelectedItem.ToString();
+            DNSStatic dnsStaticLocal = RetrieveStaticDNS(name);
+
+            if (dnsStaticLocal != null)
+            {
+                dnsStatic.Id = dnsStaticLocal.Id;
+                textBoxDNSName.Text = dnsStaticLocal.Name;
+                if (dnsStaticLocal.Type == null)
+                {
+                    comboBoxDNSType.SelectedItem = "A";
+                }
+                else
+                {
+                    comboBoxDNSType.SelectedItem = dnsStaticLocal.Type;
+                }
+
+                textBoxDNSTTL.Text = ConvertTimeFormat(dnsStaticLocal.TTL);
+                textBoxDNSAddressList.Text = dnsStaticLocal.AddressList;
+                textBoxDNSAddress.Text = dnsStaticLocal.Address;
+                if (dnsStaticLocal.MatchSubdomain == null)
+                {
+                    checkBoxDNSMatchSubdomain.Checked = false;
+                }
+                else
+                {
+                    checkBoxDNSMatchSubdomain.Checked = (bool)dnsStaticLocal.MatchSubdomain;
+                }
+            }
+        }
+
+        private async void comboBoxDNSEntry_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+
+                // Retrieve the list of DNS Static
+                string response = await Controller.Retrieve("/rest/ip/dns/static");
+                List<string> dnsStaticList = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxDNSEntry.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string dnsStatic in dnsStaticList)
+                {
+                    comboBoxDNSEntry.Items.Add(dnsStatic);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Static DNS data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private DNSStatic RetrieveStaticDNS(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/dns/static")
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + "/rest/ip/dns/static").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WirelessSettings objects
+                List<DNSStatic> dnsStaticList = JsonConvert.DeserializeObject<List<DNSStatic>>(responseBody);
+
+                // Find the WirelessSettings object with the matching name
+                return dnsStaticList.FirstOrDefault(s => s.Name == name);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private async void buttonDNSStaticActivate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Controller.ActivateDNSStatic(dnsStatic.Id, comboBoxDNSEntry.Text);
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Enabling Static DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonDNSStaticDeactivate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Controller.DeactivateDNSStatic(dnsStatic.Id, comboBoxDNSEntry.Text);
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Disabling Static DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

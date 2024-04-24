@@ -2524,6 +2524,7 @@
             this.buttonDNSStaticActivate.TabIndex = 102;
             this.buttonDNSStaticActivate.Text = "Activate";
             this.buttonDNSStaticActivate.UseVisualStyleBackColor = true;
+            this.buttonDNSStaticActivate.Click += new System.EventHandler(this.buttonDNSStaticActivate_Click);
             // 
             // textBoxDNSAddress
             // 
@@ -2540,6 +2541,7 @@
             this.buttonDNSStaticDeactivate.TabIndex = 101;
             this.buttonDNSStaticDeactivate.Text = "Deactivate";
             this.buttonDNSStaticDeactivate.UseVisualStyleBackColor = true;
+            this.buttonDNSStaticDeactivate.Click += new System.EventHandler(this.buttonDNSStaticDeactivate_Click);
             // 
             // label81
             // 
@@ -2634,6 +2636,8 @@
             this.comboBoxDNSEntry.Name = "comboBoxDNSEntry";
             this.comboBoxDNSEntry.Size = new System.Drawing.Size(121, 21);
             this.comboBoxDNSEntry.TabIndex = 3;
+            this.comboBoxDNSEntry.SelectedIndexChanged += new System.EventHandler(this.comboBoxDNSEntry_SelectedIndexChanged);
+            this.comboBoxDNSEntry.Enter += new System.EventHandler(this.comboBoxDNSEntry_Enter);
             // 
             // comboBoxDNSType
             // 

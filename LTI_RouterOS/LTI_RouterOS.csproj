@@ -57,6 +57,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Bridge.cs" />
+    <Compile Include="Model\DNSStatic.cs" />
     <Compile Include="Model\DNS.cs" />
     <Compile Include="Model\DHCPServer.cs" />
     <Compile Include="Model\WirelessSettings.cs" />
