@@ -3372,6 +3372,7 @@
             this.textBoxWireguardListenPort.Name = "textBoxWireguardListenPort";
             this.textBoxWireguardListenPort.Size = new System.Drawing.Size(113, 22);
             this.textBoxWireguardListenPort.TabIndex = 3;
+            this.textBoxWireguardListenPort.Text = "51820";
             // 
             // label84
             // 
