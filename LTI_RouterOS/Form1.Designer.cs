@@ -309,8 +309,6 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.label55 = new System.Windows.Forms.Label();
             this.HTTPs = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -3410,19 +3408,11 @@
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(243, 281);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(166, 26);
-            this.textBox21.TabIndex = 109;
+
             // 
             // label55
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(240, 260);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(62, 18);
-            this.label55.TabIndex = 110;
-            this.label55.Text = "CNAME";
+
             // 
             // HTTPs
             // 
