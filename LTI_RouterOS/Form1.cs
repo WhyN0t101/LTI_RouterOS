@@ -53,6 +53,7 @@ namespace LTI_RouterOS
             textBox5.Enabled = false;
             textBox6.Enabled = false;
             textBox7.Enabled = false;
+            textBox11.Enabled = false;
             comboBoxARP.SelectedIndex = 1;
             //checkedListBox2.SetItemChecked(0, true);
             //checkedListBox3.SetItemChecked(0, true);
