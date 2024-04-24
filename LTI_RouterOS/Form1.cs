@@ -2909,6 +2909,7 @@ namespace LTI_RouterOS
             
             WireguardInterface wgInt = RetrieveWGInt(name);
 
+            wgInterface.Id = wgInt.Id;
             textBoxWireguardInterface.Text = wgInt.Name;
             textBoxWireguardListenPort.Text = wgInt.ListenPort;
             textBox16.Text = wgInt.PrivateKey;
@@ -2942,7 +2943,7 @@ namespace LTI_RouterOS
             }
         }
 
-        private void buttonWireguardCreateInterface_Click(object sender, EventArgs e)
+        private async void buttonWireguardCreateInterface_Click(object sender, EventArgs e)
         {
             try
             {
@@ -2951,14 +2952,50 @@ namespace LTI_RouterOS
                     MessageBox.Show("Please Enter a Name for the Wireguard Interface");
                     return;
                 }
-               
+                if (textBoxWireguardListenPort.Text == "")
+                {
+                    Random random = new Random();
+                    textBoxWireguardListenPort.Text = random.Next(10000, 60000 + 1).ToString(); // "+1" to include the upper bound
+                }
+                if(textBox16.Text != "")
+                {
+                    if (!Parser.IsValidPrivateKey(textBox16.Text))
+                    {
+                        MessageBox.Show("Please Enter a Valid Private Key, or leave empty for a random generated one");
+                        return;
+                    }
+                }
+                
 
-                UpdateDNSStaticFromForm();
-                //await CreateStaticDNS();
-                PopulateDNSStatic();
+                UpdateWGIntFromForm();
+                await CreateWGInt();
+                PopulateWGInterface();
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"Error Creating Wireguard Interface: {textBoxWireguardInterface.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async Task CreateWGInt()
+        {
+            try
+            {
+
+                JObject payload = wgInterface.ToJObject();
+                payload.Remove(".id");
+                payload.Remove("public-key");
+                payload.Remove("running");
+
+                await Controller.CreateWGInt(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Creating Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
                 MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -2969,6 +3006,12 @@ namespace LTI_RouterOS
             Disconnect();
         }
 
+        private void UpdateWGIntFromForm()
+        {
+            wgInterface.Name = textBoxWireguardInterface.Text;
+            wgInterface.Disabled = false;
+            wgInterface.ListenPort = textBoxWireguardListenPort.Text;
+            wgInterface.PrivateKey = textBox16.Text;
         private void Disconnect()
         {
             // Reset isConnected flag to indicate disconnection

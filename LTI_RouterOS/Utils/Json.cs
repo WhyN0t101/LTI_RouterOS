@@ -99,6 +99,32 @@ namespace LTI_RouterOS
             return result;
         }
 
+        public bool IsValidPrivateKey(string privateKey)
+        {
+            // Check length
+            if (privateKey.Length != 44)
+            {
+                return false;
+            }
 
+            // Decode Base64
+            byte[] decodedPrivateKey;
+            try
+            {
+                decodedPrivateKey = Convert.FromBase64String(privateKey);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+
+            // Validate structure
+            if (decodedPrivateKey.Length != 32)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
