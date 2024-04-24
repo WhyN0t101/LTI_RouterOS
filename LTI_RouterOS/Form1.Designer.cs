@@ -237,8 +237,6 @@
             this.label79 = new System.Windows.Forms.Label();
             this.textBoxDNSTTL = new System.Windows.Forms.TextBox();
             this.label58 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.textBoxDNSRegexp = new System.Windows.Forms.TextBox();
             this.label50 = new System.Windows.Forms.Label();
             this.comboBoxDNSEntry = new System.Windows.Forms.ComboBox();
             this.comboBoxDNSType = new System.Windows.Forms.ComboBox();
@@ -2707,8 +2705,6 @@
             this.groupBox13.Controls.Add(this.label79);
             this.groupBox13.Controls.Add(this.textBoxDNSTTL);
             this.groupBox13.Controls.Add(this.label58);
-            this.groupBox13.Controls.Add(this.label55);
-            this.groupBox13.Controls.Add(this.textBoxDNSRegexp);
             this.groupBox13.Controls.Add(this.label50);
             this.groupBox13.Controls.Add(this.comboBoxDNSEntry);
             this.groupBox13.Controls.Add(this.comboBoxDNSType);
@@ -2758,7 +2754,7 @@
             // label82
             // 
             this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(24, 331);
+            this.label82.Location = new System.Drawing.Point(24, 258);
             this.label82.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(72, 18);
@@ -2778,7 +2774,7 @@
             // 
             // textBoxDNSAddress
             // 
-            this.textBoxDNSAddress.Location = new System.Drawing.Point(24, 354);
+            this.textBoxDNSAddress.Location = new System.Drawing.Point(24, 281);
             this.textBoxDNSAddress.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDNSAddress.Name = "textBoxDNSAddress";
             this.textBoxDNSAddress.Size = new System.Drawing.Size(159, 26);
@@ -2798,7 +2794,7 @@
             // label81
             // 
             this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(24, 267);
+            this.label81.Location = new System.Drawing.Point(24, 194);
             this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(97, 18);
@@ -2807,7 +2803,7 @@
             // 
             // textBoxDNSAddressList
             // 
-            this.textBoxDNSAddressList.Location = new System.Drawing.Point(24, 290);
+            this.textBoxDNSAddressList.Location = new System.Drawing.Point(24, 217);
             this.textBoxDNSAddressList.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDNSAddressList.Name = "textBoxDNSAddressList";
             this.textBoxDNSAddressList.Size = new System.Drawing.Size(159, 26);
@@ -2816,7 +2812,7 @@
             // checkBoxDNSMatchSubdomain
             // 
             this.checkBoxDNSMatchSubdomain.AutoSize = true;
-            this.checkBoxDNSMatchSubdomain.Location = new System.Drawing.Point(253, 246);
+            this.checkBoxDNSMatchSubdomain.Location = new System.Drawing.Point(246, 167);
             this.checkBoxDNSMatchSubdomain.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxDNSMatchSubdomain.Name = "checkBoxDNSMatchSubdomain";
             this.checkBoxDNSMatchSubdomain.Size = new System.Drawing.Size(163, 22);
@@ -2827,7 +2823,7 @@
             // label80
             // 
             this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(425, 213);
+            this.label80.Location = new System.Drawing.Point(418, 134);
             this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label80.Name = "label80";
             this.label80.Size = new System.Drawing.Size(16, 18);
@@ -2837,7 +2833,7 @@
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(257, 190);
+            this.label79.Location = new System.Drawing.Point(250, 111);
             this.label79.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label79.Name = "label79";
             this.label79.Size = new System.Drawing.Size(33, 18);
@@ -2846,7 +2842,7 @@
             // 
             // textBoxDNSTTL
             // 
-            this.textBoxDNSTTL.Location = new System.Drawing.Point(253, 209);
+            this.textBoxDNSTTL.Location = new System.Drawing.Point(246, 130);
             this.textBoxDNSTTL.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDNSTTL.Name = "textBoxDNSTTL";
             this.textBoxDNSTTL.Size = new System.Drawing.Size(163, 26);
@@ -2856,30 +2852,12 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(27, 187);
+            this.label58.Location = new System.Drawing.Point(243, 194);
             this.label58.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(43, 18);
             this.label58.TabIndex = 7;
             this.label58.Text = "Type";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(257, 111);
-            this.label55.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(63, 18);
-            this.label55.TabIndex = 6;
-            this.label55.Text = "Regexp";
-            // 
-            // textBoxDNSRegexp
-            // 
-            this.textBoxDNSRegexp.Location = new System.Drawing.Point(257, 134);
-            this.textBoxDNSRegexp.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxDNSRegexp.Name = "textBoxDNSRegexp";
-            this.textBoxDNSRegexp.Size = new System.Drawing.Size(159, 26);
-            this.textBoxDNSRegexp.TabIndex = 5;
             // 
             // label50
             // 
@@ -2909,7 +2887,7 @@
             "A",
             "AAAA",
             "CNAME"});
-            this.comboBoxDNSType.Location = new System.Drawing.Point(23, 209);
+            this.comboBoxDNSType.Location = new System.Drawing.Point(243, 216);
             this.comboBoxDNSType.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxDNSType.Name = "comboBoxDNSType";
             this.comboBoxDNSType.Size = new System.Drawing.Size(160, 26);
@@ -3892,8 +3870,6 @@
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox textBoxBridgeMTU;
         private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.TextBox textBoxDNSRegexp;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.ComboBox comboBoxDNSEntry;
         private System.Windows.Forms.ComboBox comboBoxDNSType;
