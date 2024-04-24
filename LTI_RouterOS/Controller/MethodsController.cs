@@ -690,6 +690,32 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Disabling Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task RemoveDNSStatic(string id, string name)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/dns/static/remove";
+
+                JObject payload = new JObject
+                {
+                    [".id"] = id,
+                };
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Static DNS {name} Removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Removing Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 

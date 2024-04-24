@@ -2497,6 +2497,7 @@
             this.buttonDNSStaticRemove.TabIndex = 107;
             this.buttonDNSStaticRemove.Text = "Remove";
             this.buttonDNSStaticRemove.UseVisualStyleBackColor = true;
+            this.buttonDNSStaticRemove.Click += new System.EventHandler(this.buttonDNSStaticRemove_Click);
             // 
             // buttonDNSStaticAdd
             // 

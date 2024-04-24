@@ -2628,5 +2628,19 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error Disabling Static DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private async void buttonDNSStaticRemove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await Controller.RemoveDNSStatic(dnsStatic.Id, comboBoxDNSEntry.Text);
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Removing Static DNS: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }
