@@ -62,7 +62,7 @@ namespace LTI_RouterOS.Model
         public string ArpTimeout { get; set; }
 
         [JsonProperty("disabled")]
-        public string disabled { get; set; }
+        public bool disabled { get; set; }
 
         public WirelessSettings()
         {

@@ -726,6 +726,11 @@ namespace LTI_RouterOS
             {
                 return;
             }
+            if (textBox3.Text == "")
+            {
+                MessageBox.Show("Please Select a Name.");
+                return
+            }
 
             // Update wifiProfile object with values from the form before creating the security profile
             UpdateWifiProfileFromForm();
@@ -1552,7 +1557,11 @@ namespace LTI_RouterOS
             {
                 return;
             }
-
+            if (textBox3.Text == "")
+            {
+                MessageBox.Show("Please Select a Name.");
+                return;
+            }
             // Update wifiProfile object with values from the form before creating the security profile
             UpdateWifiProfileFromForm();
 
@@ -2192,6 +2201,12 @@ namespace LTI_RouterOS
                 return;
             }
 
+            if(textBoxDHCPName.Text == "")
+            {
+                MessageBox.Show("Please select a Name");
+                return;
+            }
+
             // Update wifiProfile object with values from the form before creating the security profile
             UpdateDHCPServerFromForm();
 
@@ -2284,6 +2299,12 @@ namespace LTI_RouterOS
 
             if (await ValidateDHCPInterface())
             {
+                return;
+            }
+
+            if (textBoxDHCPName.Text == "")
+            {
+                MessageBox.Show("Please select a Name");
                 return;
             }
 
