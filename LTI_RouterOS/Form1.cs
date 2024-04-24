@@ -133,20 +133,32 @@ namespace LTI_RouterOS
             string username = textBox9.Text.Trim();
             string password = textBox10.Text;
 
+            // Determine the protocol (HTTP or HTTPS) based on user selection
+            string protocol = (HTTPs.Checked) ? "https://" : "http://";
+
             try
             {
-                baseUrl = "https://" + ipAddress;
-                Controller = new MethodsController(username, password, ipAddress); // Instantiate GET class after user provides credentials
-                await Connect(ipAddress, username, password);
-                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //PopulateDHCPTab();
+                // Construct the base URL using the determined protocol and IP address
+                string baseUrl = protocol + ipAddress;
 
+                // Instantiate MethodsController class with user credentials and base URL
+                Controller = new MethodsController(username, password, ipAddress);
+
+                // Attempt to connect to the router
+                await Connect(baseUrl, username, password);
+
+                // If connection successful, display success message
+                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Proceed with populating DHCP tab or other necessary actions
             }
             catch (Exception ex)
             {
+                // If an error occurs during connection, display error message
                 MessageBox.Show("Error connecting to router: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private async Task Connect(string ipAddress, string username, string password)
         {
             baseUrl = "https://" + ipAddress;

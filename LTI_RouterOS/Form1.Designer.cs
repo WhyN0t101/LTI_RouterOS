@@ -308,6 +308,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.textBox21 = new System.Windows.Forms.TextBox();
             this.label55 = new System.Windows.Forms.Label();
+            this.HTTPs = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -371,6 +372,7 @@
             // groupBox16
             // 
             this.groupBox16.BackColor = System.Drawing.Color.Gainsboro;
+            this.groupBox16.Controls.Add(this.HTTPs);
             this.groupBox16.Controls.Add(this.disconnect);
             this.groupBox16.Controls.Add(this.pictureBox1);
             this.groupBox16.Controls.Add(this.label14);
@@ -3612,6 +3614,18 @@
             this.label55.TabIndex = 110;
             this.label55.Text = "CNAME";
             // 
+            // HTTPs
+            // 
+            this.HTTPs.AutoSize = true;
+            this.HTTPs.Checked = true;
+            this.HTTPs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.HTTPs.Location = new System.Drawing.Point(47, 252);
+            this.HTTPs.Name = "HTTPs";
+            this.HTTPs.Size = new System.Drawing.Size(75, 21);
+            this.HTTPs.TabIndex = 9;
+            this.HTTPs.Text = "HTTPs";
+            this.HTTPs.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3954,5 +3968,6 @@
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.CheckBox HTTPs;
     }
 }
