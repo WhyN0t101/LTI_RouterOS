@@ -20,7 +20,6 @@ namespace LTI_RouterOS.Model
         public string CacheSize { get; set; }
 
         [JsonProperty("cache-used")]
-        public string CacheUsed { get; set; }
 
         [JsonProperty("max-concurrent-queries")]
         public string MaxConcurrentQueries { get; set; }
