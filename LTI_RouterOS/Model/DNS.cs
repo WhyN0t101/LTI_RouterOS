@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +40,10 @@ namespace LTI_RouterOS.Model
 
         [JsonProperty("servers")]
         public string Servers { get; set; }
+
+        public JObject ToJObject()
+        {
+            return JObject.FromObject(this);
+        }
     }
 }

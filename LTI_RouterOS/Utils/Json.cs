@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Windows.Forms;
 
 namespace LTI_RouterOS
@@ -61,6 +63,25 @@ namespace LTI_RouterOS
                 }
             }
             return names;
+        }
+
+        public bool ValidateIPv6(string ipAddress)
+        {
+            IPAddress ip;
+            return IPAddress.TryParse(ipAddress, out ip) && ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6;
+        }
+
+        public bool ValidateCNAME(string domain)
+        {
+            try
+            {
+                IPHostEntry ipEntry = Dns.GetHostEntry(domain);
+                return ipEntry.HostName != domain;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
