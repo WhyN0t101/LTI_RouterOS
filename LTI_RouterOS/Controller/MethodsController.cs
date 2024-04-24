@@ -43,8 +43,10 @@ namespace LTI_RouterOS.Controller
 
             // Instantiate the HttpClient and set the Authorization header
             httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(this.baseUrl); // Set the base address
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}")));
         }
+
 
         public async Task<string> Retrieve(string endpoint)
         {
