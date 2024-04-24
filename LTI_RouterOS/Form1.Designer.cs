@@ -306,6 +306,8 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.label55 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -2701,6 +2703,8 @@
             // groupBox13
             // 
             this.groupBox13.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox13.Controls.Add(this.label55);
+            this.groupBox13.Controls.Add(this.textBox21);
             this.groupBox13.Controls.Add(this.checkBox2);
             this.groupBox13.Controls.Add(this.buttonDNSStaticEdit);
             this.groupBox13.Controls.Add(this.buttonDNSStaticRemove);
@@ -3592,6 +3596,22 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(243, 281);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(166, 26);
+            this.textBox21.TabIndex = 109;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(240, 260);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(62, 18);
+            this.label55.TabIndex = 110;
+            this.label55.Text = "CNAME";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3932,5 +3952,7 @@
         private System.Windows.Forms.Label label92;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.TextBox textBox21;
     }
 }

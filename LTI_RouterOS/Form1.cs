@@ -2526,8 +2526,23 @@ namespace LTI_RouterOS
 
         private void PopulateDNSStatic()
         {
-            string name = comboBoxDNSEntry.SelectedItem.ToString();
-            DNSStatic dnsStaticLocal = RetrieveStaticDNS(name);
+            string selectedItem = comboBoxDNSEntry.SelectedItem.ToString();
+            int index = selectedItem.IndexOf('-');
+            string name = "";
+            string id = "";
+
+            if (index != -1)
+            {
+                // Extract the ID and Name
+                id = selectedItem.Substring(0, index).Trim();
+                name = selectedItem.Substring(index + 1).Trim();
+
+            }
+            else
+            {
+                // Handle the case where '-' is not found
+            }
+            DNSStatic dnsStaticLocal = RetrieveStaticDNS(id);
 
             if (dnsStaticLocal != null)
             {
@@ -2563,15 +2578,15 @@ namespace LTI_RouterOS
 
                 // Retrieve the list of DNS Static
                 string response = await Controller.Retrieve("/rest/ip/dns/static");
-                List<string> dnsStaticList = Parser.ParseNamesFromJsonArray(response, "name");
+                List<(string id, string name)> dnsStaticList = Parser.ParseIdNameFromJsonArray(response, ".id", "name");
 
                 // Clear existing items in the ComboBox
                 comboBoxDNSEntry.Items.Clear();
 
                 // Add each bridge name as an item in the ComboBox
-                foreach (string dnsStatic in dnsStaticList)
+                foreach (var dnsStatic in dnsStaticList)
                 {
-                    comboBoxDNSEntry.Items.Add(dnsStatic);
+                    comboBoxDNSEntry.Items.Add($"{dnsStatic.id} - {dnsStatic.name}");
                 }
             }
             catch (Exception ex)
@@ -2581,7 +2596,7 @@ namespace LTI_RouterOS
 
         }
 
-        private DNSStatic RetrieveStaticDNS(string name)
+        private DNSStatic RetrieveStaticDNS(string id)
         {
             try
             {
@@ -2596,7 +2611,7 @@ namespace LTI_RouterOS
                 List<DNSStatic> dnsStaticList = JsonConvert.DeserializeObject<List<DNSStatic>>(responseBody);
 
                 // Find the WirelessSettings object with the matching name
-                return dnsStaticList.FirstOrDefault(s => s.Name == name);
+                return dnsStaticList.FirstOrDefault(s => s.Id == id);
             }
             catch (Exception ex)
             {
@@ -2652,9 +2667,9 @@ namespace LTI_RouterOS
             try
             {
                 string type = comboBoxDNSType.Text;
-                if (textBoxDNSName.Text == "")
+                if (checkBoxDNSMatchSubdomain.Checked && textBoxDNSName.Text == "")
                 {
-                    MessageBox.Show("Please Select a Name for Static Entry.");
+                    MessageBox.Show("Name Required for Match Subdomain.");
                     return;
                 }
                 switch (type)
@@ -2681,11 +2696,11 @@ namespace LTI_RouterOS
                         }
                         break;
                 }
-                if (ValidateAndUpdateTimeFormat(textBoxDNSTTL.Text, 0) == "")
+                if (ValidateAndUpdateTimeFormat(textBoxDNSTTL.Text, 4) == "")
                 {
                     return;
                 }
-                UpdateDNSFromForm();
+                UpdateDNSStaticFromForm();
                 await CreateStaticDNS();
                 PopulateDNSStatic();
             }
@@ -2693,6 +2708,17 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdateDNSStaticFromForm()
+        {
+            dnsStatic.Address = textBoxDNSAddress.Text;
+            dnsStatic.AddressList = textBoxDNSAddressList.Text;
+            dnsStatic.Disabled = false;
+            dnsStatic.MatchSubdomain = checkBoxDNSMatchSubdomain.Checked;
+            dnsStatic.Name = textBoxDNSName.Text;
+            dnsStatic.TTL = textBoxDNSTTL.Text;
+            dnsStatic.Type = comboBoxDNSType.SelectedItem.ToString();
         }
 
         private async Task CreateStaticDNS()
@@ -2711,6 +2737,68 @@ namespace LTI_RouterOS
             }
         }
 
- 
+        private async void buttonDNSStaticEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string type = comboBoxDNSType.Text;
+                if (checkBoxDNSMatchSubdomain.Checked && textBoxDNSName.Text == "")
+                {
+                    MessageBox.Show("Name Required for Match Subdomain.");
+                    return;
+                }
+                switch (type)
+                {
+                    case "A":
+                        if (!IsValidIpAddressGateway(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid IPv4 Address: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                    case "AAAA":
+                        if (!Parser.ValidateIPv6(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid IPv6 Address: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                    case "CNAME":
+                        if (!Parser.ValidateCNAME(textBoxDNSAddress.Text))
+                        {
+                            MessageBox.Show($"Invalid CNAME: {textBoxDNSAddress.Text}");
+                            return;
+                        }
+                        break;
+                }
+                if (ValidateAndUpdateTimeFormat(textBoxDNSTTL.Text, 4) == "")
+                {
+                    return;
+                }
+                UpdateDNSStaticFromForm();
+                await EditStaticDNS();
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Editing Static DNS {dnsStatic.Id}-{textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private async Task EditStaticDNS()
+        {
+            try
+            {
+
+                JObject payload = dnsStatic.ToJObject();
+
+                await Controller.EditStaticDNS(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Creating Static DNS Entry {dnsStatic.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
