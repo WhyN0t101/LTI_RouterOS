@@ -32,6 +32,7 @@ namespace LTI_RouterOS
         private DNS dns;
         private Bridge bridge;
         private DNSStatic dnsStatic;
+        private WireguardInterface wgInterface;
         private Json Parser = new Json();
         
 
@@ -47,6 +48,7 @@ namespace LTI_RouterOS
             dns = new DNS();
             bridge = new Bridge();
             dnsStatic = new DNSStatic();
+            wgInterface = new WireguardInterface();
             InitializeComboBoxes();
 
         }
@@ -729,7 +731,7 @@ namespace LTI_RouterOS
             if (textBox3.Text == "")
             {
                 MessageBox.Show("Please Select a Name.");
-                return
+                return;
             }
 
             // Update wifiProfile object with values from the form before creating the security profile
@@ -1051,7 +1053,7 @@ namespace LTI_RouterOS
             string name = WirelessInterfaceCombobox.SelectedItem.ToString();
             WirelessSettings settings = RetrieveWirelessSettings(name);
 
-            if (settings.disabled == "true")
+            if (settings.disabled == true)
             {
                 MessageBox.Show("Wireless Interface already disabled");
                 return;
@@ -1080,7 +1082,7 @@ namespace LTI_RouterOS
             string name = WirelessInterfaceCombobox.SelectedItem.ToString();
             WirelessSettings settings = RetrieveWirelessSettings(name);
 
-            if (settings.disabled == "false")
+            if (settings.disabled == false)
             {
                 MessageBox.Show("Wireless Interface already enabled");
                 return;
@@ -2598,7 +2600,7 @@ namespace LTI_RouterOS
                 textBoxDNSTTL.Text = ConvertTimeFormat(dnsStaticLocal.TTL);
                 textBoxDNSAddressList.Text = dnsStaticLocal.AddressList;
                 textBoxDNSAddress.Text = dnsStaticLocal.Address;
-                checkBox2.Checked = dnsStaticLocal.Disabled;
+                checkBox2.Checked = !dnsStaticLocal.Disabled;
                 
                 if (dnsStaticLocal.MatchSubdomain == null)
                 {
@@ -2839,6 +2841,109 @@ namespace LTI_RouterOS
                 // Handle exceptions
                 MessageBox.Show($"Error Creating Static DNS Entry {dnsStatic.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private async void comboBoxWireguardInterface_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of WG Interfaces
+                string response = await Controller.Retrieve("/rest/interface/wireguard");
+                List<string> WGInterface = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxWireguardInterface.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string wg in WGInterface)
+                {
+                    comboBoxWireguardInterface.Items.Add(wg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Wireguard Interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void comboBoxWireguardInterface_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+            PopulateWGInterface();
+
+        }
+
+        private void PopulateWGInterface()
+        {
+            string name = comboBoxWireguardInterface.SelectedItem.ToString();
+            
+            WireguardInterface wgInt = RetrieveWGInt(name);
+
+            textBoxWireguardInterface.Text = wgInt.Name;
+            textBoxWireguardListenPort.Text = wgInt.ListenPort;
+            textBox16.Text = wgInt.PrivateKey;
+            textBoxWireguardPublicKey.Text = wgInt.PublicKey;
+            checkBoxRunning.Checked = wgInt.Running;
+            checkBoxWGActivate.Checked = wgInt.Disabled;
+        }
+
+        private WireguardInterface RetrieveWGInt(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/interface/wireguard/{name}")
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + $"/rest/interface/wireguard/{name}").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WGInt objects
+                WireguardInterface wgInt = JsonConvert.DeserializeObject<WireguardInterface>(responseBody);
+
+                // Find the WireguardInterface object with the matching name
+                return wgInt;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private void buttonWireguardCreateInterface_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(textBoxWireguardInterface.Text == "")
+                {
+                    MessageBox.Show("Please Enter a Name for the Wireguard Interface");
+                    return;
+                }
+               
+
+                UpdateDNSStaticFromForm();
+                await CreateStaticDNS();
+                PopulateDNSStatic();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
