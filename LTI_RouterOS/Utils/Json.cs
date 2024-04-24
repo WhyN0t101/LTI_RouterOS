@@ -83,5 +83,22 @@ namespace LTI_RouterOS
                 return false;
             }
         }
+        public List<(string id, string name)> ParseIdNameFromJsonArray(string jsonArray, string idKey, string nameKey)
+        {
+            List<(string id, string name)> result = new List<(string id, string name)>();
+
+            JArray array = JArray.Parse(jsonArray);
+
+            foreach (JObject obj in array)
+            {
+                string id = obj.Value<string>(idKey);
+                string name = obj.Value<string>(nameKey);
+                result.Add((id, name));
+            }
+
+            return result;
+        }
+
+
     }
 }

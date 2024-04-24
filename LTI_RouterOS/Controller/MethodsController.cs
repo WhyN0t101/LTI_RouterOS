@@ -656,12 +656,12 @@ namespace LTI_RouterOS.Controller
                 response.EnsureSuccessStatusCode();
 
                 // Display success message
-                MessageBox.Show($"Static DNS {name} Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Static DNS {id}-{name} Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 // Handle exceptions
-                MessageBox.Show($"Error Enabling Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error Enabling Static DNS {id}-{name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -682,12 +682,12 @@ namespace LTI_RouterOS.Controller
                 response.EnsureSuccessStatusCode();
 
                 // Display success message
-                MessageBox.Show($"Static DNS {name} Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Static DNS {id}-{name} Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 // Handle exceptions
-                MessageBox.Show($"Error Disabling Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error Disabling Static DNS {id}-{name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -708,20 +708,48 @@ namespace LTI_RouterOS.Controller
                 response.EnsureSuccessStatusCode();
 
                 // Display success message
-                MessageBox.Show($"Static DNS {name} Removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Static DNS {id}-{name} Removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 // Handle exceptions
-                MessageBox.Show($"Error Removing Static DNS {name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error Removing Static DNS {id}-{name}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public async Task CreateStaticDNS(JObject payload)
         {
+            string id = (string)payload[".id"];
+
             try
             {
-                string apiUrl = baseUrl + $"/rest/ip/dns/set/add";
+                payload.Remove(".id");
+                string apiUrl = baseUrl + $"/rest/ip/dns/static/add";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"DNS Static Entry: {(string)payload["name"]} Created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Editing DNS Static Entry {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditStaticDNS(JObject payload)
+        {
+            string id = (string)payload[".id"];
+
+            try
+            {
+                payload["regexp"] = "";
+                string apiUrl = baseUrl + $"/rest/ip/dns/static/set";
 
 
                 HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
@@ -739,6 +767,7 @@ namespace LTI_RouterOS.Controller
             }
         }
     }
+
 }
 
 
