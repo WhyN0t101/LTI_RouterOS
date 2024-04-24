@@ -19,15 +19,29 @@ namespace LTI_RouterOS.Controller
         private readonly HttpClient httpClient;
         private readonly string baseUrl;
 
-        public MethodsController(string username, string password, string baseUrl)
+        public MethodsController(string username, string password, string ipAddress, bool useHttps = true)
         {
-            if (string.IsNullOrEmpty(baseUrl))
+            if (string.IsNullOrEmpty(ipAddress))
             {
-                throw new ArgumentException("Base URL cannot be null or empty.");
+                throw new ArgumentException("IP address cannot be null or empty.");
             }
 
-            this.baseUrl = baseUrl.StartsWith("https://") ? baseUrl : "https://" + baseUrl;
+            // Determine the protocol based on the useHttps parameter
+            string protocol = (useHttps) ? "https://" : "http://";
 
+            // Check if the provided IP address already includes a protocol
+            if (ipAddress.StartsWith("http://") || ipAddress.StartsWith("https://"))
+            {
+                // If so, use it directly as the base URL
+                this.baseUrl = ipAddress;
+            }
+            else
+            {
+                // Otherwise, prepend the determined protocol to the IP address to form the base URL
+                this.baseUrl = protocol + ipAddress;
+            }
+
+            // Instantiate the HttpClient and set the Authorization header
             httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}")));
         }

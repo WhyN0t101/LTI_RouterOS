@@ -135,29 +135,59 @@ namespace LTI_RouterOS
             string username = textBox9.Text.Trim();
             string password = textBox10.Text;
 
+            // Determine the protocol (HTTP or HTTPS) based on user selection
+            string protocol = (HTTPs.Checked) ? "https://" : "http://";
+
             try
             {
-                baseUrl = "https://" + ipAddress;
-                Controller = new MethodsController(username, password, ipAddress); // Instantiate GET class after user provides credentials
-                await Connect(ipAddress, username, password);
-                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //PopulateDHCPTab();
+                // Construct the base URL using the determined protocol and IP address
+                string baseUrl = protocol + ipAddress;
 
+                // Instantiate MethodsController class with user credentials and base URL
+                Controller = new MethodsController(username, password, ipAddress);
+
+                // Attempt to connect to the router
+                await Connect(baseUrl, username, password,protocol);
+
+                // If connection successful, display success message
+                MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Proceed with populating DHCP tab or other necessary actions
             }
             catch (Exception ex)
             {
+                // If an error occurs during connection, display error message
                 MessageBox.Show("Error connecting to router: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private async Task Connect(string ipAddress, string username, string password)
+
+        private async Task Connect(string ipAddress, string username, string password, string protocol)
         {
-            baseUrl = "https://" + ipAddress;
+            string baseUrl = protocol + ipAddress;
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
-            await Controller.TestConnection(); // Test connection asynchronously
-            isConnected = true;
-            MessageBox.Show("Connected to router successfully!");
+
+            // Instantiate the HttpClient with the proper base URL and set the Authorization header
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", credentials);
+
+                // Test connection asynchronously
+                await Controller.TestConnection();
+
+                // Set isConnected flag to true upon successful connection
+                isConnected = true;
+
+                // Disable the textboxes after successful connection
+                textBox9.Enabled = false; // Username textbox
+                textBox10.Enabled = false; // Password textbox
+                textBox1.Enabled = false; // IP Address textbox
+
+                MessageBox.Show("Connected to router successfully!");
+            }
         }
+
+
         private void PopulateCountryNamesComboBox()
         {
             // Clear any existing items in the ComboBox
@@ -2978,6 +3008,15 @@ namespace LTI_RouterOS
                 MessageBox.Show($"Error Creating Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+                MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void disconnect_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+        }
 
         private void UpdateWGIntFromForm()
         {
@@ -2985,6 +3024,19 @@ namespace LTI_RouterOS
             wgInterface.Disabled = false;
             wgInterface.ListenPort = textBoxWireguardListenPort.Text;
             wgInterface.PrivateKey = textBox16.Text;
+        private void Disconnect()
+        {
+            // Reset isConnected flag to indicate disconnection
+            isConnected = false;
+
+            // Optionally, dispose of the HttpClient instance to release associated resources
+            httpClient.Dispose();
+            // Disable the textboxes after successful connection
+            textBox9.Enabled = true; // Username textbox
+            textBox10.Enabled = true; // Password textbox
+            textBox1.Enabled = true; // IP Address textbox
+
+            MessageBox.Show("Disconnected from router.");
         }
     }
 }
