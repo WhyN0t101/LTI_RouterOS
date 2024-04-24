@@ -34,7 +34,7 @@ namespace LTI_RouterOS
         private DNSStatic dnsStatic;
         private WireguardInterface wgInterface;
         private Json Parser = new Json();
-        
+
 
 
         public Form1()
@@ -59,7 +59,7 @@ namespace LTI_RouterOS
             textBox6.Enabled = false;
             textBox7.Enabled = false;
             textBox11.Enabled = false;
-            textBoxWireguardPublicKey.Enabled= false;
+            textBoxWireguardPublicKey.Enabled = false;
             comboBoxARP.SelectedIndex = 1;
             //checkedListBox2.SetItemChecked(0, true);
             //checkedListBox3.SetItemChecked(0, true);
@@ -77,7 +77,7 @@ namespace LTI_RouterOS
             comboBox2.SelectedIndex = 0;
             comboBox15.SelectedIndex = 0;
             comboBoxCheckGateway.SelectedIndex = 2;
-  
+
         }
 
         #region BaseConfigs
@@ -147,7 +147,7 @@ namespace LTI_RouterOS
                 Controller = new MethodsController(username, password, ipAddress);
 
                 // Attempt to connect to the router
-                await Connect(baseUrl, username, password,protocol);
+                await Connect(baseUrl, username, password, protocol);
 
                 // If connection successful, display success message
                 MessageBox.Show("Connected to " + ipAddress, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -464,7 +464,7 @@ namespace LTI_RouterOS
             await EditBridge(bridge);
 
         }
-        
+
         //Makes Payload and Edits Bridge
         private async Task EditBridge(Bridge bridge)
         {
@@ -792,19 +792,19 @@ namespace LTI_RouterOS
 
 
 
-        
-
-        
-        
 
 
 
 
 
 
-        
-        
-        
+
+
+
+
+
+
+
 
         private async void comboBoxInterfaces_Enter(object sender, EventArgs e)
         {
@@ -2233,7 +2233,7 @@ namespace LTI_RouterOS
                 return;
             }
 
-            if(textBoxDHCPName.Text == "")
+            if (textBoxDHCPName.Text == "")
             {
                 MessageBox.Show("Please select a Name");
                 return;
@@ -2394,7 +2394,7 @@ namespace LTI_RouterOS
 
                 // Populate the textbox with servers
                 textBoxServers.Clear();
-                if(dns.Servers == "" && dns.AllowRemoteRequests == false)
+                if (dns.Servers == "" && dns.AllowRemoteRequests == false)
                 {
                     checkBox3.Checked = false;
                 }
@@ -2422,9 +2422,9 @@ namespace LTI_RouterOS
 
         }
 
-        
 
-        
+
+
 
         private IEnumerable<string> GetFilteredValues(string prefix)
         {
@@ -2490,14 +2490,15 @@ namespace LTI_RouterOS
                 {
                     MessageBox.Show("Value of UDP Package Size is outside the range [50, 65507] or invalid input. ");
                 }
-                if(ValidateAndUpdateTimeFormat(textBoxQueryServerTimeout.Text, 4) == ""){
+                if (ValidateAndUpdateTimeFormat(textBoxQueryServerTimeout.Text, 4) == "")
+                {
                     return;
                 }
                 if (ValidateAndUpdateTimeFormat(textBoxQueryTotalTimeout.Text, 4) == "")
                 {
                     return;
                 }
-                if (textBox20.Text == "" || !int.TryParse(textBoxUDPPackageSize.Text, out value) || value < 64 )
+                if (textBox20.Text == "" || !int.TryParse(textBoxUDPPackageSize.Text, out value) || value < 64)
                 {
                     MessageBox.Show("Value of Cache Size is inferior to 63 or invalid input. ");
                 }
@@ -2535,7 +2536,7 @@ namespace LTI_RouterOS
             }
 
         }
-        
+
         private void UpdateDNSFromForm()
         {
             dns.Servers = textBoxServers.Text.Replace("\r\n", ",");
@@ -2610,7 +2611,7 @@ namespace LTI_RouterOS
             {
                 dnsStatic.Id = dnsStaticLocal.Id;
                 textBoxDNSName.Text = dnsStaticLocal.Name;
-                if(dnsStaticLocal.Type != "CNAME")
+                if (dnsStaticLocal.Type != "CNAME")
                 {
                     textBox21.Enabled = false;
                 }
@@ -2631,7 +2632,7 @@ namespace LTI_RouterOS
                 textBoxDNSAddressList.Text = dnsStaticLocal.AddressList;
                 textBoxDNSAddress.Text = dnsStaticLocal.Address;
                 checkBox2.Checked = !dnsStaticLocal.Disabled;
-                
+
                 if (dnsStaticLocal.MatchSubdomain == null)
                 {
                     checkBoxDNSMatchSubdomain.Checked = false;
@@ -2918,7 +2919,7 @@ namespace LTI_RouterOS
         private void PopulateWGInterface()
         {
             string name = comboBoxWireguardInterface.SelectedItem.ToString();
-            
+
             WireguardInterface wgInt = RetrieveWGInt(name);
 
             wgInterface.Id = wgInt.Id;
@@ -2959,7 +2960,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                if(textBoxWireguardInterface.Text == "")
+                if (textBoxWireguardInterface.Text == "")
                 {
                     MessageBox.Show("Please Enter a Name for the Wireguard Interface");
                     return;
@@ -2969,7 +2970,7 @@ namespace LTI_RouterOS
                     Random random = new Random();
                     textBoxWireguardListenPort.Text = random.Next(10000, 60000 + 1).ToString(); // "+1" to include the upper bound
                 }
-                if(textBox16.Text != "")
+                if (textBox16.Text != "")
                 {
                     if (!Parser.IsValidPrivateKey(textBox16.Text))
                     {
@@ -2977,7 +2978,7 @@ namespace LTI_RouterOS
                         return;
                     }
                 }
-                
+
 
                 UpdateWGIntFromForm();
                 await CreateWGInt();
@@ -3008,22 +3009,12 @@ namespace LTI_RouterOS
                 MessageBox.Show($"Error Creating Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-                MessageBox.Show($"Error Creating Static DNS {textBoxDNSName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
         private void disconnect_Click(object sender, EventArgs e)
         {
             Disconnect();
         }
 
-        private void UpdateWGIntFromForm()
-        {
-            wgInterface.Name = textBoxWireguardInterface.Text;
-            wgInterface.Disabled = false;
-            wgInterface.ListenPort = textBoxWireguardListenPort.Text;
-            wgInterface.PrivateKey = textBox16.Text;
+
         private void Disconnect()
         {
             // Reset isConnected flag to indicate disconnection
@@ -3037,6 +3028,14 @@ namespace LTI_RouterOS
             textBox1.Enabled = true; // IP Address textbox
 
             MessageBox.Show("Disconnected from router.");
+        }
+
+        private void UpdateWGIntFromForm()
+        {
+            wgInterface.Name = textBoxWireguardInterface.Text;
+            wgInterface.Disabled = false;
+            wgInterface.ListenPort = textBoxWireguardListenPort.Text;
+            wgInterface.PrivateKey = textBox16.Text;
         }
     }
 }
