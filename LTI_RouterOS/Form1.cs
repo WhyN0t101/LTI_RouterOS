@@ -2936,7 +2936,7 @@ namespace LTI_RouterOS
                
 
                 UpdateDNSStaticFromForm();
-                await CreateStaticDNS();
+                //await CreateStaticDNS();
                 PopulateDNSStatic();
             }
             catch (Exception ex)
