@@ -3118,5 +3118,149 @@ namespace LTI_RouterOS
             }
 
         }
+
+        private async void comboBoxWireguardPeer_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of WG Interfaces
+                string response = await Controller.Retrieve("/rest/interface/wireguard/peers");
+                List<string> WGPeers = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxWireguardPeer.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string wg in WGPeers)
+                {
+                    comboBoxWireguardPeer.Items.Add(wg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Wireguard Peers data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void comboBoxWireguardPeer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear textboxes and comboboxes
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = "";
+                }
+                if (control is ComboBox)
+                {
+                    ((ComboBox)control).SelectedIndex = -1;
+                }
+            }
+            PopulateWGPeers();
+
+        }
+
+        private async void PopulateWGPeers()
+        {
+            string name = comboBoxWireguardPeer.SelectedItem.ToString();
+
+            WireguardPeers wgP = RetrieveWGPeer(name);
+            await PopulatecomboBoxPeerInterface();
+
+            wgPeer.Id = wgP.Id;
+            wgPeer.Name = wgP.Name;
+
+            textBoxWireguardPeerName.Text = wgP.Name;
+            comboBoxWireguardPeerInterface.SelectedItem = wgP.Interface;
+            textBox12.Text = wgP.PublicKey;
+            checkBox6.Checked = !wgP.Disabled;
+            string[] allowedAddr = wgP.AllowedAddress.Split(',');
+
+            // Populate the textbox with servers
+            textBox13.Clear();
+            foreach (string addr in allowedAddr)
+            {
+                textBox13.Text += addr + Environment.NewLine;
+            }
+        }
+
+        private WireguardPeers RetrieveWGPeer(string name)
+        {
+            try
+            {
+                // Make an HTTP GET request to the specified endpoint ("/rest/interface/wireguard/{name}")
+                HttpResponseMessage response = httpClient.GetAsync(baseUrl + $"/rest/interface/wireguard/peers/{name}").Result;
+                response.EnsureSuccessStatusCode(); // Throw an exception if the response is not successful
+
+                // Read the response content as a string
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+
+                // Deserialize the JSON response into a list of WGInt objects
+                WireguardPeers wgPeer = JsonConvert.DeserializeObject<WireguardPeers>(responseBody);
+
+                // Find the WireguardInterface object with the matching name
+                return wgPeer;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private async Task PopulatecomboBoxPeerInterface()
+        {
+            // Clear any existing items in the ComboBox
+            comboBoxWireguardPeerInterface.Items.Clear();
+
+            try
+            {
+                // Retrieve the list of wirelessInterfaces
+                string response = await Controller.Retrieve("/rest/interface/wireguard");
+                List<string> WGInt = Parser.ParseNamesFromJsonArray(response, "name");
+
+                // Clear existing items in the ComboBox
+                comboBoxWireguardPeerInterface.Items.Clear();
+
+                // Add each bridge name as an item in the ComboBox
+                foreach (string wg in WGInt)
+                {
+                    comboBoxWireguardPeerInterface.Items.Add(wg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Wireguard Interfaces data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void buttonWireguardEnablePeer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxWireguardInterface.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    return;
+                }
+                JObject payload = new JObject
+                {
+                    [".id"] = wgInterface.Id,
+                    ["name"] = wgInterface.Name
+                };
+
+                await Controller.EnableWGInt(payload);
+                PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Enabling Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

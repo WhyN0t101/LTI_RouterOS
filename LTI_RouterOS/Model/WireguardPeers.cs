@@ -20,6 +20,9 @@ namespace LTI_RouterOS.Model
         [JsonProperty("interface")]
         public string Interface { get; set; }
 
+        [JsonProperty("public-key")]
+        public string PublicKey { get; set; }
+
         public JObject ToJObject()
         {
             return JObject.FromObject(this);
