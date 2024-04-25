@@ -33,6 +33,7 @@ namespace LTI_RouterOS
         private Bridge bridge;
         private DNSStatic dnsStatic;
         private WireguardInterface wgInterface;
+        private WireguardPeers wgPeer;
         private Json Parser = new Json();
 
 
@@ -49,6 +50,7 @@ namespace LTI_RouterOS
             bridge = new Bridge();
             dnsStatic = new DNSStatic();
             wgInterface = new WireguardInterface();
+            wgPeer = new WireguardPeers();
             InitializeComboBoxes();
 
         }

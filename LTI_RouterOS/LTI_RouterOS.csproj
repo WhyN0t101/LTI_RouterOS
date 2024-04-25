@@ -61,6 +61,7 @@
     <Compile Include="Model\DNSStatic.cs" />
     <Compile Include="Model\DNS.cs" />
     <Compile Include="Model\DHCPServer.cs" />
+    <Compile Include="Model\WireguardPeers.cs" />
     <Compile Include="Model\WirelessSettings.cs" />
     <Compile Include="Model\WifiSecurityProfile.cs" />
     <Compile Include="Program.cs" />
