@@ -3288,5 +3288,32 @@ namespace LTI_RouterOS
             }
 
         }
+
+        private async void buttonWireguardDeletePeer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxWireguardPeer.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a Wireguard Peer ");
+                    return;
+                }
+                JObject payload = new JObject
+                {
+                    [".id"] = wgPeer.Id,
+                    ["name"] = wgPeer.Name
+
+                };
+
+                await Controller.DeleteWGPeer(payload);
+                //PopulateWGPeers();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Deleting Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

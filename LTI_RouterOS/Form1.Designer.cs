@@ -3159,6 +3159,7 @@
             this.buttonWireguardDeletePeer.TabIndex = 16;
             this.buttonWireguardDeletePeer.Text = "Delete Peer";
             this.buttonWireguardDeletePeer.UseVisualStyleBackColor = true;
+            this.buttonWireguardDeletePeer.Click += new System.EventHandler(this.buttonWireguardDeletePeer_Click);
             // 
             // buttonWireguardCreatePeer
             // 

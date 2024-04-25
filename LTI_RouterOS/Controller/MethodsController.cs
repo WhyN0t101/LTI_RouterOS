@@ -953,6 +953,30 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Disabling Wireguard Peer {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task DeleteWGPeer(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/peers/{(string)payload[".id"]}";
+
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Peer: {name} Deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Deleting Wireguard Peer {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
