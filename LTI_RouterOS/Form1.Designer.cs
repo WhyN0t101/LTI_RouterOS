@@ -310,6 +310,8 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.buttonWGIntEdit = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -3078,6 +3080,7 @@
             // groupBox15
             // 
             this.groupBox15.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox15.Controls.Add(this.button22);
             this.groupBox15.Controls.Add(this.checkBox6);
             this.groupBox15.Controls.Add(this.comboBoxWireguardPeer);
             this.groupBox15.Controls.Add(this.label91);
@@ -3104,7 +3107,7 @@
             // 
             this.checkBox6.AutoSize = true;
             this.checkBox6.Enabled = false;
-            this.checkBox6.Location = new System.Drawing.Point(88, 315);
+            this.checkBox6.Location = new System.Drawing.Point(199, 60);
             this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(63, 18);
@@ -3115,7 +3118,7 @@
             // comboBoxWireguardPeer
             // 
             this.comboBoxWireguardPeer.FormattingEnabled = true;
-            this.comboBoxWireguardPeer.Location = new System.Drawing.Point(23, 339);
+            this.comboBoxWireguardPeer.Location = new System.Drawing.Point(23, 61);
             this.comboBoxWireguardPeer.Name = "comboBoxWireguardPeer";
             this.comboBoxWireguardPeer.Size = new System.Drawing.Size(121, 22);
             this.comboBoxWireguardPeer.TabIndex = 20;
@@ -3125,7 +3128,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(32, 323);
+            this.label91.Location = new System.Drawing.Point(25, 44);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(36, 14);
             this.label91.TabIndex = 19;
@@ -3143,7 +3146,7 @@
             // 
             // buttonWireguardEnablePeer
             // 
-            this.buttonWireguardEnablePeer.Location = new System.Drawing.Point(23, 383);
+            this.buttonWireguardEnablePeer.Location = new System.Drawing.Point(44, 383);
             this.buttonWireguardEnablePeer.Name = "buttonWireguardEnablePeer";
             this.buttonWireguardEnablePeer.Size = new System.Drawing.Size(125, 23);
             this.buttonWireguardEnablePeer.TabIndex = 17;
@@ -3153,9 +3156,9 @@
             // 
             // buttonWireguardDeletePeer
             // 
-            this.buttonWireguardDeletePeer.Location = new System.Drawing.Point(195, 339);
+            this.buttonWireguardDeletePeer.Location = new System.Drawing.Point(129, 340);
             this.buttonWireguardDeletePeer.Name = "buttonWireguardDeletePeer";
-            this.buttonWireguardDeletePeer.Size = new System.Drawing.Size(125, 23);
+            this.buttonWireguardDeletePeer.Size = new System.Drawing.Size(104, 23);
             this.buttonWireguardDeletePeer.TabIndex = 16;
             this.buttonWireguardDeletePeer.Text = "Delete Peer";
             this.buttonWireguardDeletePeer.UseVisualStyleBackColor = true;
@@ -3163,9 +3166,9 @@
             // 
             // buttonWireguardCreatePeer
             // 
-            this.buttonWireguardCreatePeer.Location = new System.Drawing.Point(19, 241);
+            this.buttonWireguardCreatePeer.Location = new System.Drawing.Point(23, 340);
             this.buttonWireguardCreatePeer.Name = "buttonWireguardCreatePeer";
-            this.buttonWireguardCreatePeer.Size = new System.Drawing.Size(125, 23);
+            this.buttonWireguardCreatePeer.Size = new System.Drawing.Size(100, 23);
             this.buttonWireguardCreatePeer.TabIndex = 15;
             this.buttonWireguardCreatePeer.Text = "Create Peer";
             this.buttonWireguardCreatePeer.UseVisualStyleBackColor = true;
@@ -3173,7 +3176,7 @@
             // 
             // textBox13
             // 
-            this.textBox13.Location = new System.Drawing.Point(19, 166);
+            this.textBox13.Location = new System.Drawing.Point(23, 203);
             this.textBox13.Multiline = true;
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(113, 66);
@@ -3183,7 +3186,7 @@
             // label89
             // 
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(16, 150);
+            this.label89.Location = new System.Drawing.Point(20, 187);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(126, 14);
             this.label89.TabIndex = 13;
@@ -3191,7 +3194,7 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(19, 117);
+            this.textBox12.Location = new System.Drawing.Point(23, 296);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(333, 22);
             this.textBox12.TabIndex = 12;
@@ -3199,7 +3202,7 @@
             // label88
             // 
             this.label88.AutoSize = true;
-            this.label88.Location = new System.Drawing.Point(16, 101);
+            this.label88.Location = new System.Drawing.Point(20, 280);
             this.label88.Name = "label88";
             this.label88.Size = new System.Drawing.Size(70, 14);
             this.label88.TabIndex = 11;
@@ -3208,7 +3211,7 @@
             // comboBoxWireguardPeerInterface
             // 
             this.comboBoxWireguardPeerInterface.FormattingEnabled = true;
-            this.comboBoxWireguardPeerInterface.Location = new System.Drawing.Point(199, 63);
+            this.comboBoxWireguardPeerInterface.Location = new System.Drawing.Point(203, 126);
             this.comboBoxWireguardPeerInterface.Name = "comboBoxWireguardPeerInterface";
             this.comboBoxWireguardPeerInterface.Size = new System.Drawing.Size(121, 22);
             this.comboBoxWireguardPeerInterface.TabIndex = 10;
@@ -3216,7 +3219,7 @@
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(208, 47);
+            this.label87.Location = new System.Drawing.Point(212, 110);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(64, 14);
             this.label87.TabIndex = 9;
@@ -3224,7 +3227,7 @@
             // 
             // textBoxWireguardPeerName
             // 
-            this.textBoxWireguardPeerName.Location = new System.Drawing.Point(19, 63);
+            this.textBoxWireguardPeerName.Location = new System.Drawing.Point(23, 126);
             this.textBoxWireguardPeerName.Name = "textBoxWireguardPeerName";
             this.textBoxWireguardPeerName.Size = new System.Drawing.Size(113, 22);
             this.textBoxWireguardPeerName.TabIndex = 8;
@@ -3232,7 +3235,7 @@
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(16, 47);
+            this.label86.Location = new System.Drawing.Point(25, 110);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(43, 14);
             this.label86.TabIndex = 0;
@@ -3241,6 +3244,7 @@
             // groupBox14
             // 
             this.groupBox14.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox14.Controls.Add(this.buttonWGIntEdit);
             this.groupBox14.Controls.Add(this.checkBoxRunning);
             this.groupBox14.Controls.Add(this.label92);
             this.groupBox14.Controls.Add(this.textBox16);
@@ -3269,7 +3273,7 @@
             // 
             this.checkBoxRunning.AutoSize = true;
             this.checkBoxRunning.Enabled = false;
-            this.checkBoxRunning.Location = new System.Drawing.Point(331, 243);
+            this.checkBoxRunning.Location = new System.Drawing.Point(317, 67);
             this.checkBoxRunning.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxRunning.Name = "checkBoxRunning";
             this.checkBoxRunning.Size = new System.Drawing.Size(77, 18);
@@ -3297,7 +3301,7 @@
             // 
             this.checkBoxWGActivate.AutoSize = true;
             this.checkBoxWGActivate.Enabled = false;
-            this.checkBoxWGActivate.Location = new System.Drawing.Point(331, 202);
+            this.checkBoxWGActivate.Location = new System.Drawing.Point(202, 66);
             this.checkBoxWGActivate.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxWGActivate.Name = "checkBoxWGActivate";
             this.checkBoxWGActivate.Size = new System.Drawing.Size(63, 18);
@@ -3308,7 +3312,7 @@
             // comboBoxWireguardInterface
             // 
             this.comboBoxWireguardInterface.FormattingEnabled = true;
-            this.comboBoxWireguardInterface.Location = new System.Drawing.Point(25, 199);
+            this.comboBoxWireguardInterface.Location = new System.Drawing.Point(25, 64);
             this.comboBoxWireguardInterface.Name = "comboBoxWireguardInterface";
             this.comboBoxWireguardInterface.Size = new System.Drawing.Size(121, 22);
             this.comboBoxWireguardInterface.TabIndex = 20;
@@ -3318,7 +3322,7 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(34, 183);
+            this.label90.Location = new System.Drawing.Point(34, 48);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(64, 14);
             this.label90.TabIndex = 19;
@@ -3326,7 +3330,7 @@
             // 
             // buttonWireguardDisableInterface
             // 
-            this.buttonWireguardDisableInterface.Location = new System.Drawing.Point(202, 238);
+            this.buttonWireguardDisableInterface.Location = new System.Drawing.Point(219, 242);
             this.buttonWireguardDisableInterface.Name = "buttonWireguardDisableInterface";
             this.buttonWireguardDisableInterface.Size = new System.Drawing.Size(113, 23);
             this.buttonWireguardDisableInterface.TabIndex = 19;
@@ -3336,7 +3340,7 @@
             // 
             // buttonWireguardDeleteInterface
             // 
-            this.buttonWireguardDeleteInterface.Location = new System.Drawing.Point(202, 199);
+            this.buttonWireguardDeleteInterface.Location = new System.Drawing.Point(156, 203);
             this.buttonWireguardDeleteInterface.Name = "buttonWireguardDeleteInterface";
             this.buttonWireguardDeleteInterface.Size = new System.Drawing.Size(113, 23);
             this.buttonWireguardDeleteInterface.TabIndex = 8;
@@ -3346,9 +3350,9 @@
             // 
             // buttonWireguardEnableInterface
             // 
-            this.buttonWireguardEnableInterface.Location = new System.Drawing.Point(25, 238);
+            this.buttonWireguardEnableInterface.Location = new System.Drawing.Point(57, 242);
             this.buttonWireguardEnableInterface.Name = "buttonWireguardEnableInterface";
-            this.buttonWireguardEnableInterface.Size = new System.Drawing.Size(125, 23);
+            this.buttonWireguardEnableInterface.Size = new System.Drawing.Size(121, 23);
             this.buttonWireguardEnableInterface.TabIndex = 18;
             this.buttonWireguardEnableInterface.Text = "Enable Interface";
             this.buttonWireguardEnableInterface.UseVisualStyleBackColor = true;
@@ -3366,11 +3370,11 @@
             // 
             // buttonWireguardCreateInterface
             // 
-            this.buttonWireguardCreateInterface.Location = new System.Drawing.Point(25, 102);
+            this.buttonWireguardCreateInterface.Location = new System.Drawing.Point(25, 203);
             this.buttonWireguardCreateInterface.Name = "buttonWireguardCreateInterface";
-            this.buttonWireguardCreateInterface.Size = new System.Drawing.Size(113, 23);
+            this.buttonWireguardCreateInterface.Size = new System.Drawing.Size(121, 23);
             this.buttonWireguardCreateInterface.TabIndex = 6;
-            this.buttonWireguardCreateInterface.Text = "Create Interface";
+            this.buttonWireguardCreateInterface.Text = "Create";
             this.buttonWireguardCreateInterface.UseVisualStyleBackColor = true;
             this.buttonWireguardCreateInterface.Click += new System.EventHandler(this.buttonWireguardCreateInterface_Click);
             // 
@@ -3394,7 +3398,7 @@
             // 
             // textBoxWireguardListenPort
             // 
-            this.textBoxWireguardListenPort.Location = new System.Drawing.Point(202, 64);
+            this.textBoxWireguardListenPort.Location = new System.Drawing.Point(202, 127);
             this.textBoxWireguardListenPort.Name = "textBoxWireguardListenPort";
             this.textBoxWireguardListenPort.Size = new System.Drawing.Size(113, 22);
             this.textBoxWireguardListenPort.TabIndex = 3;
@@ -3403,7 +3407,7 @@
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(199, 48);
+            this.label84.Location = new System.Drawing.Point(199, 111);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(75, 14);
             this.label84.TabIndex = 2;
@@ -3412,7 +3416,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(22, 48);
+            this.label83.Location = new System.Drawing.Point(22, 111);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(43, 14);
             this.label83.TabIndex = 1;
@@ -3420,9 +3424,9 @@
             // 
             // textBoxWireguardInterface
             // 
-            this.textBoxWireguardInterface.Location = new System.Drawing.Point(25, 64);
+            this.textBoxWireguardInterface.Location = new System.Drawing.Point(25, 127);
             this.textBoxWireguardInterface.Name = "textBoxWireguardInterface";
-            this.textBoxWireguardInterface.Size = new System.Drawing.Size(113, 22);
+            this.textBoxWireguardInterface.Size = new System.Drawing.Size(121, 22);
             this.textBoxWireguardInterface.TabIndex = 0;
             // 
             // imageList1
@@ -3430,6 +3434,24 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // buttonWGIntEdit
+            // 
+            this.buttonWGIntEdit.Location = new System.Drawing.Point(281, 203);
+            this.buttonWGIntEdit.Name = "buttonWGIntEdit";
+            this.buttonWGIntEdit.Size = new System.Drawing.Size(113, 23);
+            this.buttonWGIntEdit.TabIndex = 24;
+            this.buttonWGIntEdit.Text = "Edit";
+            this.buttonWGIntEdit.UseVisualStyleBackColor = true;
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(252, 340);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(81, 23);
+            this.button22.TabIndex = 24;
+            this.button22.Text = "Edit Peer";
+            this.button22.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -3774,5 +3796,7 @@
         private System.Windows.Forms.TextBox textBox21;
         private System.Windows.Forms.CheckBox checkBoxRunning;
         private System.Windows.Forms.CheckBox HTTPs;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button buttonWGIntEdit;
     }
 }
