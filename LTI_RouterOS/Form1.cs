@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using LTI_RouterOS.Properties;
 using System.Text.RegularExpressions;
 using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LTI_RouterOS
 {
@@ -89,7 +90,7 @@ namespace LTI_RouterOS
             textBox1.Text = "192.168.79.1";
             textBox9.Text = "admin";
         }
-        private void tabControl1_SelectedIndexChanged_1(object sender, EventArgs e)
+        private async void tabControl1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             // Check if connected to router before allowing access to other tabs
             if (!isConnected && tabControl1.SelectedIndex != 0)
@@ -102,6 +103,9 @@ namespace LTI_RouterOS
             {
                 case 6:
                     PopulateDNSTab();
+                    break;
+                case 7:
+                    await PopulatecomboBoxPeerInterface();
                     break;
             }
         }
@@ -1323,7 +1327,7 @@ namespace LTI_RouterOS
             }
 
             // Validate the destination address
-            if (IsValidIpAddress(destAddress) && IsValidIpAddressGateway(gateway))
+            if (Parser.IsValidIpAddress(destAddress) && Parser.IsValidIpAddressGateway(gateway))
             {
                 // Call the method to create the route
                 await Controller.CreateRoute(destAddress, gateway, checkGateway, distanceText, scope, targetScope, vrfInterface, routingTable, prefSource, hw);
@@ -1334,41 +1338,7 @@ namespace LTI_RouterOS
                 MessageBox.Show("Invalid destination address or gateway. Please enter valid IP addresses.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        // Validate an IPv4 address without a subnet mask
-        private bool IsValidIpAddressGateway(string ipAddress)
-        {
-            IPAddress ip;
-            return IPAddress.TryParse(ipAddress, out ip) && ip.AddressFamily == AddressFamily.InterNetwork;
-        }
-
-        private bool IsValidIpAddress(string ipAddress)
-        {
-            try
-            {
-                // Attempt to parse the IP address with subnet mask
-                IPAddress ip;
-                string[] parts = ipAddress.Split('/');
-
-                // Check if there are two parts (IP address and subnet mask)
-                if (parts.Length != 2)
-                    return false;
-
-                // Validate the IP address part
-                if (!IPAddress.TryParse(parts[0], out ip))
-                    return false;
-
-                // Validate the subnet mask part
-                int subnetMask = int.Parse(parts[1]);
-                if (subnetMask < 0 || subnetMask > 32)
-                    return false;
-
-                return true; // IP address with subnet mask is valid
-            }
-            catch (Exception)
-            {
-                return false; // Exception occurred while parsing
-            }
-        }
+        
 
         private async void button15_Click(object sender, EventArgs e)
         {
@@ -1913,7 +1883,7 @@ namespace LTI_RouterOS
                     }
 
                     // Validate the destination address
-                    if (IsValidIpAddress(destAddress) && IsValidIpAddressGateway(gateway))
+                    if (Parser.IsValidIpAddress(destAddress) && Parser.IsValidIpAddressGateway(gateway))
                     {
                         // Call the method to create the route
                         await Controller.UpdateRoute(routeId, destAddress, gateway, checkGateway, distanceText, scope, targetScope, vrfInterface, routingTable, prefSource, hw);
@@ -1976,7 +1946,7 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Select a Interface");
             }
-            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || IsValidIpAddressGateway(textBoxNetwork.Text))
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
             {
                 MessageBox.Show("Fill all Addresses with a valid ip ");
             }
@@ -2452,7 +2422,7 @@ namespace LTI_RouterOS
         {
             try
             {
-                if (!ValidateIpAddress(textBoxServers.Text))
+                if (!Parser.ValidateIpAddress(textBoxServers.Text))
                 {
                     return;
                 }
@@ -2521,24 +2491,7 @@ namespace LTI_RouterOS
 
         }
 
-        private bool ValidateIpAddress(string ipAddressText)
-        {
-            // Split the multiline text into individual lines
-            string[] lines = ipAddressText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string line in lines)
-            {
-                // Try to parse each line as an IP address
-                if (!IPAddress.TryParse(line, out IPAddress ip))
-                {
-                    MessageBox.Show($"Invalid IP address: {line}");
-                    return false;
-                }
-            }
-
-            // All IP addresses are valid
-            return true;
-        }
+        
 
         private void comboBoxDNSEntry_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -2718,7 +2671,7 @@ namespace LTI_RouterOS
                 switch (type)
                 {
                     case "A":
-                        if (!IsValidIpAddressGateway(textBoxDNSAddress.Text))
+                        if (!Parser.IsValidIpAddressGateway(textBoxDNSAddress.Text))
                         {
                             MessageBox.Show($"Invalid IPv4 Address: {textBoxDNSAddress.Text}");
                             return;
@@ -2793,7 +2746,7 @@ namespace LTI_RouterOS
                 switch (type)
                 {
                     case "A":
-                        if (!IsValidIpAddressGateway(textBoxDNSAddress.Text))
+                        if (!Parser.IsValidIpAddressGateway(textBoxDNSAddress.Text))
                         {
                             MessageBox.Show($"Invalid IPv4 Address: {textBoxDNSAddress.Text}");
                             return;
@@ -2953,7 +2906,12 @@ namespace LTI_RouterOS
 
                 UpdateWGIntFromForm();
                 await CreateWGInt();
-                PopulateWGInterface();
+
+                string name = comboBoxWireguardInterface.SelectedItem.ToString();
+
+                WireguardInterface wgInt = RetrieveWGInt(name);
+                textBox16.Text = wgInt.PrivateKey;
+                textBoxWireguardPublicKey.Text = wgInt.PublicKey;
             }
             catch (Exception ex)
             {
@@ -3164,6 +3122,7 @@ namespace LTI_RouterOS
         private async void PopulateWGPeers()
         {
             string name = comboBoxWireguardPeer.SelectedItem.ToString();
+            comboBoxWireguardPeerInterface.Items.Clear();
 
             WireguardPeers wgP = RetrieveWGPeer(name);
             await PopulatecomboBoxPeerInterface();
@@ -3313,6 +3272,108 @@ namespace LTI_RouterOS
                 // Handle exceptions
                 MessageBox.Show($"Error Deleting Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private async void buttonWireguardCreatePeer_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                if (textBoxWireguardPeerName.Text == "")
+                {
+                    MessageBox.Show("Please Enter a Name for the Wireguard Peer");
+                    return;
+                }
+                if (comboBoxWireguardPeerInterface.Text == "")
+                {
+                    MessageBox.Show("Please Select a interface to Use");
+                    return;
+
+                }
+                string[] lines = textBox13.Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                {
+                    if (!Parser.ValidateIPv6(line) && !Parser.IsValidIpAddress(line) && !Parser.IsValidIpAddressGateway(line))
+                    {
+                        MessageBox.Show("Please Select a Valid IP or IPv6 Address");
+                        return;
+                    }
+                }
+                bool helper = await IsPubKeyValid();
+                if (!helper)
+                {
+                    MessageBox.Show("Please Select a Public Key that is not being used.");
+                    return;
+                }
+                UpdateWGPeerFromForm();
+                await CreateWGPeer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Creating Wireguard Peer: {textBoxWireguardPeerName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        private async Task CreateWGPeer()
+        {
+            try
+            {
+
+                JObject payload = wgPeer.ToJObject();
+                payload.Remove(".id");
+                payload["disabled"] = false;
+
+                await Controller.CreateWGPeer(payload);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Creating Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateWGPeerFromForm()
+        {
+            wgPeer.Name = textBoxWireguardPeerName.Text;
+            wgPeer.Interface = comboBoxWireguardPeerInterface.SelectedItem.ToString();
+            wgPeer.PublicKey = textBox12.Text;
+            string text = textBox13.Text;
+            text = text.Replace("\r\n", ",");
+            text = text.Replace("\n", ",");
+            text = text.Replace("\r", ",");
+            wgPeer.AllowedAddress = text;
+        }
+
+        public async Task<bool> IsPubKeyValid()
+        {
+            try
+            {
+                // Retrieve the list of WireGuard peers.
+                string response = await Controller.Retrieve("/rest/interface/wireguard/peers");
+
+                // Parse the JSON response to extract public keys
+                List<string> pubKeys = Parser.ParseNamesFromJsonArray(response, "public-key");
+
+                string textBoxContent = textBox12.Text;
+                foreach (string pubKey in pubKeys)
+                {
+                    if (textBoxContent == pubKey)
+                    {
+                        return false;
+
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Public Key data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
 
         }
     }

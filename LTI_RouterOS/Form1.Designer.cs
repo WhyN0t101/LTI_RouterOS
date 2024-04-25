@@ -3169,6 +3169,7 @@
             this.buttonWireguardCreatePeer.TabIndex = 15;
             this.buttonWireguardCreatePeer.Text = "Create Peer";
             this.buttonWireguardCreatePeer.UseVisualStyleBackColor = true;
+            this.buttonWireguardCreatePeer.Click += new System.EventHandler(this.buttonWireguardCreatePeer_Click);
             // 
             // textBox13
             // 
