@@ -3307,6 +3307,7 @@ namespace LTI_RouterOS
                     return;
                 }
                 UpdateWGPeerFromForm();
+
                 await CreateWGPeer();
             }
             catch (Exception ex)
