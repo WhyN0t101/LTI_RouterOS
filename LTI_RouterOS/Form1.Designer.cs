@@ -3356,6 +3356,7 @@
             this.buttonWireguardRefresh.TabIndex = 7;
             this.buttonWireguardRefresh.Text = "Refresh";
             this.buttonWireguardRefresh.UseVisualStyleBackColor = true;
+            this.buttonWireguardRefresh.Click += new System.EventHandler(this.buttonWireguardRefresh_Click);
             // 
             // buttonWireguardCreateInterface
             // 
@@ -3372,6 +3373,7 @@
             this.textBoxWireguardPublicKey.Enabled = false;
             this.textBoxWireguardPublicKey.Location = new System.Drawing.Point(6, 341);
             this.textBoxWireguardPublicKey.Name = "textBoxWireguardPublicKey";
+            this.textBoxWireguardPublicKey.ReadOnly = true;
             this.textBoxWireguardPublicKey.Size = new System.Drawing.Size(388, 22);
             this.textBoxWireguardPublicKey.TabIndex = 5;
             // 

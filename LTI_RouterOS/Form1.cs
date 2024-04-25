@@ -59,7 +59,7 @@ namespace LTI_RouterOS
             textBox6.Enabled = false;
             textBox7.Enabled = false;
             textBox11.Enabled = false;
-            textBoxWireguardPublicKey.Enabled = false;
+            textBoxWireguardPublicKey.Enabled = true;
             comboBoxARP.SelectedIndex = 1;
             //checkedListBox2.SetItemChecked(0, true);
             //checkedListBox3.SetItemChecked(0, true);
@@ -3038,7 +3038,7 @@ namespace LTI_RouterOS
             {
                 if (comboBoxWireguardInterface.SelectedItem == null)
                 {
-                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    MessageBox.Show("Select a Wireguard Interface ");
                     return;
                 }
                 JObject payload = new JObject
@@ -3064,7 +3064,7 @@ namespace LTI_RouterOS
             {
                 if (comboBoxWireguardInterface.SelectedItem == null)
                 {
-                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    MessageBox.Show("Select a Wireguard Interface ");
                     return;
                 }
                 JObject payload = new JObject
@@ -3075,6 +3075,39 @@ namespace LTI_RouterOS
 
                 await Controller.DeleteWGInt(payload);
                 //PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Deleting Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonWireguardRefresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxWireguardInterface.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a  Wireguard Interface ");
+                    return;
+                }
+                if (!Parser.IsValidPrivateKey(textBox16.Text))
+                {
+                    MessageBox.Show("Select a Valid Private Key ");
+                    return;
+                }
+                JObject payload = new JObject
+                {
+                    [".id"] = wgInterface.Id,
+                    ["name"] = wgInterface.Name,
+                    ["private-key"] = textBox16.Text
+                };
+
+                await Controller.UpdatePrivatePublicKey(payload);
+                //PopulateWGInterface();
+                PopulateWGInterface();
             }
             catch (Exception ex)
             {

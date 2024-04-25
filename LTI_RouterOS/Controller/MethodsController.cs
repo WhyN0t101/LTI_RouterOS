@@ -878,6 +878,31 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Deleting Wireguard Interface {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        public async Task UpdatePrivatePublicKey(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/{(string)payload[".id"]}";
+                payload.Remove(".id");
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Private Key Updated Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Changing the Private Key" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
