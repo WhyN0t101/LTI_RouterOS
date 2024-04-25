@@ -3336,6 +3336,7 @@
             this.buttonWireguardDeleteInterface.TabIndex = 8;
             this.buttonWireguardDeleteInterface.Text = "Delete Interface";
             this.buttonWireguardDeleteInterface.UseVisualStyleBackColor = true;
+            this.buttonWireguardDeleteInterface.Click += new System.EventHandler(this.buttonWireguardDeleteInterface_Click);
             // 
             // buttonWireguardEnableInterface
             // 

@@ -854,6 +854,30 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Disabling Wireguard Interface {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task DeleteWGInt(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/{(string)payload[".id"]}";
+
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Interface: {name} Deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Deleting Wireguard Interface {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }

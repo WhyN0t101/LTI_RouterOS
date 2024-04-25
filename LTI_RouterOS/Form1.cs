@@ -3010,6 +3010,11 @@ namespace LTI_RouterOS
         {
             try
             {
+                if (comboBoxWireguardInterface.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    return;
+                }
                 JObject payload = new JObject
                 {
                     [".id"] = wgInterface.Id,
@@ -3031,6 +3036,11 @@ namespace LTI_RouterOS
         {
             try
             {
+                if (comboBoxWireguardInterface.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    return;
+                }
                 JObject payload = new JObject
                 {
                     [".id"] = wgInterface.Id,
@@ -3044,6 +3054,32 @@ namespace LTI_RouterOS
             {
                 // Handle exceptions
                 MessageBox.Show($"Error Disabling Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonWireguardDeleteInterface_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxWireguardInterface.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    return;
+                }
+                JObject payload = new JObject
+                {
+                    [".id"] = wgInterface.Id,
+                    ["name"] = wgInterface.Name
+                };
+
+                await Controller.DeleteWGInt(payload);
+                //PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Deleting Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
