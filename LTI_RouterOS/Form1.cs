@@ -3237,28 +3237,54 @@ namespace LTI_RouterOS
 
         }
 
-        private void buttonWireguardEnablePeer_Click(object sender, EventArgs e)
+        private async void buttonWireguardEnablePeer_Click(object sender, EventArgs e)
         {
             try
             {
-                if (comboBoxWireguardInterface.SelectedItem == null)
+                if (comboBoxWireguardPeer.SelectedItem == null)
                 {
-                    MessageBox.Show("Select a  Wireguard Interface: ");
+                    MessageBox.Show("Select a Wireguard Peer ");
                     return;
                 }
                 JObject payload = new JObject
                 {
-                    [".id"] = wgInterface.Id,
-                    ["name"] = wgInterface.Name
+                    [".id"] = wgPeer.Id,
+                    ["name"] = wgPeer.Name
                 };
 
-                await Controller.EnableWGInt(payload);
-                PopulateWGInterface();
+                await Controller.EnableWGPeer(payload);
+                PopulateWGPeers();
             }
             catch (Exception ex)
             {
                 // Handle exceptions
-                MessageBox.Show($"Error Enabling Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error Enabling Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonWireguardDisablePeer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBoxWireguardPeer.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a Wireguard Peer ");
+                    return;
+                }
+                JObject payload = new JObject
+                {
+                    [".id"] = wgPeer.Id,
+                    ["name"] = wgPeer.Name
+                };
+
+                await Controller.DisableWGPeer(payload);
+                PopulateWGPeers();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Desabling Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

@@ -903,6 +903,56 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Changing the Private Key" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task EnableWGPeer(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/peers/enable";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Peer: {name} Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Enabling Wireguard Peer {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DisableWGPeer(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/peers/disable";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Peer: {name} Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Disabling Wireguard Peer {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }

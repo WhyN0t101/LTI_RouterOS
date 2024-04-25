@@ -3139,6 +3139,7 @@
             this.buttonWireguardDisablePeer.TabIndex = 18;
             this.buttonWireguardDisablePeer.Text = "Disable Peer";
             this.buttonWireguardDisablePeer.UseVisualStyleBackColor = true;
+            this.buttonWireguardDisablePeer.Click += new System.EventHandler(this.buttonWireguardDisablePeer_Click);
             // 
             // buttonWireguardEnablePeer
             // 
