@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -125,6 +126,26 @@ namespace LTI_RouterOS
             }
 
             return true;
+        }
+
+        public IEnumerable<string> GetFilteredValues(string prefix)
+        {
+            string[] values = {
+                "2ghz-b",
+                "2ghz-b-only-g",
+                "2ghz-b/g",
+                "2ghz-b/g/n",
+                "2ghz-g/n",
+                "2ghz-only-n",
+                "5ghz-a",
+                "5ghz-only-n",
+                "5ghz-a/n",
+                "5ghz-a/n/ac",
+                "5ghz-only-ac",
+                "5ghz-n/ac"
+            };
+
+            return values.Where(value => value.StartsWith(prefix));
         }
     }
 }

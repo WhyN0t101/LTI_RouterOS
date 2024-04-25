@@ -998,7 +998,7 @@ namespace LTI_RouterOS
                 comboBoxFrequency.Items.Add("auto");
 
                 // Filter and add values starting with "2"
-                foreach (string value in GetFilteredValues("2"))
+                foreach (string value in Parser.GetFilteredValues("2"))
                 {
                     comboBoxWirelessBand.Items.Add(value);
                 }
@@ -1020,7 +1020,7 @@ namespace LTI_RouterOS
                 comboBoxFrequency.Items.Add("auto");
 
                 // Filter and add values starting with "5"
-                foreach (string value in GetFilteredValues("5"))
+                foreach (string value in Parser.GetFilteredValues("5"))
                 {
                     comboBoxWirelessBand.Items.Add(value);
                 }
@@ -2341,7 +2341,7 @@ namespace LTI_RouterOS
             try
             {
                 // Construct the JSON payload for the new security profile
-
+                /*
                 JObject payload = new JObject
                 {
                     ["name"] = dhcpServer.Name,
@@ -2352,6 +2352,10 @@ namespace LTI_RouterOS
                     ["lease-time"] = dhcpServer.LeaseTime,
                     ["use-radius"] = dhcpServer.UseRadius
                 };
+                */
+                JObject payload = dhcpServer.ToJObject();
+                payload.Remove(".id");
+                payload.Remove("disabled");
 
                 await Controller.EditDHCPServer(payload, dhcpServer.Id);
             }
@@ -2408,30 +2412,6 @@ namespace LTI_RouterOS
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-        }
-
-
-
-
-
-        private IEnumerable<string> GetFilteredValues(string prefix)
-        {
-            string[] values = {
-                "2ghz-b",
-                "2ghz-b-only-g",
-                "2ghz-b/g",
-                "2ghz-b/g/n",
-                "2ghz-g/n",
-                "2ghz-only-n",
-                "5ghz-a",
-                "5ghz-only-n",
-                "5ghz-a/n",
-                "5ghz-a/n/ac",
-                "5ghz-only-ac",
-                "5ghz-n/ac"
-            };
-
-            return values.Where(value => value.StartsWith(prefix));
         }
 
         private void comboBoxChannelWidth_SelectedIndexChanged(object sender, EventArgs e)
@@ -2911,12 +2891,13 @@ namespace LTI_RouterOS
             WireguardInterface wgInt = RetrieveWGInt(name);
 
             wgInterface.Id = wgInt.Id;
+            wgInterface.Name = wgInt.Name;
             textBoxWireguardInterface.Text = wgInt.Name;
             textBoxWireguardListenPort.Text = wgInt.ListenPort;
             textBox16.Text = wgInt.PrivateKey;
             textBoxWireguardPublicKey.Text = wgInt.PublicKey;
             checkBoxRunning.Checked = wgInt.Running;
-            checkBoxWGActivate.Checked = wgInt.Disabled;
+            checkBoxWGActivate.Checked = !wgInt.Disabled;
         }
 
         private WireguardInterface RetrieveWGInt(string name)
@@ -3025,12 +3006,46 @@ namespace LTI_RouterOS
             MessageBox.Show("Disconnected from router.");
         }
 
-        private void UpdateWGIntFromForm()
+        private async void buttonWireguardEnableInterface_Click(object sender, EventArgs e)
         {
-            wgInterface.Name = textBoxWireguardInterface.Text;
-            wgInterface.Disabled = false;
-            wgInterface.ListenPort = textBoxWireguardListenPort.Text;
-            wgInterface.PrivateKey = textBox16.Text;
+            try
+            {
+                JObject payload = new JObject
+                {
+                    [".id"] = wgInterface.Id,
+                    ["name"] = wgInterface.Name
+                };
+
+                await Controller.EnableWGInt(payload);
+                PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Enabling Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async void buttonWireguardDisableInterface_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                JObject payload = new JObject
+                {
+                    [".id"] = wgInterface.Id,
+                    ["name"] = wgInterface.Name
+                };
+
+                await Controller.DisableWGInt(payload);
+                PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Disabling Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }

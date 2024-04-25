@@ -16,6 +16,7 @@ namespace LTI_RouterOS.Model
         public string Name { get; set; }
 
         [JsonProperty("mtu")]
+        
         public string Mtu { get; set; }
 
         [JsonProperty("arp")]

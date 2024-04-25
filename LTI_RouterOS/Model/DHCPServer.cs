@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace LTI_RouterOS.Model
 
         [JsonProperty("use-radius")]
         public string UseRadius { get; set; }
+
+        public JObject ToJObject()
+        {
+            return JObject.FromObject(this);
+        }
 
         public DHCPServer()
         {

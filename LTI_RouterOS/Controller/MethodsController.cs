@@ -804,6 +804,56 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Creating Wireguard Interface {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task EnableWGInt(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/enable";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Interface: {name} Enabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Enabling Wireguard Interface {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task DisableWGInt(JObject payload)
+        {
+            string name = "";
+            try
+            {
+                name = (string)payload["name"];
+                payload.Remove("name");
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/disable";
+
+
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Interface: {name} Disabled successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Disabling Wireguard Interface {name}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
