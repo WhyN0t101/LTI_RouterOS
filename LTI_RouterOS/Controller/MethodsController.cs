@@ -760,8 +760,6 @@ namespace LTI_RouterOS.Controller
 
         public async Task EditStaticDNS(JObject payload)
         {
-            string id = (string)payload[".id"];
-
             try
             {
                 payload["regexp"] = "";
@@ -997,6 +995,50 @@ namespace LTI_RouterOS.Controller
             {
                 // Handle exceptions
                 MessageBox.Show($"Error Creating Wireguard Interface {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditWGInt(JObject payload, string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/{id}";
+
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Interface: {(string)payload["name"]} Edited successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Editing Wireguard Interface {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task EditWGPeer(JObject payload, string id)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/interface/wireguard/peers/{id}";
+
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show($"Wireguard Interface: {(string)payload["name"]} Edited successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Editing Wireguard Interface {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -2773,7 +2773,7 @@ namespace LTI_RouterOS
                 }
                 UpdateDNSStaticFromForm();
                 await EditStaticDNS();
-                PopulateDNSStatic();
+                //PopulateDNSStatic();
             }
             catch (Exception ex)
             {
@@ -3044,6 +3044,61 @@ namespace LTI_RouterOS
 
         }
 
+        private async void buttonWGIntEdit_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                if (textBoxWireguardInterface.Text == "")
+                {
+                    MessageBox.Show("Please Enter a Name for the Wireguard Interface");
+                    return;
+                }
+                if (textBoxWireguardListenPort.Text == "")
+                {
+                    Random random = new Random();
+                    textBoxWireguardListenPort.Text = random.Next(10000, 60000 + 1).ToString(); // "+1" to include the upper bound
+                }
+                if (textBox16.Text != "")
+                {
+                    if (!Parser.IsValidPrivateKey(textBox16.Text))
+                    {
+                        MessageBox.Show("Please Enter a Valid Private Key, or leave empty for a random generated one");
+                        return;
+                    }
+                }
+
+
+                UpdateWGIntFromForm();
+                await EditWGInt();
+                //PopulateWGInterface();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Editing Wireguard Interface: {textBoxWireguardInterface.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private async Task EditWGInt()
+        {
+            try
+            {
+
+                JObject payload = wgInterface.ToJObject();
+                payload.Remove(".id");
+                payload.Remove("public-key");
+                payload.Remove("running");
+
+                await Controller.EditWGInt(payload, wgInterface.Id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Creating Wireguard Interface {wgInterface.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private async void buttonWireguardRefresh_Click(object sender, EventArgs e)
         {
             try
@@ -3300,7 +3355,7 @@ namespace LTI_RouterOS
                         return;
                     }
                 }
-                bool helper = await IsPubKeyValid();
+                bool helper = await IsPubKeyValid(textBox12.Text);
                 if (!helper)
                 {
                     MessageBox.Show("Please Select a Public Key that is not being used.");
@@ -3316,6 +3371,33 @@ namespace LTI_RouterOS
             }
 
 
+        }
+        public async Task<bool> IsPubKeyValid(string key)
+        {
+            try
+            {
+                // Retrieve the list of WireGuard peers.
+                string response = await Controller.Retrieve("/rest/interface/wireguard/peers");
+
+                // Parse the JSON response to extract public keys
+                List<string> pubKeys = Parser.ParseNamesFromJsonArray(response, "public-key");
+
+                string textBoxContent = key;
+                foreach (string pubKey in pubKeys)
+                {
+                    if (textBoxContent == pubKey)
+                    {
+                        return false;
+
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving Public Key data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
 
         private async Task CreateWGPeer()
@@ -3348,7 +3430,68 @@ namespace LTI_RouterOS
             wgPeer.AllowedAddress = text;
         }
 
-        public async Task<bool> IsPubKeyValid()
+        private async void buttonWGPeerEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (textBoxWireguardPeerName.Text == "")
+                {
+                    MessageBox.Show("Please Enter a Name for the Wireguard Peer");
+                    return;
+                }
+                if (comboBoxWireguardPeerInterface.Text == "")
+                {
+                    MessageBox.Show("Please Select a interface to Use");
+                    return;
+
+                }
+                string[] lines = textBox13.Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string line in lines)
+                {
+                    if (!Parser.ValidateIPv6(line) && !Parser.IsValidIpAddress(line) && !Parser.IsValidIpAddressGateway(line))
+                    {
+                        MessageBox.Show("Please Select a Valid IP or IPv6 Address");
+                        return;
+                    }
+                }
+                /*bool helper = await IsPubKeyValid(textBox12.Text);
+                if (!helper)
+                {
+                    MessageBox.Show("Please Select a Public Key that is not being used.");
+                    return;
+                }*/
+                /*bool helper2 = await IsWGPeerNameAvailable(textBoxWireguardPeerName.Text);
+                if (!helper2)
+                {
+                    MessageBox.Show("Please Select a Name that is not being used.");
+                    return;
+                }*/
+                UpdateWGPeerFromForm();
+                await EditWGPeer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Editing Wireguard Peer: {textBoxWireguardPeerName.Text}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async Task EditWGPeer()
+        {
+            try
+            {
+
+                JObject payload = wgPeer.ToJObject();
+                payload.Remove(".id");
+
+                await Controller.EditWGPeer(payload, wgPeer.Id);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                MessageBox.Show($"Error Editing Wireguard Peer {wgPeer.Name} " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task<bool> IsWGPeerNameAvailable(string name)
         {
             try
             {
@@ -3356,12 +3499,12 @@ namespace LTI_RouterOS
                 string response = await Controller.Retrieve("/rest/interface/wireguard/peers");
 
                 // Parse the JSON response to extract public keys
-                List<string> pubKeys = Parser.ParseNamesFromJsonArray(response, "public-key");
+                List<string> names = Parser.ParseNamesFromJsonArray(response, "name");
 
-                string textBoxContent = textBox12.Text;
-                foreach (string pubKey in pubKeys)
+                string textBoxContent = name;
+                foreach (string nam in names)
                 {
-                    if (textBoxContent == pubKey)
+                    if (textBoxContent == nam)
                     {
                         return false;
 
@@ -3371,13 +3514,9 @@ namespace LTI_RouterOS
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error retrieving Public Key data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error retrieving Wireguard Peer Name data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
-
         }
-
-        
     }
 }

@@ -276,6 +276,7 @@
             this.checkBoxRemoteRequests = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.buttonWGPeerEdit = new System.Windows.Forms.Button();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.comboBoxWireguardPeer = new System.Windows.Forms.ComboBox();
             this.label91 = new System.Windows.Forms.Label();
@@ -292,6 +293,7 @@
             this.textBoxWireguardPeerName = new System.Windows.Forms.TextBox();
             this.label86 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.buttonWGIntEdit = new System.Windows.Forms.Button();
             this.checkBoxRunning = new System.Windows.Forms.CheckBox();
             this.label92 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
@@ -310,8 +312,6 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBoxWireguardInterface = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.buttonWGIntEdit = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox16.SuspendLayout();
@@ -2638,6 +2638,7 @@
             this.buttonDNSStaticEdit.TabIndex = 108;
             this.buttonDNSStaticEdit.Text = "Edit";
             this.buttonDNSStaticEdit.UseVisualStyleBackColor = true;
+            this.buttonDNSStaticEdit.Click += new System.EventHandler(this.buttonDNSStaticEdit_Click);
             // 
             // buttonDNSStaticRemove
             // 
@@ -3080,7 +3081,7 @@
             // groupBox15
             // 
             this.groupBox15.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.groupBox15.Controls.Add(this.button22);
+            this.groupBox15.Controls.Add(this.buttonWGPeerEdit);
             this.groupBox15.Controls.Add(this.checkBox6);
             this.groupBox15.Controls.Add(this.comboBoxWireguardPeer);
             this.groupBox15.Controls.Add(this.label91);
@@ -3102,6 +3103,16 @@
             this.groupBox15.TabIndex = 1;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Wireguard Peer";
+            // 
+            // buttonWGPeerEdit
+            // 
+            this.buttonWGPeerEdit.Location = new System.Drawing.Point(252, 340);
+            this.buttonWGPeerEdit.Name = "buttonWGPeerEdit";
+            this.buttonWGPeerEdit.Size = new System.Drawing.Size(81, 23);
+            this.buttonWGPeerEdit.TabIndex = 24;
+            this.buttonWGPeerEdit.Text = "Edit Peer";
+            this.buttonWGPeerEdit.UseVisualStyleBackColor = true;
+            this.buttonWGPeerEdit.Click += new System.EventHandler(this.buttonWGPeerEdit_Click);
             // 
             // checkBox6
             // 
@@ -3269,6 +3280,16 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Wireguard Interface";
             // 
+            // buttonWGIntEdit
+            // 
+            this.buttonWGIntEdit.Location = new System.Drawing.Point(281, 203);
+            this.buttonWGIntEdit.Name = "buttonWGIntEdit";
+            this.buttonWGIntEdit.Size = new System.Drawing.Size(113, 23);
+            this.buttonWGIntEdit.TabIndex = 24;
+            this.buttonWGIntEdit.Text = "Edit";
+            this.buttonWGIntEdit.UseVisualStyleBackColor = true;
+            this.buttonWGIntEdit.Click += new System.EventHandler(this.buttonWGIntEdit_Click);
+            // 
             // checkBoxRunning
             // 
             this.checkBoxRunning.AutoSize = true;
@@ -3434,24 +3455,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // buttonWGIntEdit
-            // 
-            this.buttonWGIntEdit.Location = new System.Drawing.Point(281, 203);
-            this.buttonWGIntEdit.Name = "buttonWGIntEdit";
-            this.buttonWGIntEdit.Size = new System.Drawing.Size(113, 23);
-            this.buttonWGIntEdit.TabIndex = 24;
-            this.buttonWGIntEdit.Text = "Edit";
-            this.buttonWGIntEdit.UseVisualStyleBackColor = true;
-            // 
-            // button22
-            // 
-            this.button22.Location = new System.Drawing.Point(252, 340);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(81, 23);
-            this.button22.TabIndex = 24;
-            this.button22.Text = "Edit Peer";
-            this.button22.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -3796,7 +3799,7 @@
         private System.Windows.Forms.TextBox textBox21;
         private System.Windows.Forms.CheckBox checkBoxRunning;
         private System.Windows.Forms.CheckBox HTTPs;
-        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button buttonWGPeerEdit;
         private System.Windows.Forms.Button buttonWGIntEdit;
     }
 }
