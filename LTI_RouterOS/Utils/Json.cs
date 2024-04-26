@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -183,6 +184,57 @@ namespace LTI_RouterOS
 
             // All IP addresses are valid
             return true;
+        }
+
+        public bool ValidateTimeFormat(string inputTime, int mode)
+        {
+            //0 -> hh:mm:ss, allows 00:00:00
+            //1 -> sec profile
+            //2 -> dhcp
+            //3 -> bridge AgeingTime
+            //4 -> hh:mm:ss above 0
+            string pattern = "";
+            string errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'.";
+
+            switch (mode)
+            {
+                case 0: // Change the default case label to case 0
+                    //General Purpose
+                    pattern = @"^(?:[0-9]+|2[0-9]|[3-9][0-9]*):[0-5][0-9]:[0-5][0-9]$"; // Pattern for hh:mm:ss format
+                    break;
+                case 1:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'," +
+                        "in the range of [00:30:00, 24:00:00].";
+                    pattern = @"^(?:00:(?:[3-5][0-9]|00):[0-5][0-9]|0[1-9]:[0-5][0-9]:[0-5][0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]|24:00:00$";
+                    break;
+                case 2:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss' " +
+                        "where hh is between 00 and 23, mm and ss are between 00 and 59.";
+                    pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+                    break;
+                case 3:
+                    // Regular expression pattern for hh:mm:ss format and above 00:00:09
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss' and ensure it is greater than 00:00:09.";
+                    pattern = @"^(?:[0-9]+|2[0-9]|[3-9][0-9]*):(?:[0-5][0-9]):(?:[0-5][0-9])$"; 
+                    break;
+                case 4:
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss', and above 0s.";
+                    pattern = @"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:(0[1-9]|[1-5][0-9])$";
+                    break;
+                default:
+                    MessageBox.Show(errorMessage);
+                    return false;
+            }
+
+            if (Regex.IsMatch(inputTime, pattern))
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show(errorMessage);
+                return false;
+            }
         }
 
         public IEnumerable<string> GetFilteredValues(string prefix)

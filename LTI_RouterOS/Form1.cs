@@ -338,31 +338,31 @@ namespace LTI_RouterOS
         //Creates Bridge
         private async void button5_Click(object sender, EventArgs e)
         {
-            //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
-            {
-                return;
-            }
-
-            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
-            {
-                return;
-            }
-
             if (textBoxBridgeName.Text == "")
             {
                 MessageBox.Show("Select a Bridge Name. ");
                 return;
             }
-
-            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            //verifica time e password lenght
+            if (!Parser.ValidateTimeFormat(textBoxAgeingTime.Text, 3))
             {
-                // Value is outside the range [32, 2290] or invalid input
-                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                //MessageBox.Show("Invalid time format of Ageing Time. Please enter the time in the format 'hh:mm:ss' and ensure it is greater than 00:00:09.");
                 return;
             }
 
+            if (!Parser.ValidateTimeFormat(textBoxArpTimeoutBridge.Text, 0))
+            {
+                //MessageBox.Show("Invalid time format of Arp Timeout. Please enter the time in the format 'hh:mm:ss'.");
+                return;
+            }
 
+            if (!int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            {
+                // Value is outside the range [32, 2290] or invalid input
+                MessageBox.Show("Value of MTU is outside the range [68, 65535] or invalid input. ");
+                return;
+            }
+         
             // Update bridge object with values from the form before creating the security profile
             UpdateBridgeFromForm();
 
@@ -428,26 +428,28 @@ namespace LTI_RouterOS
                 return;
             }
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBoxAgeingTime.Text, 3) == "")
-            {
-                return;
-            }
-
-            if (ValidateAndUpdateTimeFormat(textBoxArpTimeoutBridge.Text, 0) == "")
-            {
-                return;
-            }
-
             if (textBoxBridgeName.Text == "")
             {
                 MessageBox.Show("Select a Bridge Name. ");
                 return;
             }
+            //verifica time e password lenght
+            if (!Parser.ValidateTimeFormat(textBoxAgeingTime.Text, 3))
+            {
+                //MessageBox.Show("Invalid time format of Ageing Time. Please enter the time in the format 'hh:mm:ss' and ensure it is greater than 00:00:09.");
+                return;
+            }
 
-            if (textBoxBridgeMTU.Text == "" || !int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
+            if (!Parser.ValidateTimeFormat(textBoxArpTimeoutBridge.Text, 0))
+            {
+                //MessageBox.Show("Invalid time format of Arp Timeout. Please enter the time in the format 'hh:mm:ss'.");
+                return;
+            }
+
+            if (!int.TryParse(textBoxBridgeMTU.Text, out int value) || value < 68 || value > 65535)
             {
                 // Value is outside the range [32, 2290] or invalid input
-                MessageBox.Show("Value of MTU is outside the range [64, 65535] or invalid input. ");
+                MessageBox.Show("Value of MTU is outside the range [68, 65535] or invalid input. ");
                 return;
             }
 
@@ -494,7 +496,7 @@ namespace LTI_RouterOS
         private void UpdateBridgeFromForm()
         {
             bridge.Name = textBoxBridgeName.Text;
-            bridge.Mtu = textBoxBridgeMTU.Text;
+            bridge.Mtu = textBoxBridgeMTU.Text.ToLower();
             bridge.Arp = comboBoxARP.SelectedItem.ToString();
             bridge.ArpTimeout = textBoxArpTimeoutBridge.Text;
             bridge.AgeingTime = textBoxAgeingTime.Text;
@@ -1420,9 +1422,8 @@ namespace LTI_RouterOS
                     pattern = @"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
                     break;
                 case 3:
-                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss'" +
-                        " where hh is between 00 and 23, mm and ss are between 00 and 59.";
-                    pattern = @"^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$";
+                    errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss' and ensure it is greater than 00:00:09.";
+                    pattern = @"^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$"; // Regular expression pattern for hh:mm:ss format
                     break;
                 case 4:
                     errorMessage = "Invalid time format. Please enter the time in the format 'hh:mm:ss', and above 0s.";

@@ -394,7 +394,7 @@ namespace LTI_RouterOS.Controller
         {
             try
             {
-                string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles";
+                string apiUrl = baseUrl + "/rest/interface/wireless/security-profiles/add";
 
 
                 HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
