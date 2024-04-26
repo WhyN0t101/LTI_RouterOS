@@ -743,7 +743,7 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text, 1) == "")
+            if (ValidateAndUpdateTimeFormat(textBox7.Text, 0) == "")
             {
                 return;
             }
@@ -1211,6 +1211,11 @@ namespace LTI_RouterOS
                 MessageBox.Show("Select a Wireless Interface Name. ");
                 return;
             }
+            if (comboBoxChannelWidth.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Channel Width. ");
+                return;
+            }
 
             if (textBoxWirelessMTU.Text == "" || !int.TryParse(textBoxWirelessMTU.Text, out int value) || value < 32 || value > 2290)
             {
@@ -1497,7 +1502,7 @@ namespace LTI_RouterOS
             // Check if both "WPA PSK" and "WPA2 PSK" are selected and if the password has more than 8 characters
             if (wpaPskSelected)
             {
-                if (textBox4.Text.Length > 8 || textBox4.Text == "")
+                if (textBox4.Text.Length > 7 || textBox4.Text == "")
                 {
                     return true;
                 }
@@ -1509,7 +1514,7 @@ namespace LTI_RouterOS
             }
             if (wpa2PskSelected)
             {
-                if (textBox5.Text.Length > 8 || textBox5.Text == "")
+                if (textBox5.Text.Length > 7 || textBox5.Text == "")
                 {
                     return true;
                 }
@@ -1540,7 +1545,7 @@ namespace LTI_RouterOS
             }
 
             //verifica time e password lenght
-            if (ValidateAndUpdateTimeFormat(textBox7.Text, 1) == "")
+            if (ValidateAndUpdateTimeFormat(textBox7.Text, 0) == "")
             {
                 return;
             }
