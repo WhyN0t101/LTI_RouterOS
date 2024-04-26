@@ -1041,6 +1041,53 @@ namespace LTI_RouterOS.Controller
                 MessageBox.Show($"Error Editing Wireguard Interface {(string)payload["name"]}:  " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public async Task DeleteIP(object ipId)
+        {
+            try
+            {
+                string apiUrl = baseUrl + $"/rest/ip/address/{ipId}";
+
+                // Send a DELETE request to delete the bridge
+                HttpResponseMessage response = await httpClient.DeleteAsync(apiUrl);
+
+                // Check if the request was successful
+                response.EnsureSuccessStatusCode();
+
+                // Display success message
+                MessageBox.Show("Ip deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions
+                MessageBox.Show("Error deleting IP: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public async Task UpdateIp(string ipID, string address, string network,string inter)
+            
+        {
+            try
+            {
+                string apiUrl = baseUrl + "/rest/ip/address/" + ipID;
+
+                JObject payload = new JObject
+                {
+                    ["address"] = address,
+                    ["network"] = network,
+                    ["interface"] = inter,
+
+                };
+
+                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                response.EnsureSuccessStatusCode();
+
+                MessageBox.Show("Route updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Error updating route: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
