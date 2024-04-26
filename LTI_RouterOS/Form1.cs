@@ -806,14 +806,14 @@ namespace LTI_RouterOS
             {
                 // Retrieve the list of bridges
                 string response = await Controller.Retrieve("/rest/interface");
-                List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
+                List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
                 // Clear existing items in the ComboBox
-                comboBoxInterfaces.Items.Clear();
+                comboBoxInterface.Items.Clear();
 
                 // Add each bridge name as an item in the ComboBox
                 foreach (string intName in intList)
                 {
-                    comboBoxInterfaces.Items.Add(intName);
+                    comboBoxInterface.Items.Add(intName);
                 }
             }
             catch (Exception ex)
@@ -1945,10 +1945,12 @@ namespace LTI_RouterOS
             if (comboBoxInterface.SelectedItem == null)
             {
                 MessageBox.Show("Select a Interface");
+                return;
             }
-            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || !Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || !Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
             {
                 MessageBox.Show("Fill all Addresses with a valid ip ");
+                return;
             }
             string address = textBoxEnderecoIP.Text.Trim();
             string network = textBoxNetwork.Text.Trim();
@@ -2907,8 +2909,9 @@ namespace LTI_RouterOS
                 UpdateWGIntFromForm();
                 await CreateWGInt();
 
-                string name = comboBoxWireguardInterface.SelectedItem.ToString();
-
+                
+                string name = textBoxWireguardInterface.Text;
+                //await Task.Delay(500);
                 WireguardInterface wgInt = RetrieveWGInt(name);
                 textBox16.Text = wgInt.PrivateKey;
                 textBoxWireguardPublicKey.Text = wgInt.PublicKey;
@@ -3518,5 +3521,6 @@ namespace LTI_RouterOS
                 return false;
             }
         }
+
     }
 }

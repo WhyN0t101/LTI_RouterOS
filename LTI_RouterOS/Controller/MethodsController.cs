@@ -490,7 +490,7 @@ namespace LTI_RouterOS.Controller
         {
             try
             {
-                string apiUrl = baseUrl + "/rest/ip/address";
+                string apiUrl = baseUrl + "/rest/ip/address/add";
 
                 JObject payload = new JObject
                 {
@@ -500,7 +500,7 @@ namespace LTI_RouterOS.Controller
                    
                 };
 
-                HttpResponseMessage response = await SendPatchRequest(apiUrl, payload);
+                HttpResponseMessage response = await SendPostRequest(apiUrl, payload);
                 response.EnsureSuccessStatusCode();
 
                 MessageBox.Show("Address created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
