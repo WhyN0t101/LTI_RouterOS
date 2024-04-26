@@ -808,12 +808,12 @@ namespace LTI_RouterOS
                 string response = await Controller.Retrieve("/rest/interface");
                 List<string> intList = Parser.ParseNamesFromJsonArray(response, "default-name");
                 // Clear existing items in the ComboBox
-                comboBoxInterfaces.Items.Clear();
+                comboBoxInterface.Items.Clear();
 
                 // Add each bridge name as an item in the ComboBox
                 foreach (string intName in intList)
                 {
-                    comboBoxInterfaces.Items.Add(intName);
+                    comboBoxInterface.Items.Add(intName);
                 }
             }
             catch (Exception ex)
@@ -1946,7 +1946,7 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Select a Interface");
             }
-            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || !Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || !Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
             {
                 MessageBox.Show("Fill all Addresses with a valid ip ");
             }
@@ -3516,6 +3516,108 @@ namespace LTI_RouterOS
             {
                 MessageBox.Show("Error retrieving Wireguard Peer Name data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+        }
+
+        private async void button16_Click(object sender, EventArgs e)
+        {
+            if (comboBoxInterface.SelectedItem == null)
+            {
+                MessageBox.Show("Select a Interface");
+            }
+            if (string.IsNullOrEmpty(textBoxEnderecoIP.Text) || string.IsNullOrEmpty(textBoxNetwork.Text) || !Parser.IsValidIpAddress(textBoxEnderecoIP.Text.Trim()) || !Parser.IsValidIpAddressGateway(textBoxNetwork.Text))
+            {
+                MessageBox.Show("Fill all Addresses with a valid ip ");
+            }
+            if (comboBoxEndIP.SelectedItem != null)
+            {
+                string selectedItem = comboBoxEndIP.SelectedItem.ToString();
+                string[] parts = selectedItem.Split('-');
+
+                // Ensure that the split resulted in at least three parts
+                if (parts.Length >= 3)
+                {
+                    // The IP ID should be the last part
+                    string ipID = parts[parts.Length - 1];
+
+                    string address = textBoxEnderecoIP.Text.Trim();
+                    string network = textBoxNetwork.Text.Trim();
+                    string inter = comboBoxInterface.SelectedItem.ToString();
+                    await Controller.UpdateIp(ipID,address, network, inter);
+                }
+                else
+                {
+                    // Handle invalid format if needed
+                    MessageBox.Show("Invalid item format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // No item selected in the ComboBox
+                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
+
+        private async void button18_Click(object sender, EventArgs e)
+        {
+            if (comboBoxEndIP.SelectedItem != null)
+            {
+                string selectedItem = comboBoxEndIP.SelectedItem.ToString();
+                string[] parts = selectedItem.Split('-');
+
+                // Ensure that the split resulted in at least three parts
+                if (parts.Length >= 3)
+                {
+                    // The IP ID should be the last part
+                    string ipID = parts[parts.Length - 1];
+
+                    await Controller.DeleteIP(ipID);
+                }
+                else
+                {
+                    // Handle invalid format if needed
+                    MessageBox.Show("Invalid item format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // No item selected in the ComboBox
+                MessageBox.Show("Please select a route to edit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void comboBoxEndIP_Enter(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the list of routes
+                string response = await Controller.Retrieve("/rest/ip/address");
+
+                // Parse the JSON response into a JArray
+                JArray routesArray = JArray.Parse(response);
+
+                // Clear existing items in the ComboBox
+                comboBoxEndIP.Items.Clear();
+
+                // Iterate over each route object in the array
+                foreach (JObject routeObject in routesArray)
+                {
+                    // Extract the route ID and local address from each route object
+                    string ipID = routeObject.Value<string>(".id");
+                    string localInt = routeObject.Value<string>("interface");
+                    string address = routeObject.Value<string>("address");
+
+                    // Combine route ID and local address into a single string
+                    string routeInfo = $"{localInt}-{address}-{ipID}";
+
+                    // Add the combined string as an item in the ComboBox
+                    comboBoxEndIP.Items.Add(routeInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
