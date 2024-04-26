@@ -545,7 +545,7 @@
             this.button20.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button20.Location = new System.Drawing.Point(130, 295);
             this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(117, 23);
+            this.button20.Size = new System.Drawing.Size(127, 23);
             this.button20.TabIndex = 91;
             this.button20.Text = "Remove Conection";
             this.button20.UseVisualStyleBackColor = true;
@@ -2178,7 +2178,7 @@
             this.comboBoxInterface.Name = "comboBoxInterface";
             this.comboBoxInterface.Size = new System.Drawing.Size(121, 22);
             this.comboBoxInterface.TabIndex = 19;
-            this.comboBoxInterface.Enter += new System.EventHandler(this.comboBoxInterfaces_Enter);
+            this.comboBoxInterface.Enter += new System.EventHandler(this.comboBoxInterface_Enter);
             // 
             // label43
             // 

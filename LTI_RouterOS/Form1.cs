@@ -810,13 +810,17 @@ namespace LTI_RouterOS
                 string response = await Controller.Retrieve("/rest/interface");
                 List<string> intList = Parser.ParseNamesFromJsonArray(response, "name");
                 // Clear existing items in the ComboBox
-                comboBoxInterface.Items.Clear();
+                comboBoxInterfaces.Items.Clear();
 
                 // Add each bridge name as an item in the ComboBox
                 foreach (string intName in intList)
                 {
-                    comboBoxInterface.Items.Add(intName);
+                    comboBoxInterfaces.Items.Add(intName);
                 }
+                comboBoxInterfaces.Items.Add("all");
+                comboBoxInterfaces.Items.Add("dynamic");
+                comboBoxInterfaces.Items.Add("none");
+                comboBoxInterfaces.Items.Add("static");
             }
             catch (Exception ex)
             {
@@ -3364,6 +3368,11 @@ namespace LTI_RouterOS
                         return;
                     }
                 }
+                if(string.IsNullOrEmpty(textBox12.Text))
+                {
+                    MessageBox.Show("Please Input a Public Key.");
+                    return;
+                }
                 bool helper = await IsPubKeyValid(textBox12.Text);
                 if (!helper)
                 {
@@ -3629,5 +3638,6 @@ namespace LTI_RouterOS
                 MessageBox.Show("Error retrieving routes data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
