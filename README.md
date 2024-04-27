@@ -45,4 +45,4 @@ The project aims to provide a centralized solution for managing MikroTik network
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License].
