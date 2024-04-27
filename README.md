@@ -26,7 +26,7 @@ The project aims to provide a centralized solution for managing MikroTik network
 ## Requirements
 
 - MikroTik devices running RouterOS with API REST enabled.
-- .NET Core SDK (version X.X.X)
+- .NET
 - WireGuard installed on the MikroTik devices (if using the VPN feature)
 
 ## Installation
